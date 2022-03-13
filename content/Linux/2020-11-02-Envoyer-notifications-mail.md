@@ -8,6 +8,8 @@ math: true
 image: /images/postfix.png
 ---
 
+
+
 Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.
 
 # Installation de Postfix

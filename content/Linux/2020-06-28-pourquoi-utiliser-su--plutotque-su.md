@@ -6,6 +6,8 @@ tags: [securite]
 math: true
 image: /images/security.jpg
 
+
+
 `su -` invoque un shell de connexion après avoir changé d'utilisateur. Un shell de connexion réinitialise la plupart des variables d'environnement, fournissant une base propre.
 
 `su` ne fait que changer d'utilisateur, fournissant un shell normal avec un environnement presque identique à celui de l'ancien utilisateur.

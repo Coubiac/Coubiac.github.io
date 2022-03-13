@@ -4,7 +4,8 @@ date: 2022-03-10 19:32:33 +0100
 categories: [sysadmin, linux]
 tags: [vim]
 math: true
-image: /images/security.jpg
+
+
 
 # SORTIR de Vim
 

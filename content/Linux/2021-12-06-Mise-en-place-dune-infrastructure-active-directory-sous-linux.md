@@ -4,7 +4,8 @@ date: 2021-11-06 15:55:33 +0100
 categories: [it]
 tags: [active directory, linux, samba]
 math: true
-image: /images/samba/Samba.png
+
+
 
 # Introduction
 

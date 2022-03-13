@@ -1,10 +1,12 @@
-title: Gestion de l’alimentation de serveurs ESXi avec unvonduleur APC
+title: Gestion de l’alimentation de serveurs ESXi avec un onduleur APC
 published: true
 author: admin
 comments: true
 date: 2018-06-25 06:06:54
 tags: [Linux,Vmware]
 categories: [it]
+
+
 
 Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)
 
