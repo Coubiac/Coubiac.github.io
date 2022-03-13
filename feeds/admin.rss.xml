@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Coubiac - admin</title><link>https://Coubiac.github.io/</link><description></description><lastBuildDate>Mon, 25 Jun 2018 06:06:54 +0200</lastBuildDate><item><title>Gestion de l’alimentation de serveurs ESXi avec unvonduleur APC</title><link>https://Coubiac.github.io/gestion-de-lalimentation-de-serveurs-esxi-avec-unvonduleur-apc.html</link><description>&lt;p&gt;Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)&lt;/p&gt;
+<rss version="2.0"><channel><title>Coubiac - admin</title><link>https://Coubiac.github.io/</link><description></description><lastBuildDate>Mon, 25 Jun 2018 06:06:54 +0200</lastBuildDate><item><title>Gestion de l’alimentation de serveurs ESXi avec un onduleur APC</title><link>https://Coubiac.github.io/gestion-de-lalimentation-de-serveurs-esxi-avec-un-onduleur-apc.html</link><description>&lt;p&gt;Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)&lt;/p&gt;
 &lt;h2&gt;Installation&lt;/h2&gt;
 &lt;h3&gt;Connexion de l’onduleur au serveur en USB&lt;/h3&gt;
 &lt;p&gt;La connexion se fait à l’aide du câble &lt;strong&gt;USB-RJ45&lt;/strong&gt; fourni avec l’onduleur.&lt;/p&gt;
@@ -302,4 +302,4 @@ total &lt;span class="m"&gt;112&lt;/span&gt;
 &lt;p&gt;&lt;code&gt;http://ip-de-la-machine-debian/cgi-bin/apcupsd/multimon.cgi&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="liste des onduleur" src="/images/cgifig1.jpg"&gt;&lt;/p&gt;
 &lt;p&gt;Et en cliquant sur le lien:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="etat de l'onduleur" src="/images/cgifig2.jpg"&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">admin</dc:creator><pubDate>Mon, 25 Jun 2018 06:06:54 +0200</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2018-06-25:/gestion-de-lalimentation-de-serveurs-esxi-avec-unvonduleur-apc.html</guid><category>Linux</category><category>[Linux</category><category>Vmware]</category></item></channel></rss>
+&lt;p&gt;&lt;img alt="etat de l'onduleur" src="/images/cgifig2.jpg"&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">admin</dc:creator><pubDate>Mon, 25 Jun 2018 06:06:54 +0200</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2018-06-25:/gestion-de-lalimentation-de-serveurs-esxi-avec-un-onduleur-apc.html</guid><category>Linux</category><category>[Linux</category><category>Vmware]</category></item></channel></rss>
