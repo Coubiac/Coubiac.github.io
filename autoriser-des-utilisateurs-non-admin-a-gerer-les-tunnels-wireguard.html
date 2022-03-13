@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <title>    Coubiac - "Autoriser des utilisateurs non-admin à gérer les tunnels Wireguard"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Autoriser des utilisateurs non-admin à gérer les tunnels Wireguard"</h1>
+        <small>publié le 18/04/2021 dans <a href="https://Coubiac.github.io/category/windows.html">Windows</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/wireguard.html">[wireguard</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/windows.html">windows</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/vpn.html">vpn]</a></span>
+
+        <div class="article-content">
+            <p>Vous avez sans doute déja entendu parler du VPN Wireguard ? Si ce n'est pas le cas, voici un certain nombre d'articles le présentant:</p>
+<p><a href="https://www.ionos.fr/digitalguide/serveur/outils/wireguard-vpn-principes-de-base/">Wireguard, principes de base</a></p>
+<p><a href="https://korben.info/comment-installer-le-vpn-wireguard-facilement.html">Comment installer Wireguard facilement</a></p>
+<p><a href="https://korben.info/veeampn-pour-deployer-facilement-une-infra-vpn-comme-un-pro.html">VeeamPN - Pour déployer facilement une infra VPN comme un pro</a></p>
+<p><a href="https://korben.info/subspace-une-gui-pour-wireguard-server.html">Des interfaces graphiques pour Wireguard Server</a></p>
+<p>Ce VPN est très facile à configurer, sécurisé et est maintenant intégré directement dans le noyeau Linux (depuis Mars 2020 et le kernel 5.6).</p>
+<p>Des clients existent sur toutes les plateformes (PC, MAC, iOS, Android, Linux etc...).</p>
+<p>Cependant, j'ai été confronté à un petit souci avec le client Windows. En effet, seuls les utilisateurs Windows ayant des droits Admin sont authorisés à gérér les tunnels (activer ou désactiver). C'est un fonctionnement normal lié au mode de fonctionnement de Wireguard. En effet, à chaque fois que le VPN est activé, une interface est créée. Elle est supprimés quand le VPN est désactivé.</p>
+<p>Cependant, cela est problématique dans certaines situations. En effet, en fonctionnement normal, le tunnel VPN est monté automatiquement au démarrage du PC. Cela est une bonne chose car ça permet de sécuriser les flux en permanence. Mais dans certains cas, le tunnel ne se monte pas. Je n'ai pas encore trouvé la cause mais j'ai quelques idées quand même: Dans le cas ou le PC n'est pas connecté directement au réseau (par exemple, pas de wifi connu au démarrage...), le tunnel ne peut pas se monter et il n'y a pas de nouvelles tentatives quand le réseau est à nouveau disponible.</p>
+<p>Voici donc une méthode de contournement:</p>
+<h1>Ajouter une clé de registre:</h1>
+<div class="highlight"><pre><span></span><code><span class="err">HKEY_LOCAL_MACHINE\SOFTWARE\Wireguard</span>
+</code></pre></div>
+
+<p>inserer ensuite une valeur DWORD:</p>
+<div class="highlight"><pre><span></span><code><span class="err">LimitedOperatorUI</span>
+</code></pre></div>
+
+<p>et lui attribuer la valeur 1.</p>
+<p>Si vous voulez le configurer à l'aide d'une GPO, voici la configuration:</p>
+<p><img alt="GPO clé de registre wireguard" src="/images/gpo1-Wireguard.png"></p>
+<h1>Donner des droits à l'utilisateur</h1>
+<p>L'utilisateur doit faire partie du groupe local "Opérateurs de configuration réseau".</p>
+<p>Dans le cadre d'un fonctionnement avec l'active directory, vous pouvez utiliser les groupes restreints: L'idée est de créer un groupe dans votre AD qu'on pourrait par exemple appeler "utilisateurs Wireguard" et faire en sorte que ce groupe soit membre du groupe local des PC clients "Opérateurs de configuration réseau".</p>
+<p>Vous pouvez regarder ce tuto sur l'excellent site <a href="https://www.it-connect.fr/gpo-definir-un-utilisateur-administrateur-local-de-tous-les-pcs/">It Connect</a> </p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

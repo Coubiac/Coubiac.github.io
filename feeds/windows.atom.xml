@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Coubiac - Windows</title><link href="https://Coubiac.github.io/" rel="alternate"></link><link href="https://Coubiac.github.io/feeds/windows.atom.xml" rel="self"></link><id>https://Coubiac.github.io/</id><updated>2021-05-05T19:32:33+01:00</updated><entry><title>"Utiliser Applocker pour restreindre l'installation de logiciels à un groupe d'utilisateurs"</title><link href="https://Coubiac.github.io/utiliser-applocker-pour-restreindre-linstallation-de-logiciels-a-un-groupe-dutilisateurs.html" rel="alternate"></link><published>2021-05-05T19:32:33+01:00</published><updated>2021-05-05T19:32:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2021-05-05:/utiliser-applocker-pour-restreindre-linstallation-de-logiciels-a-un-groupe-dutilisateurs.html</id><summary type="html">&lt;h1&gt;Qu'est ce qu'Applocker ?&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Attention ! Applocker est uniquement compatible avec les éditions "Entreprise" et "Education" de Windows 10. A ce jour, Windows 10 Pro n'est pas pris en charge !&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Applocker est une fonctionnalité qui a fait son apparition avec Windows 7 entreprise et Windows Server 2008R2. il s'agit d'une évolution des …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Qu'est ce qu'Applocker ?&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Attention ! Applocker est uniquement compatible avec les éditions "Entreprise" et "Education" de Windows 10. A ce jour, Windows 10 Pro n'est pas pris en charge !&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Applocker est une fonctionnalité qui a fait son apparition avec Windows 7 entreprise et Windows Server 2008R2. il s'agit d'une évolution des "stratégies de restriction logicielles"  (ou SRP) qui avaient à l'époque été introduits avec Windows Server 2000 et Windows XP. &lt;/p&gt;
+&lt;p&gt;Selon Microsoft:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AppLocker fait avancer les fonctionnalités de contrôle d’application et les fonctionnalités des stratégies de restriction logicielle. AppLocker contient de nouvelles fonctionnalités et extensions qui vous permettent de créer des règles pour autoriser ou refuser l’exécution d’applications en fonction des identités uniques des fichiers et pour spécifier les utilisateurs ou groupes qui peuvent exécuter ces applications.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Dans ce tutoriel, nous allons voir comment utiliser Applocker dans un environnement Windows Server 2019 et Active Directory pour restreindre l'execution&lt;/p&gt;
+&lt;h1&gt;Préparation des groupes&lt;/h1&gt;
+&lt;p&gt;Nous allons dans un premier temps créer les groupes utilisateurs dont nous aurons besoin:&lt;/p&gt;
+&lt;p&gt;On ouvre la gestion des utilisateurs active directory
+&lt;img alt="Menu outil du gestionnaire de serveur" src="/images/applocker/01.png"&gt;&lt;/p&gt;
+&lt;p&gt;On crée un nouveau groupe que nous appellerons "G_RESTRICTION LOGICIELS. Nous pourrons ensuite insérer dans ce groupe d'autres groupes qui n'auront pas l'autorisation d'installer des logiciels (par exemple les Stagiaires  :D )
+&lt;img alt="Menu Nouveau groupe" src="/images/applocker/02.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Ajout d'un groupe" src="/images/applocker/03.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons donc ajouter le groupe "G_Stagiaires" au groupe "G_restrictions_logiciels"
+&lt;img alt="Utilisateurs et ordinateurs Active Directory" src="/images/applocker/04.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Ajout d'un groupe à un autre groupe" src="/images/applocker/05.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Selection des groupes" src="/images/applocker/06.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Boite de dialogue confirmation" src="/images/applocker/09.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Création de la stratégie de groupe&lt;/h1&gt;
+&lt;p&gt;Nous allons maintenant créer une stratégie de groupe pour mettre en place Applocker&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Menu outil du gestionnaire de serveur" src="/images/applocker/10.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il faudra bien évidement lier la GPO à l'OU sur laquelle vous voulez l'appliquer...
+&lt;img alt="Creation d'une nouvelle GPO" src="/images/applocker/11.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Activation du Service "Infomations d'Application"&lt;/h2&gt;
+&lt;p&gt;Pour qu'Applocker puisse fonctionne, il faut que le service "Identité de l'application" soit démarré sur les PC Windows 10. Par défaut, ce service est désactivé. Il faut donc l'activer.&lt;/p&gt;
+&lt;p&gt;Nous pouvons bien entendu intégrer ceci dans notre GPO:&lt;/p&gt;
+&lt;p&gt;Configuration Ordinateur -&amp;gt; Paramètre Windows -&amp;gt; Paramètre de sécurité -&amp;gt; Services Systèmes&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Editeur de Gestion de stratégies de groupe" src="/images/applocker/12.png"&gt;&lt;/p&gt;
+&lt;p&gt;On sélectionne le démarrage "Automatique" :
+&lt;img alt="Propriete de information application" src="/images/applocker/13.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Configuration de la GPO Applocker:&lt;/h2&gt;
+&lt;p&gt;Il faut ensuite configurer la mise en application des règles. Pour cela il faut cliquer sur "Configurer la mise en application des règles"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Gestion des stratégies de groupe" src="/images/applocker/14.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Propriétés d'Applocker" src="/images/applocker/15.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons cocher les 4 cases et sélectionner "Appliquer les règles" dans le menu déroulant.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Propriétés d'Applocker" src="/images/applocker/16.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Règles de l'executable&lt;/h2&gt;
+&lt;p&gt;Je vais vous montrer comment créer les "règles de l'éxécutable" mais il faudra faire la même chose pour les autres catégories:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Règles de l'éxecutable&lt;/li&gt;
+&lt;li&gt;Règles Windows Installer&lt;/li&gt;
+&lt;li&gt;Règles de script&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Creation de la règle "Tout le monde":&lt;/h3&gt;
+&lt;p&gt;Nous allons dans un premier temps autoriser tout le monde à executer les executables.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/17.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/18.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/19.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/20.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/21.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/22.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/23.png"&gt;&lt;/p&gt;
+&lt;p&gt;On clique maintenant sur "Non"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/24.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/25.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Creation de la règle "G_RESTRICTIONS_LOGICIELS"&lt;/h3&gt;
+&lt;p&gt;Nous allons maintenant créer une règles pour empecher les membres du groupe "G_RESTRICTION_LOGICIELS" d'execuer des executables qui ne se trouvent pas dans le dossier "Program Files" ou "Windows":&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/26.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous appliquons cette règle au groupe "G_RESTRICTIONS_LOGICIELS"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/27.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/28.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/29.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/30.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons maintenant créer les Exceptions. Il faut cliquer sur ajouter et insérer ces deux exceptions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%PROGRAMFILES%/*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%/*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/31.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/32.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il faut maintenant répéter la même procédure pour:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Règles Windows Installer&lt;/li&gt;
+&lt;li&gt;Règles de Script&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Concernant les règles d'application empaquetées, il faut générer les règles par défaut: &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ATTENTION, Si vous ne générez pas de règles par défaut ici, votre menu démarrer risque de cesser de fonctionner&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/33.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Vidéo de démonstration&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=6rS4WepDloA" title="Mise en place d'APPlocker"&gt;&lt;img alt="Mise en place d'APPlocker" src="https://img.youtube.com/vi/6rS4WepDloA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Et voila, maintenant, les utilisateurs du groupe "G_Stagiaires" ne devraient plus pouvoir installer d'applications&lt;/p&gt;</content><category term="Windows"></category><category term="[applocker"></category><category term="windows"></category><category term="gpo]"></category></entry><entry><title>"Autoriser des utilisateurs non-admin à gérer les tunnels Wireguard"</title><link href="https://Coubiac.github.io/autoriser-des-utilisateurs-non-admin-a-gerer-les-tunnels-wireguard.html" rel="alternate"></link><published>2021-04-18T19:32:33+01:00</published><updated>2021-04-18T19:32:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2021-04-18:/autoriser-des-utilisateurs-non-admin-a-gerer-les-tunnels-wireguard.html</id><summary type="html">&lt;p&gt;Vous avez sans doute déja entendu parler du VPN Wireguard ? Si ce n'est pas le cas, voici un certain nombre d'articles le présentant:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.ionos.fr/digitalguide/serveur/outils/wireguard-vpn-principes-de-base/"&gt;Wireguard, principes de base&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/comment-installer-le-vpn-wireguard-facilement.html"&gt;Comment installer Wireguard facilement&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/veeampn-pour-deployer-facilement-une-infra-vpn-comme-un-pro.html"&gt;VeeamPN - Pour déployer facilement une infra VPN comme un pro&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/subspace-une-gui-pour-wireguard-server.html"&gt;Des interfaces graphiques pour Wireguard Server&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ce VPN est …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Vous avez sans doute déja entendu parler du VPN Wireguard ? Si ce n'est pas le cas, voici un certain nombre d'articles le présentant:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.ionos.fr/digitalguide/serveur/outils/wireguard-vpn-principes-de-base/"&gt;Wireguard, principes de base&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/comment-installer-le-vpn-wireguard-facilement.html"&gt;Comment installer Wireguard facilement&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/veeampn-pour-deployer-facilement-une-infra-vpn-comme-un-pro.html"&gt;VeeamPN - Pour déployer facilement une infra VPN comme un pro&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/subspace-une-gui-pour-wireguard-server.html"&gt;Des interfaces graphiques pour Wireguard Server&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ce VPN est très facile à configurer, sécurisé et est maintenant intégré directement dans le noyeau Linux (depuis Mars 2020 et le kernel 5.6).&lt;/p&gt;
+&lt;p&gt;Des clients existent sur toutes les plateformes (PC, MAC, iOS, Android, Linux etc...).&lt;/p&gt;
+&lt;p&gt;Cependant, j'ai été confronté à un petit souci avec le client Windows. En effet, seuls les utilisateurs Windows ayant des droits Admin sont authorisés à gérér les tunnels (activer ou désactiver). C'est un fonctionnement normal lié au mode de fonctionnement de Wireguard. En effet, à chaque fois que le VPN est activé, une interface est créée. Elle est supprimés quand le VPN est désactivé.&lt;/p&gt;
+&lt;p&gt;Cependant, cela est problématique dans certaines situations. En effet, en fonctionnement normal, le tunnel VPN est monté automatiquement au démarrage du PC. Cela est une bonne chose car ça permet de sécuriser les flux en permanence. Mais dans certains cas, le tunnel ne se monte pas. Je n'ai pas encore trouvé la cause mais j'ai quelques idées quand même: Dans le cas ou le PC n'est pas connecté directement au réseau (par exemple, pas de wifi connu au démarrage...), le tunnel ne peut pas se monter et il n'y a pas de nouvelles tentatives quand le réseau est à nouveau disponible.&lt;/p&gt;
+&lt;p&gt;Voici donc une méthode de contournement:&lt;/p&gt;
+&lt;h1&gt;Ajouter une clé de registre:&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Wireguard&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;inserer ensuite une valeur DWORD:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;LimitedOperatorUI&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et lui attribuer la valeur 1.&lt;/p&gt;
+&lt;p&gt;Si vous voulez le configurer à l'aide d'une GPO, voici la configuration:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPO clé de registre wireguard" src="/images/gpo1-Wireguard.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Donner des droits à l'utilisateur&lt;/h1&gt;
+&lt;p&gt;L'utilisateur doit faire partie du groupe local "Opérateurs de configuration réseau".&lt;/p&gt;
+&lt;p&gt;Dans le cadre d'un fonctionnement avec l'active directory, vous pouvez utiliser les groupes restreints: L'idée est de créer un groupe dans votre AD qu'on pourrait par exemple appeler "utilisateurs Wireguard" et faire en sorte que ce groupe soit membre du groupe local des PC clients "Opérateurs de configuration réseau".&lt;/p&gt;
+&lt;p&gt;Vous pouvez regarder ce tuto sur l'excellent site &lt;a href="https://www.it-connect.fr/gpo-definir-un-utilisateur-administrateur-local-de-tous-les-pcs/"&gt;It Connect&lt;/a&gt; &lt;/p&gt;</content><category term="Windows"></category><category term="[wireguard"></category><category term="windows"></category><category term="vpn]"></category></entry><entry><title>"Supprimer les logiciels pré-installés avec Windows 10"</title><link href="https://Coubiac.github.io/supprimer-les-logiciels-pre-installes-avec-windows-10.html" rel="alternate"></link><published>2020-11-11T13:45:30+01:00</published><updated>2020-11-11T13:45:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-11:/supprimer-les-logiciels-pre-installes-avec-windows-10.html</id><summary type="html">&lt;p&gt;Quand on installe windows 10 pour la première fois, celui-ci installe tout un tas d'applications dont nous n'avons la plupart du temps pas besoin, surtout dans le cas d'une utilisation professionnelle.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Menu démarrer" src="/images/uninstall-windows-preinstall-packages/startmenu.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Lister les applications installées avec Powershell&lt;/h2&gt;
+&lt;p&gt;Powershell permet de désinstaller facilement une application. Pour cela il faut lancer powershell …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Quand on installe windows 10 pour la première fois, celui-ci installe tout un tas d'applications dont nous n'avons la plupart du temps pas besoin, surtout dans le cas d'une utilisation professionnelle.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Menu démarrer" src="/images/uninstall-windows-preinstall-packages/startmenu.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Lister les applications installées avec Powershell&lt;/h2&gt;
+&lt;p&gt;Powershell permet de désinstaller facilement une application. Pour cela il faut lancer powershell en mode administrateur.
+Une fois que vous vous trouver dans powershell, vous pouvez lister les packages installés à l'aide de la commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;ft &lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PackageFullName&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="gatappxpackage" src="/images/uninstall-windows-preinstall-packages/gatappxpackage.png"&gt;&lt;/p&gt;
+&lt;p&gt;Si vous voulez la liste pour tous les utilisateurs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="n"&gt;-AllUsers&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;ft &lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PackageFullName&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Désinstaller une application&lt;/h2&gt;
+&lt;p&gt;Admettons que nous voulions désinstaller l'application Skype:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="skype" src="/images/uninstall-windows-preinstall-packages/skype.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons la désinstaller à l'aide de cette commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="p"&gt;*&lt;/span&gt;&lt;span class="n"&gt;skypeapp&lt;/span&gt;&lt;span class="p"&gt;*&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxPackage&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Désinstaller toutes les applications préinstallées&lt;/h2&gt;
+&lt;p&gt;Pour désinstaller l'ensemble des applications, il faut utiliser cette commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="n"&gt;-AllUsers&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxPackage&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="supprimer toutes les applications" src="/images/uninstall-windows-preinstall-packages/remove-all-packages.gif"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NB: Quelques applications vont rester. Il vous faudra les désinstaller à la main...&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Desactiver la reinstallation pour les nouveaux utilisateurs&lt;/h2&gt;
+&lt;p&gt;Quand les applications ont été supprimées, on peut empecher la réinstallation pour les nouveaux utilisateurs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Windows"></category><category term="[it"></category><category term="Windows]"></category></entry></feed>

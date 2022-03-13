@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Coubiac - admin</title><link>https://Coubiac.github.io/</link><description></description><lastBuildDate>Mon, 25 Jun 2018 06:06:54 +0200</lastBuildDate><item><title>Gestion de l’alimentation de serveurs ESXi avec unvonduleur APC</title><link>https://Coubiac.github.io/gestion-de-lalimentation-de-serveurs-esxi-avec-unvonduleur-apc.html</link><description>&lt;p&gt;Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)&lt;/p&gt;
+&lt;h2&gt;Installation&lt;/h2&gt;
+&lt;h3&gt;Connexion de l’onduleur au serveur en USB&lt;/h3&gt;
+&lt;p&gt;La connexion se fait à l’aide du câble &lt;strong&gt;USB-RJ45&lt;/strong&gt; fourni avec l’onduleur.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Allumez l'UPS.&lt;/li&gt;
+&lt;li&gt;Connectez d'abord le côté RJ45 dans l'UPS (à l'arrière) dans la fiche notée &lt;code&gt;USB&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Connectez ensuite le côté USB dans un port libre USB de la machine linux&lt;/li&gt;
+&lt;li&gt;Vérifiez la connexion en tapant la commande &lt;code&gt;lsusb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Vous devriez obtenir la liste des périphériques USB branchés sur la machine linux et notamment une ligne ressemblant à &lt;code&gt;Bus 001 Device 002: ID 051d:0002 American Power Conversion Back-UPS Pro 500/1000/1500&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Connexion de l’onduleur au réseau ethernet de l’entreprise en utilisant une carte AP9630&lt;/h3&gt;
+&lt;p&gt;Le paramétrage de la carte n’est pas traité ici. Pour plus d’informations, se référer au manuel de l’utilisateur de la carte: &lt;a href="/images/UPS-Network-Management-Card-2.pdf"&gt;UPS Network Management Card 2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Toutefois, pensez à déclarer l’IP de la machine de gestion linux dans l’interface web de la carte sous le menu &lt;code&gt;Configuration -&amp;gt; PowerChute Clients&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Installation des paquets nécessaires&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install apcupsd sendemail putty-tools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configuration du daemon de gestion de l’onduleur APCUPSD&lt;/h3&gt;
+&lt;p&gt;Le démon place ses fichiers de configuration à deux endroits:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/etc/apcupsd/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;root@debian:/etc/apcupsd$ ls -l
+total &lt;span class="m"&gt;60&lt;/span&gt;
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;4488&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:14 apccontrol
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;12623&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:15 apcupsd.conf
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;424&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 changeme
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;413&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 commfailure
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;452&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 commok
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;662&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 hosts.conf
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;617&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 killpower
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;2344&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 multimon.conf
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;752&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 offbattery
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;741&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 onbattery
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; user user &lt;span class="m"&gt;944&lt;/span&gt; févr. &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:39 ups-monitor
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;ainsi que le fichier&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/etc/default/apcupsd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Attention, dans ce fichier la propriété ISCONFIGURED doit être YES car vous n’arriverez pas à démarrer le service.&lt;/p&gt;
+&lt;h3&gt;Configuration du démon pour utilisation de la carte AP9630&lt;/h3&gt;
+&lt;p&gt;Un fichier de configuration ainsi que 3 scripts vont nous intéresser:&lt;/p&gt;
+&lt;p&gt;Fichier de configuration:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/apcupsd.conf&lt;/code&gt; -&amp;gt; Configuration générale&lt;/p&gt;
+&lt;p&gt;Trois scripts:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/onbattery&lt;/code&gt; -&amp;gt; Envoie d’un mail pour notifier la coupure d’électricité&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/offbattery&lt;/code&gt; -&amp;gt; Envoie d’un mail pour notifier le rétablissement de l’électricité.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/apcupsd/apccontrol&lt;/code&gt; -&amp;gt; Procédure d'extinction&lt;/p&gt;
+&lt;p&gt;Le fichier &lt;code&gt;apcupsd.conf&lt;/code&gt; doit avoir ce genre de configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## apcupsd.conf v1.1 ##&lt;/span&gt;
+UPSNAME UPS01 &lt;span class="c1"&gt;#Nom de l&amp;#39;UPS&lt;/span&gt;
+UPSCABLE ether &lt;span class="c1"&gt;#Type de cable&lt;/span&gt;
+UPSTYPE pcnet &lt;span class="c1"&gt;#On utilise le driver PowerChute&lt;/span&gt;
+LOCKFILE /var/lock
+DEVICE ipaddr:user:passphrase &lt;span class="c1"&gt;# Cette propriété peut être laissée vide mais c&amp;#39;est un tout petit peu moins sécurisé&lt;/span&gt;
+UPSCLASS standalone
+UPSMODE disable
+ONBATTERYDELAY &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;#Au bout de 20 seconde lance le script &amp;quot;onbattery&amp;quot; qui va notifier par mail&lt;/span&gt;
+
+&lt;span class="c1"&gt;#ATTENTION ! Les trois propriétés suivantes fonctionnent en simultané. La survenue de l&amp;#39;un de ces évènements lance le script apccontrol et donc la procédure d&amp;#39;arret&lt;/span&gt;
+BATTERYLEVEL &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;#L&amp;#39;onduleur n&amp;#39;a plus que 20% de battery&lt;/span&gt;
+MINUTES &lt;span class="m"&gt;20&lt;/span&gt; &lt;span class="c1"&gt;#L&amp;#39;onduleur n&amp;#39;a plus que 20 minutes de batterie&lt;/span&gt;
+TIMEOUT &lt;span class="m"&gt;600&lt;/span&gt; &lt;span class="c1"&gt;#L&amp;#39;onduleur est sur batterie depuis 600 secondes. Si on le configure à 0, ce timer est désactivé.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Attention !&lt;/strong&gt; dans la propriété DEVICE, user et passphrase ne correspondent pas au nom d’utilisateur utilisé pour se connecter à l’interface web. Ce nom d’utilisateur et cette passphrase se configurent dans l’interface web de la carte sous:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Configuration -&amp;gt; Shutdown&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;voici un exemple de script onbattery qui va envoyer un mail de notification (on utilise un smtp ouvert)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# this shell script if placed in /etc/apcupsd&lt;/span&gt;
+&lt;span class="c1"&gt;# will be called by /etc/apcupsd/apccontrol when the UPS&lt;/span&gt;
+&lt;span class="c1"&gt;# goes on batteries.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="nv"&gt;SYSADMIN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;administrateur@exemple.com
+&lt;span class="nv"&gt;APCUPSD_MAIL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/sendemail&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;HOSTNAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;hostname&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;MSG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;COUPURE ELECTRIQUE DANS SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="o"&gt;(&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; COUPURE ELECTRIQUE EN COURS DANS LA SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; L&amp;#39;onduleur a detecté un probleme et sa batterie a pris le relais&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Ne paniquez pas ! Restez calme ...&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Status de l&amp;#39;onduleur:&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+/sbin/apcaccess status
+&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;$APCUPSD_MAIL&lt;/span&gt; -u &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$MSG&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -f onduleur@exemple.com -t &lt;span class="nv"&gt;$SYSADMIN&lt;/span&gt; -s smtp-relay.exemple.com:25
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+offbattery qui va notifier du retour à la normale
+&lt;span class="c1"&gt;# this shell script if placed in /etc/apcupsd&lt;/span&gt;
+&lt;span class="c1"&gt;# will be called by /etc/apcupsd/apccontrol when the UPS&lt;/span&gt;
+&lt;span class="c1"&gt;# goes on batteries.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="nv"&gt;SYSADMIN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;administrateur@exemple.com
+&lt;span class="nv"&gt;APCUPSD_MAIL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/sendemail&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;HOSTNAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;hostname&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;MSG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ALIMENTATION ELECTRIQUE RETABLIE DANS SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="o"&gt;(&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ALIMENTATION ELECTRIQUE RETABLIE DANS LA SALLE SERVEUR&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; ==================================================&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; La salle serveur est à nouveau alimentée electriquement&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; Tout est revenu à la normale... nous sommes sauvés...&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Status de l&amp;#39;onduleur:&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;
+/sbin/apcaccess status
+&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;$APCUPSD_MAIL&lt;/span&gt; -u &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$MSG&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -f onduleur@exemple.com -t &lt;span class="nv"&gt;$SYSADMIN&lt;/span&gt; -s smtp-relay.gmail.com:25
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite on modifie le fichier apccontrol afin de se logguer en SSH sur les ESXi et lancer une procédure d’extinction. On peut aussi éteindre des serveurs windows physiques. Pensez à bien paramétrer VSPHERE pour bien établir l’ordre d’extinction des VM's&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Copyright (C) 1999-2002 Riccardo Facchetti &amp;lt;riccardo@master.oasi.gpa.it&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# for apcupsd release 3.14.12 (29 March 2014) - debian&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# platforms/apccontrol. Generated from apccontrol.in by configure.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Note, this is a generic file that can be used by most&lt;/span&gt;
+&lt;span class="c1"&gt;# systems. If a particular system needs to have something&lt;/span&gt;
+&lt;span class="c1"&gt;# special, start with this file, and put a copy in the&lt;/span&gt;
+&lt;span class="c1"&gt;# platform subdirectory.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# These variables are needed for set up the autoconf other variables.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="nv"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr
+&lt;span class="nv"&gt;exec_prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;prefix&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="nv"&gt;APCPID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/var/run/apcupsd.pid
+&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/sbin/apcupsd
+&lt;span class="nv"&gt;SHUTDOWN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/sbin/shutdown
+&lt;span class="nv"&gt;SCRIPTSHELL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/bin/sh
+&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/etc/apcupsd
+&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;wall
+
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;SYSADMIN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;root
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;APCUPSD_MAIL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;mail&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f &lt;span class="nv"&gt;$SCRIPTDIR&lt;/span&gt;/config &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; . &lt;span class="nv"&gt;$SCRIPTDIR&lt;/span&gt;/config &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Concatenate all output from this script to the events file&lt;/span&gt;
+&lt;span class="c1"&gt;# Note, the following kills the script in a power fail situation&lt;/span&gt;
+&lt;span class="c1"&gt;# where the disks are mounted read-only.&lt;/span&gt;
+&lt;span class="c1"&gt;# exec &amp;gt;&amp;gt;/var/log/apcupsd.events 2&amp;gt;&amp;amp;1&lt;/span&gt;
+
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# This piece is to substitute the default behaviour with your own script,&lt;/span&gt;
+&lt;span class="c1"&gt;# perl, or C program.&lt;/span&gt;
+&lt;span class="c1"&gt;# You can customize every single command creating an executable file (may be a&lt;/span&gt;
+&lt;span class="c1"&gt;# script or a compiled program) and calling it the same as the $1 parameter&lt;/span&gt;
+&lt;span class="c1"&gt;# passed by apcupsd to this script.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# After executing your script, apccontrol continues with the default action.&lt;/span&gt;
+&lt;span class="c1"&gt;# If you do not want apccontrol to continue, exit your script with exit&lt;/span&gt;
+&lt;span class="c1"&gt;# code 99. E.g. &amp;quot;exit 99&amp;quot;.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# WARNING: the apccontrol file will be overwritten every time you update your&lt;/span&gt;
+&lt;span class="c1"&gt;# apcupsd, doing `make install&amp;#39;. Your own customized scripts will _not_ be&lt;/span&gt;
+&lt;span class="c1"&gt;# overwritten. If you wish to make changes to this file (discouraged), you&lt;/span&gt;
+&lt;span class="c1"&gt;# should change apccontrol.sh.in and then rerun the configure process.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -a -x &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SCRIPTDIR&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;3&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;4&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="c1"&gt;# exit code 99 means he does not want us to do default action&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;99&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; in
+killpower&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Apccontrol doing: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; --killpower on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+sleep &lt;span class="m"&gt;30&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; --killpower
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Apccontrol has done: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;APCUPSD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; --killpower on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+commfailure&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Warning communications lost with UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+commok&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Communications restored with UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# powerout, onbattery, offbattery, mainsback events occur&lt;/span&gt;
+&lt;span class="c1"&gt;# in that order.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+powerout&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+onbattery&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Power failure on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Running on batteries.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+offbattery&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Power has returned on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;...&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+mainsback&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -f /etc/apcupsd/powerfail &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="nb"&gt;printf&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Continuing with shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+failing&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Battery power exhausted on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+timeout&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Battery time limit exceeded on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+loadlimit&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Remaining battery charge below limit on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+runlimit&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Remaining battery runtime below limit on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Doing shutdown.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+doreboot&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiating Reboot Sequence&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SHUTDOWN&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -r now &lt;span class="s2"&gt;&amp;quot;apcupsd UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiated reboot&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+doshutdown&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;##############################################################################################&lt;/span&gt;
+&lt;span class="c1"&gt;#-----------------------------------PERSONNALISATION------------------------------------------&lt;/span&gt;
+&lt;span class="c1"&gt;##############################################################################################&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;****** Executing ESXi(s) and Windows Servers Shutdown Command ******&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;****** Arret de ESXi 1 ******&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+/usr/bin/plink -ssh -2 -pw monsuperpassword root@192.168.1.1 &lt;span class="s2"&gt;&amp;quot;/sbin/shutdown.sh &amp;amp;&amp;amp; /sbin/poweroff&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;***** Arret de ESXi 2 *****&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+/usr/bin/plink -ssh -2 -pw monsuperpassword root@192.168.1.2 &lt;span class="s2"&gt;&amp;quot;/sbin/shutdown.sh &amp;amp;&amp;amp; /sbin/poweroff&amp;quot;&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;**** Arret du Serveur Windows Physique&amp;quot;&lt;/span&gt;
+net rpc shutdown -f -t &lt;span class="m"&gt;0&lt;/span&gt; -C &lt;span class="s1"&gt;&amp;#39;Panne Electrique&amp;#39;&lt;/span&gt; -U administrateur%monsuperpassword -I &lt;span class="m"&gt;192&lt;/span&gt;.168.1.3
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiated Shutdown Sequence&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SHUTDOWN&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -h now &lt;span class="s2"&gt;&amp;quot;apcupsd UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; initiated shutdown&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;###############################################################################################&lt;/span&gt;
+
+&lt;span class="p"&gt;;;&lt;/span&gt;
+annoyme&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Power problems with UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Please logoff.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+emergency&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Emergency Shutdown. Possible battery failure on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+changeme&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Emergency! Batteries have failed on UPS &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;. Change them NOW&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+remotedown&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Remote Shutdown. Beginning Shutdown Sequence.&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;WALL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+startselftest&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+endselftest&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+battdetach&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+battattach&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+*&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Usage: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; command&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; warning: this script is intended to be launched by&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; apcupsd and should never be launched by users.&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Voila. Il ne reste plus qu’a réinitialiser le service apcupsd&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/init.d/apcupsd force-reload&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Mise en place des scripts CGI&lt;/h3&gt;
+&lt;p&gt;Un certain nombre de scripts CGI existent afin de contrôler l’état de l’onduleur à distance.&lt;/p&gt;
+&lt;p&gt;Sur DEBIAN, il faut installer le paquet apcupsd-cgi et un serveur Web pour pouvoir les consulter à distance&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# On install apache et apcupsd-cgi&lt;/span&gt;
+apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install apache2
+&lt;span class="c1"&gt;#on active CGI avec apache&lt;/span&gt;
+a2enmod cgi
+&lt;span class="c1"&gt;#on installe le l&amp;#39;add-on de apcupsd&lt;/span&gt;
+apt-get install apcupsd-cgi
+&lt;span class="c1"&gt;# on vérifie que les scripts sont bien présents&lt;/span&gt;
+ls -l /usr/lib/cgi-bin/apcupsd/
+total &lt;span class="m"&gt;112&lt;/span&gt;
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;27040&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; multimon.cgi
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;23104&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; upsfstats.cgi
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;27040&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; upsimage.cgi
+-rwxr-xr-x &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;31296&lt;/span&gt; avril &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2015&lt;/span&gt; upsstats.cgi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On peut donc maintenant accéder à l’interface Web par l’adresse:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;http://ip-de-la-machine-debian/cgi-bin/apcupsd/multimon.cgi&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="liste des onduleur" src="/images/cgifig1.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Et en cliquant sur le lien:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="etat de l'onduleur" src="/images/cgifig2.jpg"&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">admin</dc:creator><pubDate>Mon, 25 Jun 2018 06:06:54 +0200</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2018-06-25:/gestion-de-lalimentation-de-serveurs-esxi-avec-unvonduleur-apc.html</guid><category>Linux</category><category>[Linux</category><category>Vmware]</category></item></channel></rss>

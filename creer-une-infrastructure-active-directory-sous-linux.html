@@ -1,0 +1,219 @@
+<html>
+    <head>
+        <title>    Coubiac - "Créer une infrastructure active directory sous Linux"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Créer une infrastructure active directory sous Linux"</h1>
+        <small>publié le 06/11/2021 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/active-directory.html">[active directory</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/linux.html">linux</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/samba.html">samba]</a></span>
+
+        <div class="article-content">
+            <h1>Introduction</h1>
+<p>Dans ce tutoriel nous allons mettre en place une infrastructure active directory complète sous linux à l'aide de SAMBA.</p>
+<h1>Qu'est ce que samba ?</h1>
+<p>Samba est à l'origine une implémentation libre des protocoles SMB/CIFS sous linux. A l'origine, il servaut simplement à partager des fichiers d'un serveur linux à des clients Windows. Depuis la version 4, il permet de créer un controleur de domaine active directory et ainsi fournir les services d'authentification AD mais aussi des stratégies de groupes à des clients Windows. La documentation de <a href="https://wiki.samba.org/index.php/">Samba</a> peut être trouvée <a href="https://wiki.samba.org/index.php/">ici</a></p>
+<h2>Présentation du labo</h2>
+<p>Pour ce labo je vais utiliser 3 machines virtuelles:</p>
+<ul>
+<li>1 VM Debian 11 nommée "SRV-AD-Linux": IP= 192.168.142.10</li>
+<li>1 VM d'administration sous Windows 10: PC-ADMIN</li>
+<li>1 VM Cliente: PC-CLient</li>
+<li>1 routeur pour l'accès internet: IP= 192.168.142.250</li>
+</ul>
+<h2>Installation du serveur AD</h2>
+<h2>Installation de la VM Linux</h2>
+<p>Pour cette VM, je vais utiliser Debian 11. Je vais commencer par l'installer de manière standard avec juste le minimum syndical. Je ne vais pas décrire l'installation d'une VM Debian basique car ce n'est pas l'objet du tuto mais voici les paquets choisis:</p>
+<p><img alt="Installation de debian" src="/images/samba/packets-debian.png"></p>
+<p>C'est parti...</p>
+<p><img alt="Installation de debian" src="/images/samba/install-in-progress.png"></p>
+<p>Et voila !</p>
+<p><img alt="Installation de debian" src="/images/samba/install-terminée.png"></p>
+<h2>Configuration Pré-installation</h2>
+<h3>Désactivation d'IPV6.</h3>
+<p>N'ayant pas besoin d'IPV6 dans ce tuto, je vais le désactiver complètement en ajoutant ces lignes à la fin du fichier /etc/sysctl.conf</p>
+<div class="highlight"><pre><span></span><code>net.ipv6.conf.all.disable_ipv6 <span class="o">=</span> <span class="m">1</span>
+net.ipv6.conf.default.disable_ipv6 <span class="o">=</span> <span class="m">1</span>
+net.ipv6.conf.lo.disable_ipv6 <span class="o">=</span> <span class="m">1</span>
+</code></pre></div>
+
+<p>On applique les changements à l'aide de la commande "sysctl -p"</p>
+<h3>Vérification du fichier /etc/hosts:</h3>
+<p>Il faut que le fichier /etc/hosts soit correctement configuré pour résoudre le nom de domaine enièrement qualifié (FQDN) et le nom d'hôte court vers l'adresse IP du controlleur de domaine.</p>
+<p><img alt="fichier /etc/hosts" src="/images/samba/etc-hosts.png"></p>
+<h3>installation d'un serveur de temps (ntp):</h3>
+<p>Je ne vais pas m'attarder sur l'installation et la configuration d'un serveur de temps sous linux mais je vous met sur la piste:</p>
+<div class="highlight"><pre><span></span><code>apt update
+apt install ntp
+</code></pre></div>
+
+<h3>installation de Samba:</h3>
+<div class="highlight"><pre><span></span><code>apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user
+</code></pre></div>
+
+<p>L'installation commence:</p>
+<p><img alt="installation de samba" src="/images/samba/install-samba.png"></p>
+<p>Le programme d'installation nous demande le nom du domaine par défault. Il s'agit du domaine AD. Pour moi, j'ai choisit coubiac.local</p>
+<p><img alt="domaine-kerberos" src="/images/samba/domaine-kerberos.png"></p>
+<p><img alt="serveur administratif kerberos" src="/images/samba/server-administratif-kerberos.png"></p>
+<p>Voila, l'installation est terminée !</p>
+<p><img alt="installation de samba terminée" src="/images/samba/install-samba-terminee.png"></p>
+<h3>Configuration de samba</h3>
+<p>Il faut commencer par arreter tous les process samba|smbd|nmbd|winbindd:</p>
+<p><img alt="installation de samba terminée" src="/images/samba/process1.png"></p>
+<p>Ensuite il faut supprimer le fichier smb.conf créé par défault. Vous pouvez le trouver à l'aide cette commande:</p>
+<div class="highlight"><pre><span></span><code>smbd -b <span class="p">|</span> grep <span class="s2">&quot;CONFIGFILE&quot;</span>
+</code></pre></div>
+
+<p><img alt="fichier de conf samba" src="/images/samba/find-smbd.png"></p>
+<p>On peut donc le renomer en smb.conf.old</p>
+<div class="highlight"><pre><span></span><code>mv /etc/samba/smb.conf /etc/samba/smb.conf.old
+</code></pre></div>
+
+<p>Il faut ensuite supprimer tous les fichiers de base de donnée <em>.tdb et </em>.ldb. 
+Pour lister les dossiers qui contiennent ces bases de données:</p>
+<div class="highlight"><pre><span></span><code>smbd -b <span class="p">|</span> egrep <span class="s2">&quot;LOCKDIR|STATEDIR|CACHEDIR|PRIVATE_DIR&quot;</span>
+</code></pre></div>
+
+<p><img alt="fichier de conf samba" src="/images/samba/sambatld.png"></p>
+<div class="highlight"><pre><span></span><code>rm /run/samba/<span class="o">{</span>*.tdb,*.ldb<span class="o">}</span>
+rm /var/lib/samba/<span class="o">{</span>*.tdb,*.ldb<span class="o">}</span>
+rm /var/cache/samba/<span class="o">{</span>*.tdb,*.ldb<span class="o">}</span>
+rm /var/lib/samba/private/<span class="o">{</span>*.tdb,*.ldb<span class="o">}</span>
+</code></pre></div>
+
+<p>Ensuite édite le fichier /etc/krb5.conf de cette manière:</p>
+<p><img alt="fichier de conf krb5" src="/images/samba/krb5conf.png"></p>
+<p>Pour provisionner notre domaine, nous allons utiliser l'outil "samba-tool"</p>
+<div class="highlight"><pre><span></span><code>samba-tool domain provision --use-rfc2307 --interactive
+</code></pre></div>
+
+<p><img alt="provisionning" src="/images/samba/provisionning.png"></p>
+<p>On peut maintenant vérifier notre fichier /etc/samba/smb.conf</p>
+<p><img alt="smb.conf" src="/images/samba/smbconf.png"></p>
+<p>Le script de config crée un fichier krb5.conf dans le dossier /var/lib/samba/private/krb5.conf.
+Il faut supprimer ce fichier et le remplacer par celui se trouvant dans /etc/krb5.conf</p>
+<div class="highlight"><pre><span></span><code>rm -f /var/lib/samba/private/krb5.conf
+ln -s /etc/krb5.conf /var/lib/samba/private/krb5.conf
+</code></pre></div>
+
+<p>Ensuite on peut configurer le démarrage des services:</p>
+<div class="highlight"><pre><span></span><code>systemctl unmask samba-ad-dc
+systemctl <span class="nb">enable</span> samba-ad-dc
+systemctl disable samba winbind nmbd smbd
+systemctl mask samba winbind nmbd smbd
+</code></pre></div>
+
+<p>On vérifie:</p>
+<div class="highlight"><pre><span></span><code>systemctl list-unit-files <span class="p">|</span>egrep <span class="s1">&#39;samba|winbind|nmbd|smbd&#39;</span>
+</code></pre></div>
+
+<p>Il faut ensuite activer les ACL et attributs étendus sur la partition ou est installée SAMBA. On modifie donc notre fichier fstab:</p>
+<div class="highlight"><pre><span></span><code>vi /etc/fstab
+</code></pre></div>
+
+<p>et on ajoute les options 'acl' et 'user_xattr'</p>
+<p><img alt="smb.conf" src="/images/samba/fstab.png"></p>
+<p>Ensuite on remonte la partition (ou on reboot):</p>
+<div class="highlight"><pre><span></span><code>mount -o remount /
+</code></pre></div>
+
+<p>Il faut maintenant corriger les permissions sur les partages sysvol et netlogon</p>
+<div class="highlight"><pre><span></span><code>samba-tool ntacl sysvolreset
+</code></pre></div>
+
+<p>Et voilà ! votre DC devrait être fonctionnel ! il ne reste plus qu'à le tester avec un windows 10.</p>
+<h2>Ajout d'une machine au domaine</h2>
+<p>Si tout s'est bien passé, vous ne devriez pas avoir de soucis pour joindre le domaine:</p>
+<p><img alt="joindredomaine" src="/images/samba/joindredomaine.png"></p>
+<p><img alt="joindredomaine" src="/images/samba/joindredomaine2.png"></p>
+<p><img alt="joindredomaine" src="/images/samba/joindredomaine3.png"></p>
+<p>Il faut ensuite installer les outils RSAT pour administrer l'active directory:</p>
+<p><img alt="rsat" src="/images/samba/rsat0.png"></p>
+<p><img alt="rsat" src="/images/samba/rsat1.png"></p>
+<p><img alt="rsat" src="/images/samba/rsat2.png"></p>
+<p>J'ai ensuite, à l'aide des outils RSAT mis en place une GPO pour forcer le fond d'écran et un GPO pour mettre en place des administrateurs locaux et tout fonctionne !</p>
+<p><img alt="GPO" src="/images/samba/GPO_ADMIN_LOCAUX.png"></p>
+<p><img alt="GPO" src="/images/samba/GPO_FOND_ECRAN.png"></p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

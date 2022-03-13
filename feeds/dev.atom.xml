@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Coubiac - Dev</title><link href="https://Coubiac.github.io/" rel="alternate"></link><link href="https://Coubiac.github.io/feeds/dev.atom.xml" rel="self"></link><id>https://Coubiac.github.io/</id><updated>2019-01-02T09:07:30+01:00</updated><entry><title>"Insérer un formulaire dans une modale avec Symfony et MaterializeCSS"</title><link href="https://Coubiac.github.io/inserer-un-formulaire-dans-une-modale-avec-symfony-et-materializecss.html" rel="alternate"></link><published>2019-01-02T09:07:30+01:00</published><updated>2019-01-02T09:07:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2019-01-02:/inserer-un-formulaire-dans-une-modale-avec-symfony-et-materializecss.html</id><summary type="html">&lt;p&gt;Quand on débute le développement Web, une des choses assez difficile à comprendre est le fonctionnement des fenêtres modales. Cette question m'a été posé plusieurs fois, c'est pour cette raison que j'ai décidé de faire un article.&lt;/p&gt;
+&lt;h2&gt;Principe de fonctionnement&lt;/h2&gt;
+&lt;p&gt;Principe de fonctionnement des fenêtres modales 
+&lt;img alt="fonctionnement modale" src="/images/modale.png"&gt;
+la fenêtre modale est …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Quand on débute le développement Web, une des choses assez difficile à comprendre est le fonctionnement des fenêtres modales. Cette question m'a été posé plusieurs fois, c'est pour cette raison que j'ai décidé de faire un article.&lt;/p&gt;
+&lt;h2&gt;Principe de fonctionnement&lt;/h2&gt;
+&lt;p&gt;Principe de fonctionnement des fenêtres modales 
+&lt;img alt="fonctionnement modale" src="/images/modale.png"&gt;
+la fenêtre modale est déjà intégrée dans la page Web mais n'est simplement pas encore affichée. Voici un exemple de code html avec materializecss :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;&amp;lt;!-- Bouton servant à activer la modale --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;waves-effect waves-light btn modal-trigger&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#modal1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Modal&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;lt;!-- Structure de la modale --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal1&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h4&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Modal Header&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h4&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+A bunch of text
+
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-footer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-close waves-effect waves-green btn-flat&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Agree&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On peut donc voir qu'une fenêtre modale est composée de deux parties: la structure et le lien permettant de l'activer.&lt;/p&gt;
+&lt;p&gt;Quand on clique sur le lien elle s'affiche mais est vide. Il faut donc à ce moment là effectuer un appel AJAX pour la remplir. (afficher le formulaire).&lt;/p&gt;
+&lt;h2&gt;Exemple avec Symfony&lt;/h2&gt;
+&lt;p&gt;Dans cet exemple, nous avons une entité « compétition » et une entité « inscrit » . Il y a une relation one to many: 1 compétition peut avoir plusieurs inscrits.&lt;/p&gt;
+&lt;p&gt;Voici la vue twig:&lt;/p&gt;
+&lt;p&gt;Le lien d'activation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{% raw %}
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;data-target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ path(&amp;#39;competition-inscription&amp;#39;, {&amp;#39;id&amp;#39;: competition.id}) }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-tooltip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;voir&amp;quot;&lt;/span&gt;
+   &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;tooltipped modal-trigger btn right-align&amp;quot;&lt;/span&gt;
+   &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#modal1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;inscription&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+{% endraw %}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Et la modale correspondante:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal1&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-footer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Quand on clique sur le bouton d’inscription, on appelle ce script javascript:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;ready&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="c1"&gt;//On écoute le &amp;quot;click&amp;quot; sur le bouton ayant la classe &amp;quot;modal-trigger&amp;quot;&lt;/span&gt;
+&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.modal-trigger&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="c1"&gt;//On initialise les modales materialize&lt;/span&gt;
+        &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.modal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;modal&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="c1"&gt;//On récupère l&amp;#39;url depuis la propriété &amp;quot;Data-target&amp;quot; de la balise html a&lt;/span&gt;
+        &lt;span class="nx"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-target&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="c1"&gt;//on fait un appel ajax vers l&amp;#39;action symfony qui nous renvoie la vue&lt;/span&gt;
+        &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;//on injecte le html dans la modale&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.modal-content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="c1"&gt;//on ouvre la modale&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#modal1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;modal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;open&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Le contrôleur est donc appelé par un appel ajax. C'est la même action qui va servir à afficher le formulaire ou à traiter la soumission. Voici l’action du contrôleur:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="x"&gt;  /**&lt;/span&gt;
+&lt;span class="x"&gt; * @Method({&amp;quot;GET&amp;quot;, &amp;quot;POST&amp;quot;})&lt;/span&gt;
+&lt;span class="x"&gt; * @Route(&amp;quot;/competition/{id}/inscription&amp;quot;, name=&amp;quot;competition-inscription&amp;quot;)&lt;/span&gt;
+&lt;span class="x"&gt; * @param Request $request&lt;/span&gt;
+&lt;span class="x"&gt; */&lt;/span&gt;
+&lt;span class="x"&gt;public function inscriptionAction(Competition $competition, Request $request)&lt;/span&gt;
+&lt;span class="x"&gt;{&lt;/span&gt;
+&lt;span class="x"&gt;    $inscrit = new Inscrit();&lt;/span&gt;
+&lt;span class="x"&gt;    $form = $this-&amp;gt;createForm(InscritType::class, $inscrit);&lt;/span&gt;
+&lt;span class="x"&gt;    $form-&amp;gt;handleRequest($request);&lt;/span&gt;
+&lt;span class="x"&gt;    if ($form-&amp;gt;isSubmitted() &amp;amp;&amp;amp; $form-&amp;gt;isValid()) {&lt;/span&gt;
+&lt;span class="x"&gt;        $em = $this-&amp;gt;getDoctrine()-&amp;gt;getManager();&lt;/span&gt;
+&lt;span class="x"&gt;        $inscrit-&amp;gt;setDateInscription(new \DateTime());&lt;/span&gt;
+&lt;span class="x"&gt;        $inscrit-&amp;gt;setCompetition($competition);&lt;/span&gt;
+
+&lt;span class="x"&gt;        $em-&amp;gt;persist($inscrit);&lt;/span&gt;
+&lt;span class="x"&gt;        $em-&amp;gt;flush();&lt;/span&gt;
+&lt;span class="x"&gt;        $request-&amp;gt;getSession()-&amp;gt;getFlashbag()-&amp;gt;add(&amp;#39;success&amp;#39;, &amp;#39;Votre inscription a été enregistré.&amp;#39;);&lt;/span&gt;
+&lt;span class="x"&gt;        return $this-&amp;gt;redirectToRoute(&amp;#39;competitions&amp;#39;);&lt;/span&gt;
+&lt;span class="x"&gt;    }&lt;/span&gt;
+&lt;span class="x"&gt;    return $this-&amp;gt;render(&lt;/span&gt;
+&lt;span class="x"&gt;        //On affiche  une vue twig simple (pas de head ni rien, donc aucun héritage de template...) qui sera intégrée dans la modale.&lt;/span&gt;
+&lt;span class="x"&gt;        &amp;#39;competitions/competitionModale.html.twig&amp;#39;, array(&amp;#39;form&amp;#39; =&amp;gt; $form-&amp;gt;createView(), &amp;#39;competition&amp;#39; =&amp;gt; $competition&lt;/span&gt;
+&lt;span class="x"&gt;        )&lt;/span&gt;
+&lt;span class="x"&gt;    );&lt;/span&gt;
+&lt;span class="x"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;La vue twig est une vue très simple qui ne doit hériter de rien:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{% raw %}
+  {{ competition.titre }}
+    &lt;span class="c"&gt;&amp;lt;!-- Il faut préciser l&amp;#39;action dans le formulaire --&amp;gt;&lt;/span&gt;
+    {{ form_start(form, {&amp;#39;action&amp;#39;: path(&amp;#39;competition-inscription&amp;#39;, { &amp;#39;id&amp;#39;: competition.id })}) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endraw %}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Conclusion&lt;/p&gt;
+&lt;p&gt;Comme vous le voyez, il n'y a rien de très compliqué, l'important est de bien comprendre le principe d'appel ajax pour afficher le formulaire à l'intérieur de la modale. Cette action peu être un peu longue, je vous conseille d'utiliser une icône de chargement, d'assombrir la page etc&amp;#8230; vous trouverez plein de ressources sur le web pour ça.&lt;/p&gt;</content><category term="Dev"></category><category term="[PHP"></category><category term="Symfony"></category><category term="Javascript]"></category></entry></feed>

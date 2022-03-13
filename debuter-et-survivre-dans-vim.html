@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <title>    Coubiac - "Débuter et survivre dans VIM"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Débuter et survivre dans VIM"</h1>
+        <small>publié le 10/03/2022 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/vim.html">[vim]</a></span>
+
+        <div class="article-content">
+            <h1>SORTIR de Vim</h1>
+<div class="highlight"><pre><span></span><code>:q  : sort
+:q! : force à sortir et abandonner les modifications
+:w  : enregistre
+:wq : enregistre et sort
+</code></pre></div>
+
+<h1>Se déplacer</h1>
+<div class="highlight"><pre><span></span><code>Flèches de direction: se déplacer
+
+h   : déplacer le curseur vers la gauche
+j   : déplacer le curseur vers le bas
+k   : déplacer le curseur vers le haut
+l   : déplacer le curseur vers la droite
+
+gg  : aller au début du fichier
+G   : aller à la fin du fichier
+
+w   : aller au début du mot suivant (espace et ponctuation comme séparateur)
+W   : aller au début du mot suivant (espace comme séparateur)
+
+^   : aller au début de la ligne (premier caractère)
+$   : aller à la fin de la ligne
+
+:42 : se déplace à la ligne 42
+42G : se déplace à la ligne 42
+
+/unMot  : se déplace au mot &quot;unMot&quot; vers le bas
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+?unMot  : se déplace au mot &quot;unMot&quot; vers le haut
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+</code></pre></div>
+
+<h1>Modification</h1>
+<h2>Modification avec basculement en mode insertion</h2>
+<div class="highlight"><pre><span></span><code>a   : Insertion après le curseur
+i   : Insertion avant le curseur
+
+A   : Insertion à la fin de la ligne
+I   : Insertion au début de la ligne
+
+o   : Insertion en ajoutant une ligne vers le bas
+O   : Insertion en ajoutant une ligne vers le haut
+</code></pre></div>
+
+<h2>Copier - Coller</h2>
+<div class="highlight"><pre><span></span><code>dd  : Coupe la ligne (peut servir à supprimer la ligne)
+yy  : Copie la ligne
+d   : Coupe le mot
+y   : Copie le mot
+p   : colle
+</code></pre></div>
+
+<h2>Rechercher / Remplacer</h2>
+<div class="highlight"><pre><span></span><code>/unMot  : se déplace au mot &quot;unMot&quot; vers le bas
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+
+?unMot  : se déplace au mot &quot;unMot&quot; vers le haut
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+
+:%s/old/new/g   : Recherche le mot &quot;old&quot; et le remplace 
+                  par le mot &quot;new&quot; dans tout le fichier
+</code></pre></div>
+
+<h2>Commenter et décommenter un bloc de texte</h2>
+<p>Commenter un bloc de code</p>
+<p><img alt="Commenter un bloc de texte" src="https://i.stack.imgur.com/lu6aU.gif"></p>
+<p>Décommenter un bloc de code</p>
+<p><img alt="Décommenter un bloc de texte" src="https://i.stack.imgur.com/2Y7eH.gif"></p>
+<p>Source: <a href="https://stackoverflow.com/a/1676690">https://stackoverflow.com/a/1676690</a></p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

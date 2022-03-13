@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>    Coubiac - "Supprimer les logiciels pré-installés avec Windows 10"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Supprimer les logiciels pré-installés avec Windows 10"</h1>
+        <small>publié le 11/11/2020 dans <a href="https://Coubiac.github.io/category/windows.html">Windows</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/it.html">[it</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/windows.html">Windows]</a></span>
+
+        <div class="article-content">
+            <p>Quand on installe windows 10 pour la première fois, celui-ci installe tout un tas d'applications dont nous n'avons la plupart du temps pas besoin, surtout dans le cas d'une utilisation professionnelle.</p>
+<p><img alt="Menu démarrer" src="/images/uninstall-windows-preinstall-packages/startmenu.png"></p>
+<h2>Lister les applications installées avec Powershell</h2>
+<p>Powershell permet de désinstaller facilement une application. Pour cela il faut lancer powershell en mode administrateur.
+Une fois que vous vous trouver dans powershell, vous pouvez lister les packages installés à l'aide de la commande:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-AppxPackage</span> <span class="p">|</span> <span class="nb">ft </span><span class="n">Name</span><span class="p">,</span> <span class="n">PackageFullName</span>
+</code></pre></div>
+
+<p><img alt="gatappxpackage" src="/images/uninstall-windows-preinstall-packages/gatappxpackage.png"></p>
+<p>Si vous voulez la liste pour tous les utilisateurs:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-AppxPackage</span> <span class="n">-AllUsers</span> <span class="p">|</span> <span class="nb">ft </span><span class="n">Name</span><span class="p">,</span> <span class="n">PackageFullName</span>
+</code></pre></div>
+
+<h2>Désinstaller une application</h2>
+<p>Admettons que nous voulions désinstaller l'application Skype:</p>
+<p><img alt="skype" src="/images/uninstall-windows-preinstall-packages/skype.png"></p>
+<p>Nous allons la désinstaller à l'aide de cette commande:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-AppxPackage</span> <span class="p">*</span><span class="n">skypeapp</span><span class="p">*</span> <span class="p">|</span> <span class="nb">Remove-AppxPackage</span>
+</code></pre></div>
+
+<h2>Désinstaller toutes les applications préinstallées</h2>
+<p>Pour désinstaller l'ensemble des applications, il faut utiliser cette commande:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-AppxPackage</span> <span class="p">-</span><span class="n">-AllUsers</span> <span class="p">|</span> <span class="nb">Remove-AppxPackage</span>
+</code></pre></div>
+
+<p><img alt="supprimer toutes les applications" src="/images/uninstall-windows-preinstall-packages/remove-all-packages.gif"></p>
+<p><strong>NB: Quelques applications vont rester. Il vous faudra les désinstaller à la main...</strong></p>
+<h2>Desactiver la reinstallation pour les nouveaux utilisateurs</h2>
+<p>Quand les applications ont été supprimées, on peut empecher la réinstallation pour les nouveaux utilisateurs:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-AppxProvisionedPackage</span> <span class="n">-online</span> <span class="p">|</span> <span class="nb">Remove-AppxProvisionedPackage</span> <span class="n">-online</span>
+</code></pre></div>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

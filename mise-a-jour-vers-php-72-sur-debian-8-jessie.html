@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>    Coubiac - Mise à jour vers PHP 7.2 sur Debian 8 Jessie
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>Mise à jour vers PHP 7.2 sur Debian 8 Jessie</h1>
+        <small>publié le 22/07/2018 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/debian.html">[Debian</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/php.html">PHP]</a></span>
+
+        <div class="article-content">
+            <p>Avec l'arrivée de Symfony 4.1, PHP 7.2 est obligatoire. Si votre serveur est encore avec DEBIAN 8 Jessie, voici comment mettre à jour PHP vers la version 7.2:</p>
+<p>Ondřej Surý fournit des paquets PHP 7.2 pour Debian sur son dépot:</p>
+<div class="highlight"><pre><span></span><code>apt-get install apt-transport-https lsb-release ca-certificates
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+<span class="nb">echo</span> <span class="s2">&quot;deb https://packages.sury.org/php/ </span><span class="k">$(</span>lsb_release -sc<span class="k">)</span><span class="s2"> main&quot;</span> <span class="p">|</span> tee /etc/apt/sources.list.d/php.list
+apt-get update
+apt-get install php7.2-cli
+apt-get install php7.2 php7.2-opcache libapache2-mod-php7.2 php7.2-mysql php7.2-curl php7.2-json php7.2-gd  php7.2-intl php7.2-mbstring php7.2-xml php7.2-zip php7.2-fpm php7.2-readline
+</code></pre></div>
+
+<p>Ensuite, redémarrez APACHE:</p>
+<div class="highlight"><pre><span></span><code>service apache2 restart
+</code></pre></div>
+
+<p>Si tout s'est bien passé, la commande <code>php -v</code> devrait vous retourner:</p>
+<div class="highlight"><pre><span></span><code>PHP <span class="m">7</span>.2.7-2+0~20180714182401.1+jessie~1.gbp3fcba8 <span class="o">(</span>cli<span class="o">)</span> <span class="o">(</span>built: Jul <span class="m">15</span> <span class="m">2018</span> <span class="m">13</span>:57:20<span class="o">)</span> <span class="o">(</span> NTS <span class="o">)</span>
+Copyright <span class="o">(</span>c<span class="o">)</span> <span class="m">1997</span>-2018 The PHP Group
+Zend Engine v3.2.0, Copyright <span class="o">(</span>c<span class="o">)</span> <span class="m">1998</span>-2018 Zend Technologies
+    with Zend OPcache v7.2.7-2+0~20180714182401.1+jessie~1.gbp3fcba8, Copyright <span class="o">(</span>c<span class="o">)</span> <span class="m">1999</span>-2018, by Zend Technologies
+    with Xdebug v2.6.0, Copyright <span class="o">(</span>c<span class="o">)</span> <span class="m">2002</span>-2018, by Derick Rethans
+</code></pre></div>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

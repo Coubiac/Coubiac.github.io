@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <title>    Coubiac - "Envoyer des mails de notification depuis un serveur Debian"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Envoyer des mails de notification depuis un serveur Debian"</h1>
+        <small>publié le 02/11/2020 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/linux.html">[linux</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/postfix.html">postfix</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/gmail.html">gmail]</a></span>
+
+        <div class="article-content">
+            <p>Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.</p>
+<h1>Installation de Postfix</h1>
+<p _="%" endhighlight>On commence par mettre à jour le système et installer Postfix
+{% highlight bash %}
+~# apt-get update &amp;&amp; apt-get upgrade
+~# apt-get install libsasl2-modules postfix</p>
+<p>Postfix va lancer l'assistant d'installation:</p>
+<p><img alt="assistant1" src="/images/postfix/screen1.png"></p>
+<p>Ensuite postfix va vous demander de choisir un type d'installation. Vous allez choisir <code>site internet</code></p>
+<p><img alt="assistant2" src="/images/postfix/screen2.png"></p>
+<p>Entrez ensuite votre nom de domaine:</p>
+<p><img alt="assistant3" src="/images/postfix/screen3.png"></p>
+<h2>Création d'un mot de passe application pour GMAIL</h2>
+<p>Si vous avez activé l'authentification à deux facteurs (2FA), vous devez créer un mot de passe Application.
+Vous pouvez consulter la documentation google à <a href="https://support.google.com/mail/answer/185833?hl=fr">cette adresse</a></p>
+<h2>Paramétrage de postfix</h2>
+<p>il faut ensuite modifier le fichier <code>/etc/postfix/main.cf</code> afin de modifier la valeur <code>myhostname</code> avec notre nom d'hôte pleinement qualifié (fqdn)</p>
+<p _="%" endhighlight>{% highlight bash %}
+myhostname = mail.exemple.fr</p>
+<p>Nous allons maintenant ajouter le mot de passe du compte gmail (Attention, si vous avez activé l'authentification à deux facteurs de bien utilisé le mot de passe généré plus haut...). Nous allons pour cela modifier le fichier <code>/etc/postfix/sasl/sasl_passwd</code></p>
+<p _="%" endhighlight>{% highlight bash %}
+~# vi /etc/postfix/sasl/sasl_passwd</p>
+<p _="%" endhighlight>insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):
+{% highlight bash %}
+[smtp.gmail.com]:587 username@gmail.com:password</p>
+<p>On peut maintenant utiliser la commande <code>postmap</code>pour générer un fichier de bdd de hash:</p>
+<p _="%" endhighlight>{% highlight bash %}
+~# postmap /etc/postfix/sasl/sasl_passwd</p>
+<p _="%" endhighlight>Nous allons sécuriser un peu l'accès aux fichiers:
+{% highlight bash %}
+~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
+~# chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db</p>
+<h2>Configurer le relay postfix</h2>
+<p>Nous allons modifier le fichier <code>main.cf</code> afin de relayer le courrier vers le smtp de gmail:</p>
+<p _="%" endhighlight>{% highlight bash %}
+~# vi /etc/postfix/main.cf</p>
+<p>On modifie la valeur <code>relayhost</code>:</p>
+<p _="%" endhighlight>{% highlight bash %}
+relayhost = [smtp.gmail.com]:587</p>
+<p>Ensuite on ajoute ces lignes pour activer l'authentification:</p>
+<p _="%" endhighlight>{% highlight bash %}
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+smtp_tls_security_level = encrypt
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt</p>
+<h2>Configurer l'adresse mail de root</h2>
+<p _="%" endhighlight>on edite le fichier <code>/etc/aliases</code>
+{% highlight bash %}
+vi /etc/aliases</p>
+<p _="%" bash highlight>le fichier doit ressembler à</p>
+<h1>See man 5 aliases for format</h1>
+<p _="%" endhighlight>postmaster: root
+root: username@domaine.com # On ajoute cette ligne avec l'adresse mail de l'admin du serveur</p>
+<p _="%" endhighlight>On compile les alias:
+{% highlight bash %}
+newaliases</p>
+<p _="%" endhighlight>on redémarre ensuite postfix
+{% highlight bash %}
+service postfix restart</p>
+<h2>Test d'envoi de mail</h2>
+<p>On peut utiliser sendmail pour tester l'envoi d'un mail (attention le point . à la fin est important):</p>
+<p>{% highlight bash %}</p>
+<h1>sendmail root</h1>
+<p _="%" endhighlight>From: monserveur
+Subject: Mail test
+Ceci est un test
+.</p>
+<p>Vous pouvez vérifier que tout s'est bien passé en consultant les logs:</p>
+<p _="%" endhighlight>{% highlight bash %}
+tail -f /var/log/mail.log</p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

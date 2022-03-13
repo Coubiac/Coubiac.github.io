@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <title>    Coubiac - "Itil: Différence entre Incident et Problème"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Itil: Différence entre Incident et Problème"</h1>
+        <small>publié le 01/11/2020 dans <a href="https://Coubiac.github.io/category/si.html">SI</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/itsm.html">[itsm</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/itil.html">itil]</a></span>
+
+        <div class="article-content">
+            <h1>Incidents / Problème</h1>
+<h2>Incidents</h2>
+<p>Itil définit un incident comme étant: </p>
+<blockquote>
+<p>Tout événement qui ne fait pas partie du fonctionnement standard d'un service et qui cause, ou peut causer, une interruption ou une diminution de la qualité de ce service</p>
+</blockquote>
+<h3>Exemple 1:</h3>
+<p><strong>Problématique:</strong>
+Pierre vous contacte pour vous signaler qu'il n'arrive plus à imprimer car l'imprimante lui signale un bourrage papier. Il a pourtant retiré la feuille coincé dans l'imprimante.</p>
+<p><strong>Résolution:</strong>
+Un technicien se déplace pour verifier que Pierre n'a pas déchiré la feuille coincé en la retirant et qu'un petit morceau de papier n'est pas resté coincé dans l'imprimante. Il remet l'imprimante en marche.</p>
+<h3>Exemple 2:</h3>
+<p><strong>Problématique:</strong>
+Jeanne de l'agence de Brest, vous appelle pour vous signaler que l'utilisation de l'ERP est extremment lente en ce moment et qu'elle n'arrive pas à travailler.</p>
+<p><strong>Contexte:</strong>
+L'agence de Brest est un site distant, relié au site principal à l'aide d'un VPN. L'ERP fonctionne en mode Bureau à Distance (RDP)</p>
+<p><strong>Résolution:</strong>
+Après enquète, vous vous rendez compte que la totalité de la bande passante est consommée par le téléchargement de mise à jour Windows. Vous demmandez à Jeanne de mettre les mises à jour en pause jusqu'a la pause déjeuner afin de rétablir une connexio</p>
+<h2>Problèmes</h2>
+<p>Itil définit un problème de cette manière:</p>
+<blockquote>
+<p>Un problème est la cause inconnue d'un incident significatif ou de plusieurs incidents présentant les mêmes symptômes affectant le bon fonctionnement du système d'information ou du "métier" de l'entreprise.</p>
+</blockquote>
+<h3>Exemple 1:</h3>
+<p><strong>Problématique:</strong></p>
+<p>Jacques vous signale le disfonctionnement de l'imprimante que Pierre quelques heure après le passage du technicien. Vous résolvez l'incident de la même manière mais le lendemain, c'est au tour de Marie de vous signaler un soucis similaire.</p>
+<p><strong>Résolution:</strong></p>
+<p>A chaque signalement, vous allez créer un ticket d'incident et essayer de faire en sorte que l'utilisateur puisse continuer à travailler. Cependant, compte tenu de la récurence des incidents vous allez créer un ticket de problème. Ce ticket sera attribué au technicien spécialisé dans la réparation des imprimantes. Il va résoudre le problème en remplaçant les rouleaux de prise de papier qui sont usés et qui provoquent des bourrages à répétition.</p>
+<p>On voit bien dans cet exemple qu'on continue de traiter les incidents même si ceux-ci sont liés à un problème. Itil étant orienté business, le plus important est de dépanner le plus rapidement possible les utilisateurs.</p>
+<h3>Exemple 2:</h3>
+<p><strong>Problématique:</strong>
+Vous vous rendez compte en analysant les statistiques de votre système de ticketing, que l'incident signalé par Jeanne à l'agence de Brest est vraiment récurent: Plusieurs appels par mois à cause de problématiques similaires.</p>
+<p><strong>Résolution:</strong></p>
+<p>Vous allez créer un ticket de problème et attribuer ce ticket à l'administrateur réseau afin qu'il puisse mettre en place une priorisation des flux (QoS) pour prioriser les flux RDP (flux de communication de l'ERP).</p>
+<h2>Conclusion</h2>
+<p>La gestion des incidents s’occupe de résoudre les inconforts liés à une situation dégradée.
+La gestion des problèmes travaille pour s’assurer que les incidents ne se reproduiront pas.</p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

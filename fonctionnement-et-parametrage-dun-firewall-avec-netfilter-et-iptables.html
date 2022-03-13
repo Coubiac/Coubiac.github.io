@@ -1,0 +1,463 @@
+<html>
+    <head>
+        <title>    Coubiac - "Fonctionnement et paramétrage d'un firewall avec Netfilter et IPTABLES"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Fonctionnement et paramétrage d'un firewall avec Netfilter et IPTABLES"</h1>
+        <small>publié le 05/08/2018 dans <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/firewall.html">[firewall</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/securite.html">securite]</a></span>
+
+        <div class="article-content">
+            <h2>Principe de fonctionnement</h2>
+<h3>Netfilter vs Iptables</h3>
+<p>Netfilter est une architecture de filtrage des paquets. Le filtrage se fait au sein du noyeau au niveau des couches basses du modèle OSI (Liaison de donnée, Réseau et Transport).</p>
+<p>Netfilter est <a href="https://fr.wikipedia.org/wiki/Protocole_sans_état">stateless</a>, il n'inspecte que les entêtes des paquets. Il n'entraine pas de latence.</p>
+<p>Netfilter est un firewall qui agit au niveau du protocole. Il fonctionne un peu comme une API: pour pouvoir interagir avec Netfilter, nous aurons donc besoin d'un « logiciel client ». Il y en a plusieurs mais IPTables est le plus connu et le plus utilisé.Vous l'aurez donc compris, <strong>IPTABLES n'est pas un firewall</strong>. C'est un programme permettant d'interagir et paramétrer le firewall netfilter.</p>
+<h3>Cheminement d'un paquet</h3>
+<p>Voici un schéma materialisant le chemin que peut prendre un paquet:</p>
+<p><img alt="cheminement d'un paquet" src="/images/packet-life.svg"></p>
+<p>Chaque état (rectangle rouge) représente un point de filtrage possible avec IPTABLES.</p>
+<p><strong><em>PREROUTING</em></strong>: Traite les paquets à leur arrivée. Si un paquet est à destination du système local, il sera traité par un processus local (INPUT et/ou OUTPUT). Par exemple, si le paquet est destiné au serveur apache (port 80 ou 443) installé sur notre même serveur, il sera traité par le chemin de gauche. Sinon, si nous avons activé le forwarding, le paquet empruntera le chemin de droite, c'est à dire que les règles FORWARD et POSTROUTING  seront appliquées.</p>
+<p><em><strong>FORWARD</strong></em> : Traite les paquets qui traversent le système local</p>
+<p><em><strong>INPUT</strong></em>: Traite les paquets destinés au système local (par exemple pour accéder à un service hébergé sur le même serveur que notre pare-feu)</p>
+<p><em><strong>OUTPUT</strong></em>: Traite les paquets qui quittent le système local</p>
+<p><em><strong>POSTROUTING</strong></em>: Traite les paquets juste avant qu'ils sortent.</p>
+<h3>Les Règles</h3>
+<p>Pour décider ce que va devenir un paquet, netfilter va appliquer des règles qu'on lui aura fourni. Ces règles ont un ordre et les paquets seront testés avec chacunes des règles les unes après les autres. Si une règle correspond, le paquet sera traité et les autres règles ne seront pas utilisées. D'où l'importance de l'ordonnancement de ces règles !</p>
+<p><img alt="traitement des règles" src="/images/regles-netfilter.svg"></p>
+<h4>Les cibles</h4>
+<p>Les cibles sont les actions à effectuer lorsqu'un paquet correspond au critères d'une règle. Les deux actions de base sont DROP et ACCEPT mais il existe aussi REJECT et LOG.</p>
+<ul>
+<li>DROP: On rejète le paquet sans envoyer de notification à la source.</li>
+<li>REJECT: On rejète le paquet et on retourne une erreur.</li>
+<li>ACCEPT: Le paquet est accepté</li>
+<li>LOG: Une info est écrite dans les logs.</li>
+</ul>
+<p>Voici un exemple de règle:</p>
+<div class="highlight"><pre><span></span><code>iptables -A INPUT -s <span class="m">216</span>.58.209.227 -j DROP
+</code></pre></div>
+
+<p>décomposons cette règle:</p>
+<p>-A: on ajoute la règle (les options sont A=Ajouter, I=Insérer, D=supprimer, L=lister)</p>
+<p>INPUT: le [point de filtrage][3]</p>
+<p>-s 216.58.209.227: l'adresse IP source</p>
+<p>-j DROP: l'action à effectuer sur le paquet (la cible)</p>
+<h4>Les opérations</h4>
+<p>Comme expliqué sur le schéma précédent, les règles sont ordonnées. Elles sont numérotées à partir de 1.</p>
+<p>On utilise -A pour ajouter une règle:</p>
+<div class="highlight"><pre><span></span><code>iptables -A INPUT -s <span class="m">216</span>.58.209.227 -j DROP
+</code></pre></div>
+
+<p>On insère une règle avec -I à la position souhaitée (position 2):</p>
+<div class="highlight"><pre><span></span><code>iptables -I OUTPUT -d <span class="m">216</span>.58.209.227 -j DROP <span class="m">2</span>
+</code></pre></div>
+
+<p>On supprime une règle avec -D</p>
+<div class="highlight"><pre><span></span><code>iptables -D OUTPUT <span class="m">2</span>
+</code></pre></div>
+
+<p>On liste les règles avec -L</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># iptables -L</span>
+Chain INPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target    prot opt <span class="nb">source</span>     destination
+
+Chain FORWARD <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target    prot opt <span class="nb">source</span>     destination
+
+Chain OUTPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+target    prot opt <span class="nb">source</span>     destination
+</code></pre></div>
+
+<p>On supprime toutes les règles avec -F (flush)</p>
+<div class="highlight"><pre><span></span><code>iptables -F
+</code></pre></div>
+
+<h4>Les critères</h4>
+<p>Les critères servent à spécifier une règle. Pour qu'une règle s'applique, tous les critères doivent être vérifiés. Voici les principaux critères:</p>
+<p>-i : interface entrante</p>
+<p>-o : interface sortante</p>
+<p>-p : protocole de couche 4.</p>
+<p>-s : adresse IP source</p>
+<p>-d : adresse IP destination</p>
+<h5>Voici quelques exemples:</h5>
+<p>On interdit les entrées par eth0:</p>
+<div class="highlight"><pre><span></span><code>iptables -A INPUT -i eth0 -j DROP
+</code></pre></div>
+
+<p>On interdit le forward entre eth0 et eth1:</p>
+<div class="highlight"><pre><span></span><code>iptables -A FORWARD -i eth0 -o eth1 -j DROP
+</code></pre></div>
+
+<p>On interdit le ping (protocole ICMP):</p>
+<div class="highlight"><pre><span></span><code>iptables -A input -p icmp -j DROP
+</code></pre></div>
+
+<h5>Les arguments des critères</h5>
+<h6>Pour les adresses:</h6>
+<p>-s signifie « source » et -d signifie « destination ». On peut indiquer l'adresse IP, le nom d'hôte ou même un réseau entier (192.168.1.0/24 ou 192.168.1.0/255.255.255.0)</p>
+<h6>Pour les ports:</h6>
+<p><code>--sport</code> signifie « port source », <code>--dport</code> signifie « port destination ». On peut indiquer un numéro, un nom, une étendue de ports ( 81:1024).</p>
+<p>Sur cet exemple, on interdit les connexions au serveur httpd sur le port 80:</p>
+<div class="highlight"><pre><span></span><code> iptables -A input -p tcp --dport <span class="m">80</span> -j DROP
+</code></pre></div>
+
+<p>Le point d'exclamation (!) permet de dire « tout sauf ». Dans cet exemple on interdit toutes les connexions entrantes sauf celles venant de l'adresse ip 192.168.1.10:</p>
+<div class="highlight"><pre><span></span><code>iptables -A INPUT -s ! <span class="m">192</span>.168.1.10 -j DROP
+</code></pre></div>
+
+<h4>Les Tables</h4>
+<p>En plus des points de filtrage (INPUT, OUTPUT, etc..) Netfilter utilise des tables particulières qui peuvent contenir des règles spécifiques. Les tables principales tables existantes sont: FILTER, NET et MANGLE. Si on ne précise pas de nom de table, la table FILTER sera utilisée par défaut:</p>
+<div class="highlight"><pre><span></span><code>iptables -L <span class="c1">#affiche la liste des règles de la table FILTER</span>
+
+iptables -t nat -L <span class="c1">#affiche la liste des règles de la table NAT</span>
+</code></pre></div>
+
+<p>Exemple d'utilisation, le masquage d'IP:</p>
+<div class="highlight"><pre><span></span><code>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre></div>
+
+<p>Dans cet exemple, on ajoute une règle (<code>-A</code>) sur la table « nat » (<code>-t nat</code>), sur le point de filtrage « postrouting », c'est à dire juste avant que le paquet sorte, et on applique la règle « MASQUERADE ». C'est à dire qu'on remplace l'adresse IP source dans l'entête du paquet par l'adresse IP publique du firewall pour faire croire à la machine qui doit recevoir ce paquet qu'il a été envoyé par notre firewall.</p>
+<h3>Le routage</h3>
+<p>Nous allons considérer le réseau suivant:</p>
+<p>Pour créer un routeur sous linux, il y a plusieurs étapes à suivre.</p>
+<h4>Activer la fonctionnalité de routage</h4>
+<p>Le routage est une fonctionnalité du noyau linux. Par défaut cette fonctionnalité est désactivée, il faut donc l'activer.</p>
+<p>on édite le fichier <code>sysctl.conf</code> situé dans le répertoire « etc »:</p>
+<div class="highlight"><pre><span></span><code>vi /etc/sysctl.conf
+</code></pre></div>
+
+<p>ensuite on repère cette ligne:</p>
+<div class="highlight"><pre><span></span><code>net.ipv4.ip_forward<span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+
+<p>et on remplace le « 0 » par un « 1 » (on la décommente si elle est commentée):</p>
+<div class="highlight"><pre><span></span><code>net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+
+<p>Pour activer les changements, vous pouvez rebooter votre machine ou utiliser cette commende:</p>
+<div class="highlight"><pre><span></span><code>sysctl -p /etc/sysctl.conf
+</code></pre></div>
+
+<h4>Créer les règles IPTABLES</h4>
+<p>Dans ces exemples, nous allons considérer que l'interface connectée à internet est eth0 et l'interface connectée au réseau local est eth1.</p>
+<p>Tout ce qui provient de notre réseau local (LAN) est autorisé à traverser le routeur:</p>
+<div class="highlight"><pre><span></span><code>iptables -A FORWARD -i eth1 -j ACCEPT
+</code></pre></div>
+
+<p>On autorise les « paquets de réponse », autrement dit, tout ce qui vient de l'extérieur (WAN) et qui veut rentrer vers l'intérieur (LAN) et qui correspond à une réponse est autorisé:</p>
+<div class="highlight"><pre><span></span><code>iptables -A FORWARD -i eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+</code></pre></div>
+
+<h4>Le masquage d'adresse IP source</h4>
+<p>Comme vous le savez, une entête de paquet IP comporte, entre autres, l'adresse IP source et l'adresse IP destination.</p>
+<p>L'adresse IP source est importante. En effet, sans elle, la machine qui reçoit le paquet ne sait pas à qui envoyer la réponse.</p>
+<p>Dans notre exemple, imaginons que le PC1 envoie des paquets vers internet (pour affichier un site internet par exemple...), l'entête des paquets qu'il va envoyer vont logiquement comporter l'adresse IP source. C'est à dire, dans cet exemple l'adresse 192.168.1.20. </p>
+<p>Le problème qui se pose ici est que cette adresse n'est pas une adresse « routable » sur internet. Le site internet qui reçoit les paquets ne pourra donc pas répondre à une adresse locale.</p>
+<p>Voici la solution:</p>
+<p>Nous allons remplacer l'adresse IP source du paquet par l'adresse ip publique de notre routeur/firewall. De cette manière le site internet saura à qui envoyer la réponse.</p>
+<p>Nous pouvons le faire de deux façon différentes. En utilisant la règle « MASQUERADE » ou en utilisant « SNAT ».</p>
+<h5>MASQUERADE</h5>
+<p>cette solution est surtout adaptée quand l'adresse IP de l'interface WAN (eth0 dans notre exemple) n'est pas une adresse IP fixe. Pour chaque paquet, iptables va rechercher l'IP de l'interface eth0 et remplacer l'IP source du paquet par celle-ci:</p>
+<div class="highlight"><pre><span></span><code>iptables -A POSTROUTING -t nat -o eth0 -j MASQUERADE
+</code></pre></div>
+
+<h5>SNAT</h5>
+<p>Cette solution est à utiliser quand l'adresse ip publique est fixe. Même si la solution « masquerade » fonctionne avec une adresse ip fixe, la solution SNAT est plus optimisée car iptables n'a pas à rechercher l'adresse ip de l'interface WAN à chaque paquet (oui oui, il le fait à chaque paquet, n'oubliez pas que netfilter est « stateless »)</p>
+<div class="highlight"><pre><span></span><code>iptables -A POSTROUTING -t nat -o eth0 -j SNAT --to-source <span class="m">89</span>.63.83.128 
+</code></pre></div>
+
+<h3>Sauvegarder la configuration</h3>
+<p>Quand vous ajoutez des règles iptables, celles-ci sont stockées en mémoire. Elles ne seront donc actives que jusqu'au prochain reboot. C'est pour cette raison qu'il faut penser à sauvegarder votre configuration. Pour le faire, il y a plusieurs solutions en fonction de la distribution linux que vous utilisez.</p>
+<h4>RedHat / CentOS</h4>
+<p>en root:</p>
+<p>/sbin/service iptables save</p>
+<p>Cette commande lance le script d'initialisation d'iptables qui va lancer le programme <code>/sbin/iptables-save</code> . Ce programme va écrire la configuration iptables active dans le fichier <code>/etc/sysconfig/iptables</code> . L'ancien fichier est sauvegardé dans <code>/etc/sysconfig/iptables.save</code> . Bien qu'il soit toujours une bonne idée de tester une nouvelle règle iptables avant de l'écrire dans le fichier <code>/etc/sysconfig/iptables</code>, il est possible d'écrire directement dans ce fichier. Cela permet de distribuer rapidement un ensemble de règles iptables sur plusieurs machines. Dans ce cas, à chaque modification du fichier, il faut réappliquer les règles en utilisant la commande <code>/sbin/service iptables restart</code> .</p>
+<h4>Debian / Ubuntu</h4>
+<h5>méthode traditionelle</h5>
+<p>Pour sauvegarder la configuration iptables active dans un fichier:</p>
+<div class="highlight"><pre><span></span><code>iptables-save &gt; /etc/iptables.up.rules
+</code></pre></div>
+
+<p>ensuite pour que la configuration soit chargée au prochaine reboot, vous pouvez créer un script:</p>
+<div class="highlight"><pre><span></span><code>vi /etc/network/if-pre-up.d/iptables
+</code></pre></div>
+
+<p>En plaçant ce script dans ce dossier, il sera lancé juste avant l'activation du réseau. Ainsi votre machine est tout le temps protégée.</p>
+<div class="highlight"><pre><span></span><code> <span class="c1">#!/bin/sh</span>
+ /sbin/iptables-restore &lt; /etc/iptables.up.rules
+</code></pre></div>
+
+<p>il faut ensuite rendre ce script exécutable:</p>
+<div class="highlight"><pre><span></span><code>chmod +x /etc/network/if-pre-up.d/iptables
+</code></pre></div>
+
+<h5>méthode simple</h5>
+<p>Vous pouvez utiliser le paquet « iptables-persistent »</p>
+<p>ce paquet vous propose deux commandes:</p>
+<div class="highlight"><pre><span></span><code>netfilter-persistent save
+netfilter-persistent reload
+</code></pre></div>
+
+<p>Ce programme va créer deux fichiers: <code>/etc/iptables/rules.v4</code> et <code>/etc/iptables/rules.v6</code> . Il vous suffit d'éditer ces fichiers pour modifier la configuration.</p>
+<h5>méthode alternative</h5>
+<p>Cette méthode alternative a pour avantage de pouvoir facilement activer et désactiver le firewall. On crée un script et on le lance directement au démarrage du réseau. Voici un exemple de fichier de configuration de vos interfaces qui va prendre ce script en compte:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># This file describes the network interfaces available on your system</span>
+<span class="c1"># and how to activate them. For more information, see interfaces(5).</span>
+
+<span class="nb">source</span> /etc/network/interfaces.d/*
+
+<span class="c1"># The loopback network interface</span>
+auto lo
+iface lo inet loopback
+
+<span class="c1"># The WAN Interface</span>
+allow-hotplug eno1
+iface eno1 inet dhcp
+        post-up /usr/local/bin/firewall.sh start
+        pre-down /usr/local/bin/firewall.sh stop
+<span class="c1"># The LAN  network interface</span>
+allow-hotplug eno2
+iface eno2 inet static
+    address <span class="m">192</span>.168.1.250
+    netmask <span class="m">255</span>.255.255.0
+</code></pre></div>
+
+<p>Les exemples suivants sont des exemples de scripts comme expliqué ici.</p>
+<h2>Exemples de configurations</h2>
+<h3>Exemple de configuration basique pour un serveur web</h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="nv">IPTBLES</span><span class="o">=</span>/sbin/iptables
+<span class="nv">WAN</span><span class="o">=</span>eth0 <span class="c1">#Nom de l&#39;interface qui sera relié à internet</span>
+<span class="nv">LAN</span><span class="o">=</span>eth1 <span class="c1">#Nom de l&#39;interface qui sera reliée au réseau local</span>
+
+firewall_start<span class="o">()</span> <span class="o">{</span> <span class="c1">#Exécuter lors du routeur.sh start</span>
+
+<span class="c1">#-------------------- INPUT -------------------</span>
+<span class="c1">#Ces règles s&#39;appliquent aux paquets entrants</span>
+
+<span class="c1">#Tout ce qui sort peut rentrer à nouveau </span>
+<span class="nv">$IPTABLES</span> -A INPUT -i <span class="nv">$WAN</span> -m state --state ESTABLISHED,RELATED -j ACCEPT 
+
+<span class="c1">#On autorise le PING sur l&#39;interface WAN (facultatif)</span>
+<span class="nv">$IPTABLES</span> -A INPUT -i <span class="nv">$WAN</span> -p icmp -j ACCEPT
+
+<span class="c1">#On laisse passer tout ce qui rentre dans l&#39;interface lan afin de permettre à nos utilisateurs d&#39;utiliser le DHCP, le DNS...etc.</span>
+<span class="c1">#Mais on aurait aussi pu n&#39;autoriser que certains services.</span>
+<span class="nv">$IPTABLES</span> -A INPUT -i <span class="nv">$LAN</span> -j ACCEPT
+
+<span class="c1">#On ouvre les ports 80 et 443 pour notre serveur web</span>
+<span class="nv">$IPTABLES</span> -A INPUT -p tcp -m tcp --dport <span class="m">80</span> -j ACCEPT
+<span class="nv">$IPTABLES</span> -A INPUT -p tcp -m tcp --dport <span class="m">443</span> -j ACCEPT
+
+<span class="c1">#Tout ce qui ne MATCH pas avec les règles précédente &gt; ON jette !</span>
+<span class="nv">$IPTABLES</span> -P INPUT DROP
+
+<span class="c1">#-------------------- FORWARD -------------------</span>
+<span class="c1">#Ces règles s&#39;appliquent au paquets traversant le routeur</span>
+<span class="c1"># Par defaut, on refuse tout</span>
+<span class="nv">$IPTABLES</span> -P FORWARD DROP
+
+<span class="o">}</span>
+
+firewall_stop<span class="o">()</span> <span class="o">{</span> <span class="c1">#exécuté lors du routeur.sh stop</span>
+
+<span class="c1">#Clear des différentes tables d&#39;iptables et remise à zéro de la configuration.</span>
+<span class="nv">$IPTABLES</span> -F
+<span class="nv">$IPTABLES</span> -t nat -F
+<span class="nv">$IPTABLES</span> -P INPUT ACCEPT
+<span class="nv">$IPTABLES</span> -P FORWARD ACCEPT
+<span class="o">}</span>
+
+firewall_restart<span class="o">()</span> <span class="o">{</span> <span class="c1">#exécuté lors du routeur.sh restart</span>
+firewall_stop
+sleep <span class="m">2</span>
+firewall_start
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in <span class="s1">&#39;start&#39;</span> <span class="o">)</span>
+firewall_start
+<span class="p">;;</span>
+<span class="s1">&#39;stop&#39;</span> <span class="o">)</span>
+firewall_stop
+<span class="p">;;</span>
+<span class="s1">&#39;restart&#39;</span> <span class="o">)</span>
+firewall_restart
+<span class="p">;;</span>
+*<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;usage: -bash {start|stop|restart}&quot;</span>
+<span class="p">;;</span>
+<span class="k">esac</span>
+</code></pre></div>
+
+<h3>Exemple de mise en place d'un routeur</h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+IPTBLES-/sbin/iptables
+<span class="nv">WAN</span><span class="o">=</span>eth0 <span class="c1">#Nom de l&#39;interface qui sera relié à internet</span>
+<span class="nv">LAN</span><span class="o">=</span>eth1 <span class="c1">#Nom de l&#39;interface qui sera reliée au réseau local</span>
+
+firewall_start<span class="o">()</span> <span class="o">{</span> <span class="c1">#Exécuter lors du routeur.sh start</span>
+
+<span class="c1">#-------------------- INPUT -------------------</span>
+<span class="c1">#Ces règles s&#39;appliquent aux paquets entrants</span>
+
+<span class="c1">#Tout ce qui sort peut rentrer à nouveau </span>
+<span class="nv">$IPTABLES</span> -A INPUT -i <span class="nv">$WAN</span> -m state --state ESTABLISHED,RELATED -j ACCEPT 
+
+<span class="c1">#On autorise le PING sur l&#39;interface WAN (facultatif)</span>
+<span class="nv">$IPTABLES</span> -A INPUT -i <span class="nv">$WAN</span> -p icmp -j ACCEPT
+
+<span class="c1">#On laisse passer tout ce qui rentre dans l&#39;interface lan afin de permettre à nos utilisateurs d&#39;utiliser le DHCP, le DNS...etc.</span>
+<span class="c1">#Mais on aurait aussi pu n&#39;autoriser que certains services.</span>
+<span class="nv">$IPTABLES</span> -A INPUT -i <span class="nv">$LAN</span> -j ACCEPT
+
+<span class="c1">#Tout ce qui ne MATCH pas avec les règles précédente &gt; ON jette !</span>
+<span class="nv">$IPTABLES</span> -P INPUT DROP
+
+
+<span class="c1">#-------------------- NAT -------------------</span>
+<span class="c1">#Ces règles effectuent la réécriture d&#39;adresses du NAT</span>
+
+<span class="c1">#Tout ce qui a fini de traverser le routeur (postrouting) et qui sort par le WAN sera NATté</span>
+<span class="nv">$IPTABLES</span> -A POSTROUTING -t nat -o <span class="nv">$WAN</span> -j MASQUERADE
+
+<span class="c1">#Routage du port 80</span>
+<span class="c1">#Tout se qui rentre sur le WAN (input donc) et qui rentre dans le TCP:80 sera rediriger vers 192.168.1.100:80 </span>
+<span class="nv">$IPTABLES</span> -A PREROUTING -t nat -j DNAT -i <span class="nv">$WAN</span> -p tcp --dport <span class="m">80</span> --to-destination <span class="m">192</span>.168.1.100:80 
+
+
+
+<span class="c1">#-------------------- FORWARD -------------------</span>
+<span class="c1">#Ces règles s&#39;appliquent au paquets traversant le routeur</span>
+
+<span class="c1">#Tout ce qui vient du WAN et sort par le LAN et qui correspond à une réponse est autorisé à passer.</span>
+<span class="nv">$IPTABLES</span> -A FORWARD -i <span class="nv">$WAN</span> -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+<span class="c1">#Tout ce qui part du LAN est autorisé à traverser le routeur.</span>
+<span class="nv">$IPTABLES</span> -A FORWARD -i <span class="nv">$LAN</span> -j ACCEPT
+
+<span class="c1">#On autorise les paquets à traverser vers notre pc local uniquement pour le service. Cette règle est complémentaire de la règle NAT de routage du port 80</span>
+<span class="nv">$IPTABLES</span> -A FORWARD -i <span class="nv">$WAN</span> -p tcp --dport <span class="m">80</span> -d <span class="m">192</span>.168.1.100 -j ACCEPT 
+
+
+<span class="c1">#Tout ce qui ne MATCH pas avec les règles précédente &gt; ON jette !</span>
+<span class="nv">$IPTABLES</span> -P FORWARD DROP
+
+
+
+
+<span class="o">}</span>
+
+firewall_stop<span class="o">()</span> <span class="o">{</span> <span class="c1">#exécuté lors du routeur.sh stop</span>
+
+<span class="c1">#Clear des différentes tables d&#39;iptables et remise à zéro de la configuration.</span>
+<span class="nv">$IPTABLES</span> -F
+<span class="nv">$IPTABLES</span> -t nat -F
+<span class="nv">$IPTABLES</span> -P INPUT ACCEPT
+<span class="nv">$IPTABLES</span> -P FORWARD ACCEPT
+<span class="o">}</span>
+
+firewall_restart<span class="o">()</span> <span class="o">{</span> <span class="c1">#exécuté lors du routeur.sh restart</span>
+firewall_stop
+sleep <span class="m">2</span>
+firewall_start
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in <span class="s1">&#39;start&#39;</span> <span class="o">)</span>
+firewall_start
+<span class="p">;;</span>
+<span class="s1">&#39;stop&#39;</span> <span class="o">)</span>
+firewall_stop
+<span class="p">;;</span>
+<span class="s1">&#39;restart&#39;</span> <span class="o">)</span>
+firewall_restart
+<span class="p">;;</span>
+*<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;usage: -bash {start|stop|restart}&quot;</span>
+<span class="p">;;</span>
+<span class="k">esac</span>
+</code></pre></div>
+
+<p>Sources scripts: <a href="https://www.netsh.be/routeur-linux-iptables/">NetSH</a>
+ Bibliographie: ENI Service</p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

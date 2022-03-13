@@ -1,0 +1,396 @@
+<html>
+    <head>
+        <title>    Coubiac - Gestion de l’alimentation de serveurs ESXi avec unvonduleur APC
+</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/normalize.css" />
+        <link rel="stylesheet" href="/theme/css/simplegrid.css" />
+        <link rel="stylesheet" href="/theme/css/pygment.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+    </head>
+
+    <body>
+        <header class="grid grid-pad">
+            <div class="col-1-1 header">
+                    <ul id="navigation">
+                        <li><a href="/">Coubiac</a></li>
+                            <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a></li>
+                            <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a></li>
+                            <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></li>
+                            <li><a href="https://Coubiac.github.io/category/si.html">SI</a></li>
+                            <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a></li>
+                    </ul>
+            </div>
+        </header>
+
+        <div class="grid grid-pad">
+            <section class="col-10-12" id="content">
+    <div class="article">
+        <h1>Gestion de l’alimentation de serveurs ESXi avec unvonduleur APC</h1>
+        <small>publié le 25/06/2018 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/linux.html">[Linux</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/vmware.html">Vmware]</a></span>
+
+        <div class="article-content">
+            <p>Nous utilisons ici une machine DEBIAN 8 fraichement installée (un petit CPU et 256Mo de RAM suffisent)</p>
+<h2>Installation</h2>
+<h3>Connexion de l’onduleur au serveur en USB</h3>
+<p>La connexion se fait à l’aide du câble <strong>USB-RJ45</strong> fourni avec l’onduleur.</p>
+<ul>
+<li>Allumez l'UPS.</li>
+<li>Connectez d'abord le côté RJ45 dans l'UPS (à l'arrière) dans la fiche notée <code>USB</code>.</li>
+<li>Connectez ensuite le côté USB dans un port libre USB de la machine linux</li>
+<li>Vérifiez la connexion en tapant la commande <code>lsusb</code></li>
+<li>Vous devriez obtenir la liste des périphériques USB branchés sur la machine linux et notamment une ligne ressemblant à <code>Bus 001 Device 002: ID 051d:0002 American Power Conversion Back-UPS Pro 500/1000/1500</code></li>
+</ul>
+<h3>Connexion de l’onduleur au réseau ethernet de l’entreprise en utilisant une carte AP9630</h3>
+<p>Le paramétrage de la carte n’est pas traité ici. Pour plus d’informations, se référer au manuel de l’utilisateur de la carte: <a href="/images/UPS-Network-Management-Card-2.pdf">UPS Network Management Card 2</a></p>
+<p>Toutefois, pensez à déclarer l’IP de la machine de gestion linux dans l’interface web de la carte sous le menu <code>Configuration -&gt; PowerChute Clients</code></p>
+<h3>Installation des paquets nécessaires</h3>
+<div class="highlight"><pre><span></span><code>apt-get update <span class="o">&amp;&amp;</span> apt-get install apcupsd sendemail putty-tools
+</code></pre></div>
+
+<h3>Configuration du daemon de gestion de l’onduleur APCUPSD</h3>
+<p>Le démon place ses fichiers de configuration à deux endroits:</p>
+<div class="highlight"><pre><span></span><code>/etc/apcupsd/
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>root@debian:/etc/apcupsd$ ls -l
+total <span class="m">60</span>
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">4488</span> févr. <span class="m">15</span> <span class="m">12</span>:14 apccontrol
+-rw-r--r-- <span class="m">1</span> root root <span class="m">12623</span> févr. <span class="m">15</span> <span class="m">12</span>:15 apcupsd.conf
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">424</span> févr. <span class="m">15</span> <span class="m">10</span>:39 changeme
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">413</span> févr. <span class="m">15</span> <span class="m">10</span>:39 commfailure
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">452</span> févr. <span class="m">15</span> <span class="m">10</span>:39 commok
+-rw-r--r-- <span class="m">1</span> user user <span class="m">662</span> févr. <span class="m">15</span> <span class="m">10</span>:39 hosts.conf
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">617</span> févr. <span class="m">15</span> <span class="m">10</span>:39 killpower
+-rw-r--r-- <span class="m">1</span> user user <span class="m">2344</span> févr. <span class="m">15</span> <span class="m">10</span>:39 multimon.conf
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">752</span> févr. <span class="m">15</span> <span class="m">10</span>:39 offbattery
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">741</span> févr. <span class="m">15</span> <span class="m">10</span>:39 onbattery
+-rwxr-xr-x <span class="m">1</span> user user <span class="m">944</span> févr. <span class="m">15</span> <span class="m">10</span>:39 ups-monitor
+</code></pre></div>
+
+<p>ainsi que le fichier</p>
+<div class="highlight"><pre><span></span><code>/etc/default/apcupsd
+</code></pre></div>
+
+<p>Attention, dans ce fichier la propriété ISCONFIGURED doit être YES car vous n’arriverez pas à démarrer le service.</p>
+<h3>Configuration du démon pour utilisation de la carte AP9630</h3>
+<p>Un fichier de configuration ainsi que 3 scripts vont nous intéresser:</p>
+<p>Fichier de configuration:</p>
+<p><code>/etc/apcupsd/apcupsd.conf</code> -&gt; Configuration générale</p>
+<p>Trois scripts:</p>
+<p><code>/etc/apcupsd/onbattery</code> -&gt; Envoie d’un mail pour notifier la coupure d’électricité</p>
+<p><code>/etc/apcupsd/offbattery</code> -&gt; Envoie d’un mail pour notifier le rétablissement de l’électricité.</p>
+<p><code>/etc/apcupsd/apccontrol</code> -&gt; Procédure d'extinction</p>
+<p>Le fichier <code>apcupsd.conf</code> doit avoir ce genre de configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">## apcupsd.conf v1.1 ##</span>
+UPSNAME UPS01 <span class="c1">#Nom de l&#39;UPS</span>
+UPSCABLE ether <span class="c1">#Type de cable</span>
+UPSTYPE pcnet <span class="c1">#On utilise le driver PowerChute</span>
+LOCKFILE /var/lock
+DEVICE ipaddr:user:passphrase <span class="c1"># Cette propriété peut être laissée vide mais c&#39;est un tout petit peu moins sécurisé</span>
+UPSCLASS standalone
+UPSMODE disable
+ONBATTERYDELAY <span class="m">20</span> <span class="c1">#Au bout de 20 seconde lance le script &quot;onbattery&quot; qui va notifier par mail</span>
+
+<span class="c1">#ATTENTION ! Les trois propriétés suivantes fonctionnent en simultané. La survenue de l&#39;un de ces évènements lance le script apccontrol et donc la procédure d&#39;arret</span>
+BATTERYLEVEL <span class="m">20</span> <span class="c1">#L&#39;onduleur n&#39;a plus que 20% de battery</span>
+MINUTES <span class="m">20</span> <span class="c1">#L&#39;onduleur n&#39;a plus que 20 minutes de batterie</span>
+TIMEOUT <span class="m">600</span> <span class="c1">#L&#39;onduleur est sur batterie depuis 600 secondes. Si on le configure à 0, ce timer est désactivé.</span>
+</code></pre></div>
+
+<p><strong>Attention !</strong> dans la propriété DEVICE, user et passphrase ne correspondent pas au nom d’utilisateur utilisé pour se connecter à l’interface web. Ce nom d’utilisateur et cette passphrase se configurent dans l’interface web de la carte sous:</p>
+<p><code>Configuration -&gt; Shutdown</code></p>
+<p>voici un exemple de script onbattery qui va envoyer un mail de notification (on utilise un smtp ouvert)</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># this shell script if placed in /etc/apcupsd</span>
+<span class="c1"># will be called by /etc/apcupsd/apccontrol when the UPS</span>
+<span class="c1"># goes on batteries.</span>
+<span class="c1">#</span>
+<span class="nv">SYSADMIN</span><span class="o">=</span>administrateur@exemple.com
+<span class="nv">APCUPSD_MAIL</span><span class="o">=</span><span class="s2">&quot;/usr/bin/sendemail&quot;</span>
+<span class="nv">HOSTNAME</span><span class="o">=</span><span class="sb">`</span>hostname<span class="sb">`</span>
+<span class="nv">MSG</span><span class="o">=</span><span class="s2">&quot;COUPURE ELECTRIQUE DANS SALLE SERVEUR&quot;</span>
+<span class="c1">#</span>
+<span class="o">(</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; ==================================================&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; COUPURE ELECTRIQUE EN COURS DANS LA SALLE SERVEUR&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; ==================================================&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; L&#39;onduleur a detecté un probleme et sa batterie a pris le relais&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Ne paniquez pas ! Restez calme ...&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Status de l&#39;onduleur:&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+/sbin/apcaccess status
+<span class="o">)</span> <span class="p">|</span> <span class="nv">$APCUPSD_MAIL</span> -u <span class="s2">&quot;</span><span class="nv">$MSG</span><span class="s2">&quot;</span> -f onduleur@exemple.com -t <span class="nv">$SYSADMIN</span> -s smtp-relay.exemple.com:25
+<span class="nb">exit</span> <span class="m">0</span>
+offbattery qui va notifier du retour à la normale
+<span class="c1"># this shell script if placed in /etc/apcupsd</span>
+<span class="c1"># will be called by /etc/apcupsd/apccontrol when the UPS</span>
+<span class="c1"># goes on batteries.</span>
+<span class="c1">#</span>
+<span class="nv">SYSADMIN</span><span class="o">=</span>administrateur@exemple.com
+<span class="nv">APCUPSD_MAIL</span><span class="o">=</span><span class="s2">&quot;/usr/bin/sendemail&quot;</span>
+<span class="nv">HOSTNAME</span><span class="o">=</span><span class="sb">`</span>hostname<span class="sb">`</span>
+<span class="nv">MSG</span><span class="o">=</span><span class="s2">&quot;ALIMENTATION ELECTRIQUE RETABLIE DANS SALLE SERVEUR&quot;</span>
+<span class="c1">#</span>
+<span class="o">(</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; ==================================================&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; ALIMENTATION ELECTRIQUE RETABLIE DANS LA SALLE SERVEUR&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; ==================================================&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; La salle serveur est à nouveau alimentée electriquement&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; Tout est revenu à la normale... nous sommes sauvés...&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Status de l&#39;onduleur:&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; &quot;</span>
+/sbin/apcaccess status
+<span class="o">)</span> <span class="p">|</span> <span class="nv">$APCUPSD_MAIL</span> -u <span class="s2">&quot;</span><span class="nv">$MSG</span><span class="s2">&quot;</span> -f onduleur@exemple.com -t <span class="nv">$SYSADMIN</span> -s smtp-relay.gmail.com:25
+<span class="nb">exit</span> <span class="m">0</span>
+</code></pre></div>
+
+<p>Ensuite on modifie le fichier apccontrol afin de se logguer en SSH sur les ESXi et lancer une procédure d’extinction. On peut aussi éteindre des serveurs windows physiques. Pensez à bien paramétrer VSPHERE pour bien établir l’ordre d’extinction des VM's</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 1999-2002 Riccardo Facchetti &lt;riccardo@master.oasi.gpa.it&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># for apcupsd release 3.14.12 (29 March 2014) - debian</span>
+<span class="c1">#</span>
+<span class="c1"># platforms/apccontrol. Generated from apccontrol.in by configure.</span>
+<span class="c1">#</span>
+<span class="c1"># Note, this is a generic file that can be used by most</span>
+<span class="c1"># systems. If a particular system needs to have something</span>
+<span class="c1"># special, start with this file, and put a copy in the</span>
+<span class="c1"># platform subdirectory.</span>
+<span class="c1">#</span>
+
+<span class="c1">#</span>
+<span class="c1"># These variables are needed for set up the autoconf other variables.</span>
+<span class="c1">#</span>
+<span class="nv">prefix</span><span class="o">=</span>/usr
+<span class="nv">exec_prefix</span><span class="o">=</span><span class="si">${</span><span class="nv">prefix</span><span class="si">}</span>
+
+<span class="nv">APCPID</span><span class="o">=</span>/var/run/apcupsd.pid
+<span class="nv">APCUPSD</span><span class="o">=</span>/sbin/apcupsd
+<span class="nv">SHUTDOWN</span><span class="o">=</span>/sbin/shutdown
+<span class="nv">SCRIPTSHELL</span><span class="o">=</span>/bin/sh
+<span class="nv">SCRIPTDIR</span><span class="o">=</span>/etc/apcupsd
+<span class="nv">WALL</span><span class="o">=</span>wall
+
+<span class="nb">export</span> <span class="nv">SYSADMIN</span><span class="o">=</span>root
+<span class="nb">export</span> <span class="nv">APCUPSD_MAIL</span><span class="o">=</span><span class="s2">&quot;mail&quot;</span>
+<span class="k">if</span> <span class="o">[</span> -f <span class="nv">$SCRIPTDIR</span>/config <span class="o">]</span><span class="p">;</span> <span class="k">then</span> . <span class="nv">$SCRIPTDIR</span>/config <span class="p">;</span> <span class="k">fi</span>
+
+<span class="c1">#</span>
+<span class="c1"># Concatenate all output from this script to the events file</span>
+<span class="c1"># Note, the following kills the script in a power fail situation</span>
+<span class="c1"># where the disks are mounted read-only.</span>
+<span class="c1"># exec &gt;&gt;/var/log/apcupsd.events 2&gt;&amp;1</span>
+
+<span class="c1">#</span>
+<span class="c1"># This piece is to substitute the default behaviour with your own script,</span>
+<span class="c1"># perl, or C program.</span>
+<span class="c1"># You can customize every single command creating an executable file (may be a</span>
+<span class="c1"># script or a compiled program) and calling it the same as the $1 parameter</span>
+<span class="c1"># passed by apcupsd to this script.</span>
+<span class="c1">#</span>
+<span class="c1"># After executing your script, apccontrol continues with the default action.</span>
+<span class="c1"># If you do not want apccontrol to continue, exit your script with exit</span>
+<span class="c1"># code 99. E.g. &quot;exit 99&quot;.</span>
+<span class="c1">#</span>
+<span class="c1"># WARNING: the apccontrol file will be overwritten every time you update your</span>
+<span class="c1"># apcupsd, doing `make install&#39;. Your own customized scripts will _not_ be</span>
+<span class="c1"># overwritten. If you wish to make changes to this file (discouraged), you</span>
+<span class="c1"># should change apccontrol.sh.in and then rerun the configure process.</span>
+<span class="c1">#</span>
+<span class="k">if</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">SCRIPTDIR</span><span class="si">}</span>/<span class="si">${</span><span class="nv">1</span><span class="si">}</span> -a -x <span class="si">${</span><span class="nv">SCRIPTDIR</span><span class="si">}</span>/<span class="si">${</span><span class="nv">1</span><span class="si">}</span> <span class="o">]</span>
+<span class="k">then</span>
+<span class="si">${</span><span class="nv">SCRIPTDIR</span><span class="si">}</span>/<span class="si">${</span><span class="nv">1</span><span class="si">}</span> <span class="si">${</span><span class="nv">2</span><span class="si">}</span> <span class="si">${</span><span class="nv">3</span><span class="si">}</span> <span class="si">${</span><span class="nv">4</span><span class="si">}</span>
+<span class="c1"># exit code 99 means he does not want us to do default action</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="o">=</span> <span class="m">99</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
+<span class="nb">exit</span> <span class="m">0</span>
+<span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> in
+killpower<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Apccontrol doing: </span><span class="si">${</span><span class="nv">APCUPSD</span><span class="si">}</span><span class="s2"> --killpower on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+sleep <span class="m">30</span>
+<span class="si">${</span><span class="nv">APCUPSD</span><span class="si">}</span> --killpower
+<span class="nb">echo</span> <span class="s2">&quot;Apccontrol has done: </span><span class="si">${</span><span class="nv">APCUPSD</span><span class="si">}</span><span class="s2"> --killpower on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+commfailure<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Warning communications lost with UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+commok<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Communications restored with UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+<span class="c1">#</span>
+<span class="c1"># powerout, onbattery, offbattery, mainsback events occur</span>
+<span class="c1"># in that order.</span>
+<span class="c1">#</span>
+powerout<span class="o">)</span>
+<span class="p">;;</span>
+onbattery<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Power failure on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Running on batteries.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+offbattery<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Power has returned on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">...&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+mainsback<span class="o">)</span>
+<span class="k">if</span> <span class="o">[</span> -f /etc/apcupsd/powerfail <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
+<span class="nb">printf</span> <span class="s2">&quot;Continuing with shutdown.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="k">fi</span>
+<span class="p">;;</span>
+failing<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Battery power exhausted on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Doing shutdown.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+timeout<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Battery time limit exceeded on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Doing shutdown.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+loadlimit<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Remaining battery charge below limit on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Doing shutdown.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+runlimit<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Remaining battery runtime below limit on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Doing shutdown.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+doreboot<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2"> initiating Reboot Sequence&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="si">${</span><span class="nv">SHUTDOWN</span><span class="si">}</span> -r now <span class="s2">&quot;apcupsd UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2"> initiated reboot&quot;</span>
+<span class="p">;;</span>
+doshutdown<span class="o">)</span>
+<span class="c1">##############################################################################################</span>
+<span class="c1">#-----------------------------------PERSONNALISATION------------------------------------------</span>
+<span class="c1">##############################################################################################</span>
+<span class="nb">echo</span> <span class="s2">&quot;****** Executing ESXi(s) and Windows Servers Shutdown Command ******&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;****** Arret de ESXi 1 ******&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+
+/usr/bin/plink -ssh -2 -pw monsuperpassword root@192.168.1.1 <span class="s2">&quot;/sbin/shutdown.sh &amp;&amp; /sbin/poweroff&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;***** Arret de ESXi 2 *****&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+/usr/bin/plink -ssh -2 -pw monsuperpassword root@192.168.1.2 <span class="s2">&quot;/sbin/shutdown.sh &amp;&amp; /sbin/poweroff&quot;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;**** Arret du Serveur Windows Physique&quot;</span>
+net rpc shutdown -f -t <span class="m">0</span> -C <span class="s1">&#39;Panne Electrique&#39;</span> -U administrateur%monsuperpassword -I <span class="m">192</span>.168.1.3
+
+<span class="nb">echo</span> <span class="s2">&quot;UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2"> initiated Shutdown Sequence&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="si">${</span><span class="nv">SHUTDOWN</span><span class="si">}</span> -h now <span class="s2">&quot;apcupsd UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2"> initiated shutdown&quot;</span>
+<span class="c1">###############################################################################################</span>
+
+<span class="p">;;</span>
+annoyme<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Power problems with UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Please logoff.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+emergency<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Emergency Shutdown. Possible battery failure on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+changeme<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Emergency! Batteries have failed on UPS </span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">. Change them NOW&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+remotedown<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Remote Shutdown. Beginning Shutdown Sequence.&quot;</span> <span class="p">|</span> <span class="si">${</span><span class="nv">WALL</span><span class="si">}</span>
+<span class="p">;;</span>
+startselftest<span class="o">)</span>
+<span class="p">;;</span>
+endselftest<span class="o">)</span>
+<span class="p">;;</span>
+battdetach<span class="o">)</span>
+<span class="p">;;</span>
+battattach<span class="o">)</span>
+<span class="p">;;</span>
+*<span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="si">${</span><span class="nv">0</span><span class="p">##*/</span><span class="si">}</span><span class="s2"> command&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; warning: this script is intended to be launched by&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot; apcupsd and should never be launched by users.&quot;</span>
+<span class="nb">exit</span> <span class="m">1</span>
+<span class="p">;;</span>
+<span class="k">esac</span>
+</code></pre></div>
+
+<p>Voila. Il ne reste plus qu’a réinitialiser le service apcupsd</p>
+<p><code>/etc/init.d/apcupsd force-reload</code></p>
+<h3>Mise en place des scripts CGI</h3>
+<p>Un certain nombre de scripts CGI existent afin de contrôler l’état de l’onduleur à distance.</p>
+<p>Sur DEBIAN, il faut installer le paquet apcupsd-cgi et un serveur Web pour pouvoir les consulter à distance</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On install apache et apcupsd-cgi</span>
+apt-get update <span class="o">&amp;&amp;</span> apt-get install apache2
+<span class="c1">#on active CGI avec apache</span>
+a2enmod cgi
+<span class="c1">#on installe le l&#39;add-on de apcupsd</span>
+apt-get install apcupsd-cgi
+<span class="c1"># on vérifie que les scripts sont bien présents</span>
+ls -l /usr/lib/cgi-bin/apcupsd/
+total <span class="m">112</span>
+-rwxr-xr-x <span class="m">1</span> root root <span class="m">27040</span> avril <span class="m">14</span>  <span class="m">2015</span> multimon.cgi
+-rwxr-xr-x <span class="m">1</span> root root <span class="m">23104</span> avril <span class="m">14</span>  <span class="m">2015</span> upsfstats.cgi
+-rwxr-xr-x <span class="m">1</span> root root <span class="m">27040</span> avril <span class="m">14</span>  <span class="m">2015</span> upsimage.cgi
+-rwxr-xr-x <span class="m">1</span> root root <span class="m">31296</span> avril <span class="m">14</span>  <span class="m">2015</span> upsstats.cgi
+</code></pre></div>
+
+<p>On peut donc maintenant accéder à l’interface Web par l’adresse:</p>
+<p><code>http://ip-de-la-machine-debian/cgi-bin/apcupsd/multimon.cgi</code></p>
+<p><img alt="liste des onduleur" src="/images/cgifig1.jpg"></p>
+<p>Et en cliquant sur le lien:</p>
+<p><img alt="etat de l'onduleur" src="/images/cgifig2.jpg"></p>
+        </div>
+
+    </div>
+            </section>
+
+            <aside class="col-2-12" id="side">
+
+                        <div class="widget cat">
+                            <h2>Catégories</h2>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/dev.html">Dev</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/linux.html">Linux</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/si.html">SI</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://Coubiac.github.io/category/windows.html">Windows</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Liens</h2>
+                                <div class="cat-link">
+                                    <a href="https://vlsm.triscel.ovh">Calcul VLSM</a>
+                                </div>
+                        </div>
+
+                        <div class="widget">
+                            <h2>Social</h2>
+                                <div class="cat-link">
+                                    <a href="https://www.linkedin.com/in/benoitgrisot">linkedin</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://github.com/Coubiac">github</a>
+                                </div>
+                                <div class="cat-link">
+                                    <a href="https://twitter.com/benoit_grisot">twitter</a>
+                                </div>
+                        </div>
+
+
+            </aside>
+        </div>
+        <footer>
+            <div class="grid grid-pad">
+                <div class="col-1-1 footer">
+Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org/">Python</a>.                 </div>
+            </div>
+        </footer>
+    </body>
+</html>
