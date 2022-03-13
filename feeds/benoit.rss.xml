@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Coubiac - Benoit</title><link>https://Coubiac.github.io/</link><description></description><lastBuildDate>Thu, 10 Mar 2022 19:32:33 +0100</lastBuildDate><item><title>"Débuter et survivre dans VIM"</title><link>https://Coubiac.github.io/debuter-et-survivre-dans-vim.html</link><description>&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
+<rss version="2.0"><channel><title>Coubiac - Benoît</title><link>https://Coubiac.github.io/</link><description></description><lastBuildDate>Sun, 13 Mar 2022 21:58:33 +0100</lastBuildDate><item><title>Déclarer un proxy pour acceder à internet depuis votre serveur linux</title><link>https://Coubiac.github.io/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html</link><description>&lt;p&gt;Si votre serveur doit passer par un proxy pour acceder à internet, il y a plusieurs moyens de le déclarer&lt;/p&gt;
+&lt;h1&gt;Déclaration pour tous les utilisateurs:&lt;/h1&gt;
+&lt;p&gt;Vous pouvez utiliser la variable &lt;code&gt;http_proxy&lt;/code&gt; .&lt;/p&gt;
+&lt;p&gt;il suffit d'ajouter une des lignes suivantes dans le fichier &lt;code&gt;/etc/profile&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://server-ip:port/
+
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://proxy-server.acme.fr:3128/
+
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://USERNAME:PASSWORD@proxy-server.acme.fr:3128/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Déclaration pour un utilisateur&lt;/h1&gt;
+&lt;p&gt;Vous pouvez utiliser la même méthode que précédement mais dans le fichier &lt;code&gt;/home/coubiac/.bash_profile&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://USERNAME:PASSWORD@proxy-server.acme.fr:3128/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Benoît</dc:creator><pubDate>Sun, 13 Mar 2022 21:58:33 +0100</pubDate><guid isPermaLink="false">tag:coubiac.github.io,2022-03-13:/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html</guid><category>Linux</category><category>[proxy]</category></item><item><title>"Débuter et survivre dans VIM"</title><link>https://Coubiac.github.io/debuter-et-survivre-dans-vim.html</link><description>&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;:q  : sort
 :q! : force à sortir et abandonner les modifications
 :w  : enregistre

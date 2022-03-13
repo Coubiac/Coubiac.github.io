@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Coubiac</title><link href="https://Coubiac.github.io/" rel="alternate"></link><link href="https://Coubiac.github.io/feeds/all.atom.xml" rel="self"></link><id>https://Coubiac.github.io/</id><updated>2022-03-10T19:32:33+01:00</updated><entry><title>"Débuter et survivre dans VIM"</title><link href="https://Coubiac.github.io/debuter-et-survivre-dans-vim.html" rel="alternate"></link><published>2022-03-10T19:32:33+01:00</published><updated>2022-03-10T19:32:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2022-03-10:/debuter-et-survivre-dans-vim.html</id><summary type="html">&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Coubiac</title><link href="https://Coubiac.github.io/" rel="alternate"></link><link href="https://Coubiac.github.io/feeds/all.atom.xml" rel="self"></link><id>https://Coubiac.github.io/</id><updated>2022-03-13T21:58:33+01:00</updated><entry><title>Déclarer un proxy pour acceder à internet depuis votre serveur linux</title><link href="https://Coubiac.github.io/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html" rel="alternate"></link><published>2022-03-13T21:58:33+01:00</published><updated>2022-03-13T21:58:33+01:00</updated><author><name>Benoît</name></author><id>tag:coubiac.github.io,2022-03-13:/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html</id><summary type="html">&lt;p&gt;Si votre serveur doit passer par un proxy pour acceder à internet, il y a plusieurs moyens de le déclarer&lt;/p&gt;
+&lt;h1&gt;Déclaration pour tous les utilisateurs:&lt;/h1&gt;
+&lt;p&gt;Vous pouvez utiliser la variable &lt;code&gt;http_proxy&lt;/code&gt; .&lt;/p&gt;
+&lt;p&gt;il suffit d'ajouter une des lignes suivantes dans le fichier &lt;code&gt;/etc/profile&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://server-ip:port …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Si votre serveur doit passer par un proxy pour acceder à internet, il y a plusieurs moyens de le déclarer&lt;/p&gt;
+&lt;h1&gt;Déclaration pour tous les utilisateurs:&lt;/h1&gt;
+&lt;p&gt;Vous pouvez utiliser la variable &lt;code&gt;http_proxy&lt;/code&gt; .&lt;/p&gt;
+&lt;p&gt;il suffit d'ajouter une des lignes suivantes dans le fichier &lt;code&gt;/etc/profile&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://server-ip:port/
+
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://proxy-server.acme.fr:3128/
+
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://USERNAME:PASSWORD@proxy-server.acme.fr:3128/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1&gt;Déclaration pour un utilisateur&lt;/h1&gt;
+&lt;p&gt;Vous pouvez utiliser la même méthode que précédement mais dans le fichier &lt;code&gt;/home/coubiac/.bash_profile&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://USERNAME:PASSWORD@proxy-server.acme.fr:3128/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Linux"></category><category term="[proxy]"></category></entry><entry><title>"Débuter et survivre dans VIM"</title><link href="https://Coubiac.github.io/debuter-et-survivre-dans-vim.html" rel="alternate"></link><published>2022-03-10T19:32:33+01:00</published><updated>2022-03-10T19:32:33+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2022-03-10:/debuter-et-survivre-dans-vim.html</id><summary type="html">&lt;h1&gt;SORTIR de Vim&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;:q  : sort
 :q! : force à sortir et abandonner les modifications
 :w  : enregistre

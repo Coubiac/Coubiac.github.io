@@ -1,6 +1,7 @@
 <html>
     <head>
-        <title>Coubiac - Categories</title>
+        <title>    Coubiac - Déclarer un proxy pour acceder à internet depuis votre serveur linux
+</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="/theme/css/normalize.css" />
         <link rel="stylesheet" href="/theme/css/simplegrid.css" />
@@ -24,14 +25,31 @@
 
         <div class="grid grid-pad">
             <section class="col-10-12" id="content">
-    <h1>Categories on Coubiac</h1>
-    <ul>
-        <li><a href="https://Coubiac.github.io/category/dev.html">Dev</a> (1)</li>
-        <li><a href="https://Coubiac.github.io/category/linux.html">Linux</a> (7)</li>
-        <li><a href="https://Coubiac.github.io/category/reseau.html">Réseau</a> (1)</li>
-        <li><a href="https://Coubiac.github.io/category/si.html">SI</a> (1)</li>
-        <li><a href="https://Coubiac.github.io/category/windows.html">Windows</a> (3)</li>
-    </ul>
+    <div class="article">
+        <h1>Déclarer un proxy pour acceder à internet depuis votre serveur linux</h1>
+        <small>publié le 13/03/2022 dans <a href="https://Coubiac.github.io/category/linux.html">Linux</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/proxy.html">[proxy]</a></span>
+
+        <div class="article-content">
+            <p>Si votre serveur doit passer par un proxy pour acceder à internet, il y a plusieurs moyens de le déclarer</p>
+<h1>Déclaration pour tous les utilisateurs:</h1>
+<p>Vous pouvez utiliser la variable <code>http_proxy</code> .</p>
+<p>il suffit d'ajouter une des lignes suivantes dans le fichier <code>/etc/profile</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://server-ip:port/
+
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://proxy-server.acme.fr:3128/
+
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://USERNAME:PASSWORD@proxy-server.acme.fr:3128/
+</code></pre></div>
+
+<h1>Déclaration pour un utilisateur</h1>
+<p>Vous pouvez utiliser la même méthode que précédement mais dans le fichier <code>/home/coubiac/.bash_profile</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://USERNAME:PASSWORD@proxy-server.acme.fr:3128/
+</code></pre></div>
+        </div>
+
+    </div>
             </section>
 
             <aside class="col-2-12" id="side">
