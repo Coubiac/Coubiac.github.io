@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>    Coubiac - Réseau
+        <title>    Coubiac - "Fonctionnement du DHCP avec un Boot PXE"
 </title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="/theme/css/normalize.css" />
@@ -25,31 +25,32 @@
 
         <div class="grid grid-pad">
             <section class="col-10-12" id="content">
-            <div class="article-index">
-                <div class="grid grid-pad">
-                    <div class="col-8-12">
-                        <h3><a href="https://Coubiac.github.io/fonctionnement-du-dhcp-avec-un-boot-pxe.html">"Fonctionnement du DHCP avec un Boot PXE"</a></h3>
-                        <small>publié le 03/04/2022</small>
-                        <small>| tags : </small>                                <span class="tag"><a href="https://Coubiac.github.io/tag/pxe.html">[pxe</a>,</span>
-                                <span class="tag"><a href="https://Coubiac.github.io/tag/dhcp.html">dhcp</a>,</span>
-                                <span class="tag"><a href="https://Coubiac.github.io/tag/wds.html">wds]</a></span>
-                    </div>
-                    <div class="col-4-12">
-                    </div>
-                </div>
-            </div>
-            <div class="article-index">
-                <div class="grid grid-pad">
-                    <div class="col-8-12">
-                        <h3><a href="https://Coubiac.github.io/fonctionnement-et-parametrage-dun-firewall-avec-netfilter-et-iptables.html">"Fonctionnement et paramétrage d'un firewall avec Netfilter et IPTABLES"</a></h3>
-                        <small>publié le 05/08/2018</small>
-                        <small>| tags : </small>                                <span class="tag"><a href="https://Coubiac.github.io/tag/firewall.html">[firewall</a>,</span>
-                                <span class="tag"><a href="https://Coubiac.github.io/tag/securite.html">securite]</a></span>
-                    </div>
-                    <div class="col-4-12">
-                    </div>
-                </div>
-            </div>
+    <div class="article">
+        <h1>"Fonctionnement du DHCP avec un Boot PXE"</h1>
+        <small>publié le 03/04/2022 dans <a href="https://Coubiac.github.io/category/reseau.html">Réseau</a></small>
+        <small>| tags : </small>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/pxe.html">[pxe</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/dhcp.html">dhcp</a>,</span>
+                <span class="tag"><a href="https://Coubiac.github.io/tag/wds.html">wds]</a></span>
+
+        <div class="article-content">
+            <h2>Fonctionnement normal</h2>
+<p>Dans un contexte de boot par le réseau PXE, le fonctionnement normal implique juste quelques échanges de packets DHCP.
+Nous avons donc trois acteurs: Le serveur DHCP, Le serveur PXE, et le client.</p>
+<p>Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP.</p>
+<ol>
+<li>Le client diffuse (Broadcast) un packet DHCP demandant l'adresse des serveurs DHCP (serveurs qui peuvent distribuer des adresses IP). C'est le "D" de DORA, le DHCP DISCOVER. C'est ce qu'on appelle une découverte, le client cherche les serveurs. Comme il veut booter sur le réseau il va indiquer dans le même packet qu'il recherche des serveurs PXE (option DHCP 60). <img alt="DHCP Discover avec PXE" src="/images/Boot-PXE-DHCP/DHCP-Discover.jpeg"></li>
+<li>Le serveur DHCP répond par un Broadcast (diffusion) pour indiquer au client qu'il est un serveur d'adresses IP. Il lui indique aussi l'adresse IP qu'il compte lui attribuer si l'échange va jusqu'au bout. C'est le "O" de DORA, le DHCP OFFER. <img alt="DHCP Offer sans PXE" src="/images/Boot-PXE-DHCP/DHCP-Offer1.jpeg"></li>
+<li>Le serveur PXE répond lui aussi (eh oui...) pour indiquer qu'il est serveur de démarrage PXE. C'est encore un "O" de DORA, un autre DHCP OFFER ! <img alt="DHCP Offer avec PXE" src="/images/Boot-PXE-DHCP/DHCP-Offer2.png"></li>
+<li>Le client envoie au serveur DHCP un message demandant une adresse IP. Celle proposée par le serveur DHCP à l'étape 2. C'est le "R" de DORA, le DHCP REQUEST.<a href="/images/Boot-PXE-DHCP/DHCP-Request1.png">DHCP Request</a></li>
+<li>Le Serveur DHCP répond par un DHCP ACK pour confirmer qu'il a bien attribuer l'adresse au client. C'est le "A" de DORA. <a href="/images/Boot-PXE-DHCP/DHCP-ACK1.png">DHCP ACK</a></li>
+<li>Le client va envoyer une requete au serveur PXE pour lui demander le chemin du programme de boot (NBP, Network Boot Program). <a href="/images/Boot-PXE-DHCP/DHCPProxy-Request1.png">proxyDHCP Request</a></li>
+<li>Le serveur PXE répond avec le chemin du NBP. <a href="/images/Boot-PXE-DHCP/DHCPProxy-ACK.png">proxyDHCP ACK</a></li>
+</ol>
+<p>La suite bientôt...</p>
+        </div>
+
+    </div>
             </section>
 
             <aside class="col-2-12" id="side">
