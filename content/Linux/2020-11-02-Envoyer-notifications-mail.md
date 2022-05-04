@@ -15,10 +15,10 @@ Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre
 # Installation de Postfix
 
 On commence par mettre à jour le système et installer Postfix
-{% highlight bash %}
+```bash
 ~# apt-get update && apt-get upgrade
 ~# apt-get install libsasl2-modules postfix
-{% endhighlight %}
+```
 
 Postfix va lancer l'assistant d'installation:
 
@@ -43,97 +43,97 @@ Vous pouvez consulter la documentation google à [cette adresse][1]
 
 il faut ensuite modifier le fichier `/etc/postfix/main.cf` afin de modifier la valeur `myhostname` avec notre nom d'hôte pleinement qualifié (fqdn)
 
-{% highlight bash %}
+```bash
 myhostname = mail.exemple.fr
-{% endhighlight %}
+```
 
 Nous allons maintenant ajouter le mot de passe du compte gmail (Attention, si vous avez activé l'authentification à deux facteurs de bien utilisé le mot de passe généré plus haut...). Nous allons pour cela modifier le fichier `/etc/postfix/sasl/sasl_passwd`
 
-{% highlight bash %}
+```bash
 ~# vi /etc/postfix/sasl/sasl_passwd
-{% endhighlight %}
+```
 
 insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):
-{% highlight bash %}
+```bash
 [smtp.gmail.com]:587 username@gmail.com:password
-{% endhighlight %}
+```
 
 On peut maintenant utiliser la commande `postmap`pour générer un fichier de bdd de hash:
 
-{% highlight bash %}
+```bash
 ~# postmap /etc/postfix/sasl/sasl_passwd
-{% endhighlight %}
+```
 
 Nous allons sécuriser un peu l'accès aux fichiers:
-{% highlight bash %}
+```bash
 ~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
 ~# chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db
-{% endhighlight %}
+```
 
 ## Configurer le relay postfix
 
 Nous allons modifier le fichier `main.cf` afin de relayer le courrier vers le smtp de gmail:
 
-{% highlight bash %}
+```bash
 ~# vi /etc/postfix/main.cf
-{% endhighlight %}
+```
 
 On modifie la valeur `relayhost`:
 
-{% highlight bash %}
+```bash
 relayhost = [smtp.gmail.com]:587
-{% endhighlight %}
+```
 
 Ensuite on ajoute ces lignes pour activer l'authentification:
 
-{% highlight bash %}
+```bash
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
 smtp_tls_security_level = encrypt
 smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
-{% endhighlight %}
+```
 
 ## Configurer l'adresse mail de root
 
 on edite le fichier `/etc/aliases`
-{% highlight bash %}
+```bash
 vi /etc/aliases
-{% endhighlight %}
+```
 
 le fichier doit ressembler à
-{% highlight bash %}
+```bash
 # See man 5 aliases for format
 postmaster: root
 root: username@domaine.com # On ajoute cette ligne avec l'adresse mail de l'admin du serveur
-{% endhighlight %}
+```
 
 On compile les alias:
-{% highlight bash %}
+```bash
 newaliases
-{% endhighlight %}
+```
 
 on redémarre ensuite postfix
-{% highlight bash %}
+```bash
 service postfix restart
-{% endhighlight %}
+```
 ## Test d'envoi de mail
 
 On peut utiliser sendmail pour tester l'envoi d'un mail (attention le point . à la fin est important):
 
-{% highlight bash %}
+```bash
 # sendmail root
 From: monserveur
 Subject: Mail test
 Ceci est un test
 .
-{% endhighlight %}
+```
 
 Vous pouvez vérifier que tout s'est bien passé en consultant les logs:
 
-{% highlight bash %}
+```bash
 tail -f /var/log/mail.log
-{% endhighlight %}
+```
 
 [1]: https://support.google.com/mail/answer/185833?hl=fr
 

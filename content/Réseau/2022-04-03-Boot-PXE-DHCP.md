@@ -11,8 +11,9 @@ tags: [pxe,dhcp,wds]
 Dans un contexte de boot par le réseau PXE, le fonctionnement normal implique juste quelques échanges de packets DHCP.
 Nous avons donc trois acteurs: Le serveur DHCP, Le serveur PXE, et le client.
 
-Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP.
+Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP...
 
+Mais, observons ce qu'il se passe quand nous avons un serveur de déploiement PXE:
 
 
 1. Le client diffuse (Broadcast) un packet DHCP demandant l'adresse des serveurs DHCP (serveurs qui peuvent distribuer des adresses IP). C'est le "D" de DORA, le DHCP DISCOVER. C'est ce qu'on appelle une découverte, le client cherche les serveurs. Comme il veut booter sur le réseau il va indiquer dans le même packet qu'il recherche des serveurs PXE (option DHCP 60). ![DHCP Discover avec PXE](/images/Boot-PXE-DHCP/DHCP-Discover.jpeg)
@@ -36,4 +37,5 @@ Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un é
 7. Le serveur PXE répond avec le chemin du NBP. ![proxyDHCP ACK](/images/Boot-PXE-DHCP/DHCPProxy-ACK.png)
 
 
-La suite bientôt...
+À ce stade, le démarrage PXE de base est effectué. Et tout fonctionne bien ***tant que le PC client et le serveur sont sur le même réseau...*** Eh oui, que se passerai t'il si le PC et le serveurs étaient sur des réseaux différents ?
+
