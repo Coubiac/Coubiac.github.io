@@ -36,10 +36,11 @@
         <div class="article-content">
             <p>Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.</p>
 <h1>Installation de Postfix</h1>
-<p _="%" endhighlight>On commence par mettre à jour le système et installer Postfix
-{% highlight bash %}
-~# apt-get update &amp;&amp; apt-get upgrade
-~# apt-get install libsasl2-modules postfix</p>
+<p>On commence par mettre à jour le système et installer Postfix</p>
+<div class="highlight"><pre><span></span><code>~# apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade
+~# apt-get install libsasl2-modules postfix
+</code></pre></div>
+
 <p>Postfix va lancer l'assistant d'installation:</p>
 <p><img alt="assistant1" src="/images/postfix/screen1.png"></p>
 <p>Ensuite postfix va vous demander de choisir un type d'installation. Vous allez choisir <code>site internet</code></p>
@@ -51,60 +52,74 @@
 Vous pouvez consulter la documentation google à <a href="https://support.google.com/mail/answer/185833?hl=fr">cette adresse</a></p>
 <h2>Paramétrage de postfix</h2>
 <p>il faut ensuite modifier le fichier <code>/etc/postfix/main.cf</code> afin de modifier la valeur <code>myhostname</code> avec notre nom d'hôte pleinement qualifié (fqdn)</p>
-<p _="%" endhighlight>{% highlight bash %}
-myhostname = mail.exemple.fr</p>
+<div class="highlight"><pre><span></span><code><span class="nv">myhostname</span> <span class="o">=</span> mail.exemple.fr
+</code></pre></div>
+
 <p>Nous allons maintenant ajouter le mot de passe du compte gmail (Attention, si vous avez activé l'authentification à deux facteurs de bien utilisé le mot de passe généré plus haut...). Nous allons pour cela modifier le fichier <code>/etc/postfix/sasl/sasl_passwd</code></p>
-<p _="%" endhighlight>{% highlight bash %}
-~# vi /etc/postfix/sasl/sasl_passwd</p>
-<p _="%" endhighlight>insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):
-{% highlight bash %}
-[smtp.gmail.com]:587 username@gmail.com:password</p>
+<div class="highlight"><pre><span></span><code>~# vi /etc/postfix/sasl/sasl_passwd
+</code></pre></div>
+
+<p>insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>smtp.gmail.com<span class="o">]</span>:587 username@gmail.com:password
+</code></pre></div>
+
 <p>On peut maintenant utiliser la commande <code>postmap</code>pour générer un fichier de bdd de hash:</p>
-<p _="%" endhighlight>{% highlight bash %}
-~# postmap /etc/postfix/sasl/sasl_passwd</p>
-<p _="%" endhighlight>Nous allons sécuriser un peu l'accès aux fichiers:
-{% highlight bash %}
-~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
-~# chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db</p>
+<div class="highlight"><pre><span></span><code>~# postmap /etc/postfix/sasl/sasl_passwd
+</code></pre></div>
+
+<p>Nous allons sécuriser un peu l'accès aux fichiers:</p>
+<div class="highlight"><pre><span></span><code>~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
+~# chmod <span class="m">0600</span> /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db
+</code></pre></div>
+
 <h2>Configurer le relay postfix</h2>
 <p>Nous allons modifier le fichier <code>main.cf</code> afin de relayer le courrier vers le smtp de gmail:</p>
-<p _="%" endhighlight>{% highlight bash %}
-~# vi /etc/postfix/main.cf</p>
+<div class="highlight"><pre><span></span><code>~# vi /etc/postfix/main.cf
+</code></pre></div>
+
 <p>On modifie la valeur <code>relayhost</code>:</p>
-<p _="%" endhighlight>{% highlight bash %}
-relayhost = [smtp.gmail.com]:587</p>
+<div class="highlight"><pre><span></span><code><span class="nv">relayhost</span> <span class="o">=</span> <span class="o">[</span>smtp.gmail.com<span class="o">]</span>:587
+</code></pre></div>
+
 <p>Ensuite on ajoute ces lignes pour activer l'authentification:</p>
-<p _="%" endhighlight>{% highlight bash %}
-smtp_sasl_auth_enable = yes
-smtp_sasl_security_options = noanonymous
-smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
-smtp_tls_security_level = encrypt
-smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt</p>
+<div class="highlight"><pre><span></span><code><span class="nv">smtp_sasl_auth_enable</span> <span class="o">=</span> yes
+<span class="nv">smtp_sasl_security_options</span> <span class="o">=</span> noanonymous
+<span class="nv">smtp_sasl_password_maps</span> <span class="o">=</span> hash:/etc/postfix/sasl/sasl_passwd
+<span class="nv">smtp_tls_security_level</span> <span class="o">=</span> encrypt
+<span class="nv">smtp_tls_CAfile</span> <span class="o">=</span> /etc/ssl/certs/ca-certificates.crt
+</code></pre></div>
+
 <h2>Configurer l'adresse mail de root</h2>
-<p _="%" endhighlight>on edite le fichier <code>/etc/aliases</code>
-{% highlight bash %}
-vi /etc/aliases</p>
-<p _="%" bash highlight>le fichier doit ressembler à</p>
-<h1>See man 5 aliases for format</h1>
-<p _="%" endhighlight>postmaster: root
-root: username@domaine.com # On ajoute cette ligne avec l'adresse mail de l'admin du serveur</p>
-<p _="%" endhighlight>On compile les alias:
-{% highlight bash %}
-newaliases</p>
-<p _="%" endhighlight>on redémarre ensuite postfix
-{% highlight bash %}
-service postfix restart</p>
+<p>on edite le fichier <code>/etc/aliases</code></p>
+<div class="highlight"><pre><span></span><code>vi /etc/aliases
+</code></pre></div>
+
+<p>le fichier doit ressembler à</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># See man 5 aliases for format</span>
+postmaster: root
+root: username@domaine.com <span class="c1"># On ajoute cette ligne avec l&#39;adresse mail de l&#39;admin du serveur</span>
+</code></pre></div>
+
+<p>On compile les alias:</p>
+<div class="highlight"><pre><span></span><code>newaliases
+</code></pre></div>
+
+<p>on redémarre ensuite postfix</p>
+<div class="highlight"><pre><span></span><code>service postfix restart
+</code></pre></div>
+
 <h2>Test d'envoi de mail</h2>
 <p>On peut utiliser sendmail pour tester l'envoi d'un mail (attention le point . à la fin est important):</p>
-<p>{% highlight bash %}</p>
-<h1>sendmail root</h1>
-<p _="%" endhighlight>From: monserveur
-Subject: Mail test
-Ceci est un test
-.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># sendmail root</span>
+From: monserveur
+Subject: Mail <span class="nb">test</span>
+Ceci est un <span class="nb">test</span>
+.
+</code></pre></div>
+
 <p>Vous pouvez vérifier que tout s'est bien passé en consultant les logs:</p>
-<p _="%" endhighlight>{% highlight bash %}
-tail -f /var/log/mail.log</p>
+<div class="highlight"><pre><span></span><code>tail -f /var/log/mail.log
+</code></pre></div>
         </div>
 
     </div>

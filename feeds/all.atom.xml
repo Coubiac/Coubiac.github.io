@@ -2,13 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Coubiac</title><link href="https://Coubiac.github.io/" rel="alternate"></link><link href="https://Coubiac.github.io/feeds/all.atom.xml" rel="self"></link><id>https://Coubiac.github.io/</id><updated>2022-04-03T19:07:00+01:00</updated><entry><title>"Fonctionnement du DHCP avec un Boot PXE"</title><link href="https://Coubiac.github.io/fonctionnement-du-dhcp-avec-un-boot-pxe.html" rel="alternate"></link><published>2022-04-03T19:07:00+01:00</published><updated>2022-04-03T19:07:00+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2022-04-03:/fonctionnement-du-dhcp-avec-un-boot-pxe.html</id><summary type="html">&lt;h2&gt;Fonctionnement normal&lt;/h2&gt;
 &lt;p&gt;Dans un contexte de boot par le réseau PXE, le fonctionnement normal implique juste quelques échanges de packets DHCP.
 Nous avons donc trois acteurs: Le serveur DHCP, Le serveur PXE, et le client.&lt;/p&gt;
-&lt;p&gt;Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Le client …&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;h2&gt;Fonctionnement normal&lt;/h2&gt;
+&lt;p&gt;Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP...&lt;/p&gt;
+&lt;p&gt;Mais, observons …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Fonctionnement normal&lt;/h2&gt;
 &lt;p&gt;Dans un contexte de boot par le réseau PXE, le fonctionnement normal implique juste quelques échanges de packets DHCP.
 Nous avons donc trois acteurs: Le serveur DHCP, Le serveur PXE, et le client.&lt;/p&gt;
-&lt;p&gt;Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP.&lt;/p&gt;
+&lt;p&gt;Vous connaissez tous la séquence "DORA" (Discover, Offer, Request, Ack) d'un échange DHCP...&lt;/p&gt;
+&lt;p&gt;Mais, observons ce qu'il se passe quand nous avons un serveur de déploiement PXE:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Le client diffuse (Broadcast) un packet DHCP demandant l'adresse des serveurs DHCP (serveurs qui peuvent distribuer des adresses IP). C'est le "D" de DORA, le DHCP DISCOVER. C'est ce qu'on appelle une découverte, le client cherche les serveurs. Comme il veut booter sur le réseau il va indiquer dans le même packet qu'il recherche des serveurs PXE (option DHCP 60). &lt;img alt="DHCP Discover avec PXE" src="/images/Boot-PXE-DHCP/DHCP-Discover.jpeg"&gt;&lt;/p&gt;
@@ -32,7 +31,7 @@ Nous avons donc trois acteurs: Le serveur DHCP, Le serveur PXE, et le client.&lt
 &lt;p&gt;Le serveur PXE répond avec le chemin du NBP. &lt;img alt="proxyDHCP ACK" src="/images/Boot-PXE-DHCP/DHCPProxy-ACK.png"&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;La suite bientôt...&lt;/p&gt;</content><category term="Réseau"></category><category term="[pxe"></category><category term="dhcp"></category><category term="wds]"></category></entry><entry><title>Déclarer un proxy pour acceder à internet depuis votre serveur linux</title><link href="https://Coubiac.github.io/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html" rel="alternate"></link><published>2022-03-13T21:58:33+01:00</published><updated>2022-03-13T21:58:33+01:00</updated><author><name>Benoît</name></author><id>tag:coubiac.github.io,2022-03-13:/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html</id><summary type="html">&lt;p&gt;Si votre serveur doit passer par un proxy pour acceder à internet, il y a plusieurs moyens de le déclarer&lt;/p&gt;
+&lt;p&gt;À ce stade, le démarrage PXE de base est effectué. Et tout fonctionne bien &lt;strong&gt;&lt;em&gt;tant que le PC client et le serveur sont sur le même réseau...&lt;/em&gt;&lt;/strong&gt; Eh oui, que se passerai t'il si le PC et le serveurs étaient sur des réseaux différents ?&lt;/p&gt;</content><category term="Réseau"></category><category term="[pxe"></category><category term="dhcp"></category><category term="wds]"></category></entry><entry><title>Déclarer un proxy pour acceder à internet depuis votre serveur linux</title><link href="https://Coubiac.github.io/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html" rel="alternate"></link><published>2022-03-13T21:58:33+01:00</published><updated>2022-03-13T21:58:33+01:00</updated><author><name>Benoît</name></author><id>tag:coubiac.github.io,2022-03-13:/declarer-un-proxy-pour-acceder-a-internet-depuis-votre-serveur-linux.html</id><summary type="html">&lt;p&gt;Si votre serveur doit passer par un proxy pour acceder à internet, il y a plusieurs moyens de le déclarer&lt;/p&gt;
 &lt;h1&gt;Déclaration pour tous les utilisateurs:&lt;/h1&gt;
 &lt;p&gt;Vous pouvez utiliser la variable &lt;code&gt;http_proxy&lt;/code&gt; .&lt;/p&gt;
 &lt;p&gt;il suffit d'ajouter une des lignes suivantes dans le fichier &lt;code&gt;/etc/profile&lt;/code&gt;&lt;/p&gt;
@@ -419,18 +418,20 @@ Une fois que vous vous trouver dans powershell, vous pouvez lister les packages 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Windows"></category><category term="[it"></category><category term="Windows]"></category></entry><entry><title>"Envoyer des mails de notification depuis un serveur Debian"</title><link href="https://Coubiac.github.io/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html" rel="alternate"></link><published>2020-11-02T20:30:30+01:00</published><updated>2020-11-02T20:30:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-02:/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html</id><summary type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
 &lt;h1&gt;Installation de Postfix&lt;/h1&gt;
-&lt;p _="%" endhighlight&gt;On commence par mettre à jour le système et installer Postfix
-{% highlight bash %}
-~# apt-get update &amp;amp;&amp;amp; apt-get upgrade
-~# apt-get install libsasl2-modules postfix&lt;/p&gt;
+&lt;p&gt;On commence par mettre à jour le système et installer Postfix&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade
+~# apt-get install libsasl2-modules postfix
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Postfix va lancer l'assistant d'installation:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="assistant1" src="/images/postfix/screen1.png"&gt;&lt;/p&gt;
-&lt;p&gt;Ensuite postfix va vous demander …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;p&gt;Ensuite postfix va vous demander de choisir …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
 &lt;h1&gt;Installation de Postfix&lt;/h1&gt;
-&lt;p _="%" endhighlight&gt;On commence par mettre à jour le système et installer Postfix
-{% highlight bash %}
-~# apt-get update &amp;amp;&amp;amp; apt-get upgrade
-~# apt-get install libsasl2-modules postfix&lt;/p&gt;
+&lt;p&gt;On commence par mettre à jour le système et installer Postfix&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade
+~# apt-get install libsasl2-modules postfix
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Postfix va lancer l'assistant d'installation:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="assistant1" src="/images/postfix/screen1.png"&gt;&lt;/p&gt;
 &lt;p&gt;Ensuite postfix va vous demander de choisir un type d'installation. Vous allez choisir &lt;code&gt;site internet&lt;/code&gt;&lt;/p&gt;
@@ -442,60 +443,74 @@ Une fois que vous vous trouver dans powershell, vous pouvez lister les packages 
 Vous pouvez consulter la documentation google à &lt;a href="https://support.google.com/mail/answer/185833?hl=fr"&gt;cette adresse&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Paramétrage de postfix&lt;/h2&gt;
 &lt;p&gt;il faut ensuite modifier le fichier &lt;code&gt;/etc/postfix/main.cf&lt;/code&gt; afin de modifier la valeur &lt;code&gt;myhostname&lt;/code&gt; avec notre nom d'hôte pleinement qualifié (fqdn)&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-myhostname = mail.exemple.fr&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;myhostname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; mail.exemple.fr
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Nous allons maintenant ajouter le mot de passe du compte gmail (Attention, si vous avez activé l'authentification à deux facteurs de bien utilisé le mot de passe généré plus haut...). Nous allons pour cela modifier le fichier &lt;code&gt;/etc/postfix/sasl/sasl_passwd&lt;/code&gt;&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-~# vi /etc/postfix/sasl/sasl_passwd&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):
-{% highlight bash %}
-[smtp.gmail.com]:587 username@gmail.com:password&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# vi /etc/postfix/sasl/sasl_passwd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;insérez ici l'authentification de cette manière (vous pouvez faire un copier-coller et remplacer le login/mdp avec les bonnes valeurs):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;smtp.gmail.com&lt;span class="o"&gt;]&lt;/span&gt;:587 username@gmail.com:password
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;On peut maintenant utiliser la commande &lt;code&gt;postmap&lt;/code&gt;pour générer un fichier de bdd de hash:&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-~# postmap /etc/postfix/sasl/sasl_passwd&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;Nous allons sécuriser un peu l'accès aux fichiers:
-{% highlight bash %}
-~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
-~# chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# postmap /etc/postfix/sasl/sasl_passwd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous allons sécuriser un peu l'accès aux fichiers:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db 
+~# chmod &lt;span class="m"&gt;0600&lt;/span&gt; /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h2&gt;Configurer le relay postfix&lt;/h2&gt;
 &lt;p&gt;Nous allons modifier le fichier &lt;code&gt;main.cf&lt;/code&gt; afin de relayer le courrier vers le smtp de gmail:&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-~# vi /etc/postfix/main.cf&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# vi /etc/postfix/main.cf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;On modifie la valeur &lt;code&gt;relayhost&lt;/code&gt;:&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-relayhost = [smtp.gmail.com]:587&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;relayhost&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;smtp.gmail.com&lt;span class="o"&gt;]&lt;/span&gt;:587
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Ensuite on ajoute ces lignes pour activer l'authentification:&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-smtp_sasl_auth_enable = yes
-smtp_sasl_security_options = noanonymous
-smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
-smtp_tls_security_level = encrypt
-smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;smtp_sasl_auth_enable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; yes
+&lt;span class="nv"&gt;smtp_sasl_security_options&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; noanonymous
+&lt;span class="nv"&gt;smtp_sasl_password_maps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; hash:/etc/postfix/sasl/sasl_passwd
+&lt;span class="nv"&gt;smtp_tls_security_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; encrypt
+&lt;span class="nv"&gt;smtp_tls_CAfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; /etc/ssl/certs/ca-certificates.crt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h2&gt;Configurer l'adresse mail de root&lt;/h2&gt;
-&lt;p _="%" endhighlight&gt;on edite le fichier &lt;code&gt;/etc/aliases&lt;/code&gt;
-{% highlight bash %}
-vi /etc/aliases&lt;/p&gt;
-&lt;p _="%" bash highlight&gt;le fichier doit ressembler à&lt;/p&gt;
-&lt;h1&gt;See man 5 aliases for format&lt;/h1&gt;
-&lt;p _="%" endhighlight&gt;postmaster: root
-root: username@domaine.com # On ajoute cette ligne avec l'adresse mail de l'admin du serveur&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;On compile les alias:
-{% highlight bash %}
-newaliases&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;on redémarre ensuite postfix
-{% highlight bash %}
-service postfix restart&lt;/p&gt;
+&lt;p&gt;on edite le fichier &lt;code&gt;/etc/aliases&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vi /etc/aliases
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;le fichier doit ressembler à&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# See man 5 aliases for format&lt;/span&gt;
+postmaster: root
+root: username@domaine.com &lt;span class="c1"&gt;# On ajoute cette ligne avec l&amp;#39;adresse mail de l&amp;#39;admin du serveur&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On compile les alias:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;newaliases
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;on redémarre ensuite postfix&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;service postfix restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h2&gt;Test d'envoi de mail&lt;/h2&gt;
 &lt;p&gt;On peut utiliser sendmail pour tester l'envoi d'un mail (attention le point . à la fin est important):&lt;/p&gt;
-&lt;p&gt;{% highlight bash %}&lt;/p&gt;
-&lt;h1&gt;sendmail root&lt;/h1&gt;
-&lt;p _="%" endhighlight&gt;From: monserveur
-Subject: Mail test
-Ceci est un test
-.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# sendmail root&lt;/span&gt;
+From: monserveur
+Subject: Mail &lt;span class="nb"&gt;test&lt;/span&gt;
+Ceci est un &lt;span class="nb"&gt;test&lt;/span&gt;
+.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Vous pouvez vérifier que tout s'est bien passé en consultant les logs:&lt;/p&gt;
-&lt;p _="%" endhighlight&gt;{% highlight bash %}
-tail -f /var/log/mail.log&lt;/p&gt;</content><category term="Linux"></category><category term="[linux"></category><category term="postfix"></category><category term="gmail]"></category></entry><entry><title>"Itil: Différence entre Incident et Problème"</title><link href="https://Coubiac.github.io/itil-difference-entre-incident-et-probleme.html" rel="alternate"></link><published>2020-11-01T13:45:30+01:00</published><updated>2020-11-01T13:45:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-01:/itil-difference-entre-incident-et-probleme.html</id><summary type="html">&lt;h1&gt;Incidents / Problème&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;tail -f /var/log/mail.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Linux"></category><category term="[linux"></category><category term="postfix"></category><category term="gmail]"></category></entry><entry><title>"Itil: Différence entre Incident et Problème"</title><link href="https://Coubiac.github.io/itil-difference-entre-incident-et-probleme.html" rel="alternate"></link><published>2020-11-01T13:45:30+01:00</published><updated>2020-11-01T13:45:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-01:/itil-difference-entre-incident-et-probleme.html</id><summary type="html">&lt;h1&gt;Incidents / Problème&lt;/h1&gt;
 &lt;h2&gt;Incidents&lt;/h2&gt;
 &lt;p&gt;Itil définit un incident comme étant: &lt;/p&gt;
 &lt;blockquote&gt;
