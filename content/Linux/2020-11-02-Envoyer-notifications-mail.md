@@ -9,8 +9,11 @@ image: /images/postfix.png
 ---
 
 
+Il arrive régulièrement que nous ayons besoin d'envoyer des mails depuis un serveur Linux. Par exemple pour envoyer des notifications à l'administrateur.
 
 Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.
+
+Nous allons utiliser le service GMAIL pour relayer nos mails.
 
 # Installation de Postfix
 
