@@ -416,16 +416,12 @@ Une fois que vous vous trouver dans powershell, vous pouvez lister les packages 
 &lt;h2&gt;Desactiver la reinstallation pour les nouveaux utilisateurs&lt;/h2&gt;
 &lt;p&gt;Quand les applications ont été supprimées, on peut empecher la réinstallation pour les nouveaux utilisateurs:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Get-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Remove-AppxProvisionedPackage&lt;/span&gt; &lt;span class="n"&gt;-online&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Windows"></category><category term="[it"></category><category term="Windows]"></category></entry><entry><title>"Envoyer des mails de notification depuis un serveur Debian"</title><link href="https://Coubiac.github.io/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html" rel="alternate"></link><published>2020-11-02T20:30:30+01:00</published><updated>2020-11-02T20:30:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-02:/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html</id><summary type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
-&lt;h1&gt;Installation de Postfix&lt;/h1&gt;
-&lt;p&gt;On commence par mettre à jour le système et installer Postfix&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade
-~# apt-get install libsasl2-modules postfix
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Postfix va lancer l'assistant d'installation:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="assistant1" src="/images/postfix/screen1.png"&gt;&lt;/p&gt;
-&lt;p&gt;Ensuite postfix va vous demander de choisir …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Windows"></category><category term="[it"></category><category term="Windows]"></category></entry><entry><title>"Envoyer des mails de notification depuis un serveur Debian"</title><link href="https://Coubiac.github.io/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html" rel="alternate"></link><published>2020-11-02T20:30:30+01:00</published><updated>2020-11-02T20:30:30+01:00</updated><author><name>Benoit</name></author><id>tag:coubiac.github.io,2020-11-02:/envoyer-des-mails-de-notification-depuis-un-serveur-debian.html</id><summary type="html">&lt;p&gt;Il arrive régulièrement que nous ayons besoin d'envoyer des mails depuis un serveur Linux. Par exemple pour envoyer des notifications à l'administrateur.&lt;/p&gt;
+&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;p&gt;Nous allons utiliser le service GMAIL pour relayer nos mails.&lt;/p&gt;
+&lt;h1&gt;Installation de …&lt;/h1&gt;</summary><content type="html">&lt;p&gt;Il arrive régulièrement que nous ayons besoin d'envoyer des mails depuis un serveur Linux. Par exemple pour envoyer des notifications à l'administrateur.&lt;/p&gt;
+&lt;p&gt;Dans ce tuto nous allons installer postfix afin d'envoyer des mails depuis notre serveur DEBIAN 10.&lt;/p&gt;
+&lt;p&gt;Nous allons utiliser le service GMAIL pour relayer nos mails.&lt;/p&gt;
 &lt;h1&gt;Installation de Postfix&lt;/h1&gt;
 &lt;p&gt;On commence par mettre à jour le système et installer Postfix&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~# apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade
